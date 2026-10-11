@@ -20,5 +20,5 @@ interface ProviderAdapter
     public function normalize(array $payload): array;
 
     /** Translate canonical proposal paths into locators in the retained provider record. */
-    public function sourceLocator(string $field): string;
+    public function sourceLocator(string $field, array $payload = []): string;
 }

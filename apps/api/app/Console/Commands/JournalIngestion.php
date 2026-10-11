@@ -11,6 +11,7 @@ use App\Services\JournalIngestion\IngestJournalRecords;
 use App\Services\JournalIngestion\ProcessIngestionRun;
 use App\Services\JournalIngestion\ProviderRegistry;
 use App\Services\JournalIngestion\Providers\Doaj\DoajClient;
+use App\Services\JournalIngestion\Providers\Doaj\DoajCsvClient;
 use App\Services\JournalIngestion\Providers\Doaj\DoajProvider;
 use App\Services\JournalIngestion\PublishIngestionItem;
 use App\Services\JournalIngestion\ReviewIngestionAssertion;
@@ -23,7 +24,7 @@ use Throwable;
 class JournalIngestion extends Command
 {
     protected $signature = 'journals:ingestion {action : source|stage|process|status|review|publish} {id?}
-        {--provider=synthetic} {--source=} {--file=} {--key=} {--dry-run}
+        {--transport=} {--provider=synthetic} {--source=} {--file=} {--key=} {--dry-run}
         {--status=} {--actor=} {--method=} {--reason=} {--assertions=} {--limit=} {--query=_exists_:bibjson.title}';
 
     protected $description = 'Controlled journal ingestion: synthetic local fixtures or explicit DOAJ retrieval';
@@ -44,6 +45,9 @@ class JournalIngestion extends Command
                 $this->error('--limit must be an integer from 1 to '.IngestJournalRecords::MAX_RECORDS.'.');
 
                 return self::INVALID;
+            }
+            if ($this->option('transport') !== null && ($this->argument('action') !== 'stage' || $this->option('provider') !== 'doaj' || ! in_array($this->option('transport'), ['api', 'csv'], true))) {
+                throw new DomainException('invalid_transport');
             }
             $result = match ($this->argument('action')) {
                 'source' => $this->source(),
@@ -102,13 +106,18 @@ class JournalIngestion extends Command
                 throw new DomainException('invalid_batch_key');
             }
             $limit = $this->option('limit') === null ? IngestJournalRecords::MAX_RECORDS : (int) $this->option('limit');
-            $records = app(DoajClient::class)->search((string) $this->option('query'), $limit);
+            $transport = $this->option('transport') ?? 'api';
+            if ($transport === 'csv' && $this->option('query') !== '_exists_:bibjson.title') {
+                throw new DomainException('csv_query_not_supported');
+            }
+            $records = $transport === 'csv' ? app(DoajCsvClient::class)->records($limit)
+                : app(DoajClient::class)->search((string) $this->option('query'), $limit);
             if ($records === []) {
                 return ['dry_run' => $dryRun, 'records_observed' => 0, 'items' => []];
             }
             $source ??= $dryRun ? new JournalSource(['type' => 'doaj', 'name' => 'DOAJ', 'base_url' => 'https://doaj.org']) : $this->doajSource();
 
-            return app(IngestJournalRecords::class)->ingest($provider, $source, $key, $provider->envelopes($records), $dryRun);
+            return app(IngestJournalRecords::class)->ingest($provider, $source, $key, $provider->envelopes($records, $transport), $dryRun);
         }
         $file = realpath((string) $this->option('file'));
         if ($file === false || ! is_file($file) || ! is_readable($file)) {

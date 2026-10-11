@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'doaj_csv' => [
+        'timeout' => env('DOAJ_CSV_TIMEOUT', 60),
+        'connect_timeout' => env('DOAJ_CSV_CONNECT_TIMEOUT', 5),
+        'max_download_bytes' => env('DOAJ_CSV_MAX_DOWNLOAD_BYTES', 33554432),
+    ],
     'doaj' => [
         // Only official DOAJ HTTPS API roots are accepted by the client.
         'base_url' => env('DOAJ_API_BASE_URL', 'https://doaj.org/api/v4'),

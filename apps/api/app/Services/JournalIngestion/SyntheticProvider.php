@@ -19,7 +19,7 @@ class SyntheticProvider implements ProviderAdapter
         return 'synthetic-v1';
     }
 
-    public function sourceLocator(string $field): string
+    public function sourceLocator(string $field, array $payload = []): string
     {
         return $field;
     }

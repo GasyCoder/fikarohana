@@ -20,7 +20,7 @@ class DoajProvider implements ProviderAdapter
 
     public function mappingVersion(): string
     {
-        return 'doaj-v4-v1';
+        return 'doaj-v4-csv-v2';
     }
 
     public function accepts(JournalSource $source): bool
@@ -28,8 +28,17 @@ class DoajProvider implements ProviderAdapter
         return $source->type === JournalSourceType::Doaj;
     }
 
-    public function sourceLocator(string $field): string
+    public function sourceLocator(string $field, array $payload = []): string
     {
+        if (($payload['_acquisition']['transport'] ?? null) === 'csv') {
+            return '_csv_row.'.match ($field) {
+                'title' => 'Journal title', 'identifiers' => 'URL in DOAJ',
+                'publisher' => 'Publisher', 'languages' => 'Languages in which the journal accepts manuscripts',
+                'subjects' => 'Subjects', 'website' => 'Journal URL', 'fees.0' => 'APC',
+                default => throw new DomainException('doaj_unmapped_field'),
+            };
+        }
+
         return match ($field) {
             'title' => 'bibjson.title',
             'identifiers' => 'bibjson',
@@ -42,16 +51,23 @@ class DoajProvider implements ProviderAdapter
         };
     }
 
-    public function envelopes(array $records): array
+    public function envelopes(array $records, string $transport = 'api'): array
     {
+        if (! in_array($transport, ['api', 'csv'], true)) {
+            throw new DomainException('doaj_invalid_transport');
+        }
         $retrievedAt = now()->utc()->format('Y-m-d\TH:i:s\Z');
 
-        return array_map(function ($record) use ($retrievedAt): array {
+        return array_map(function ($record) use ($retrievedAt, $transport): array {
             // Invalid IDs are left invalid for quarantine, never converted into a plausible ID.
             $id = is_array($record) ? ($record['id'] ?? null) : null;
 
-            return ['external_id' => $id, 'source_url' => is_string($id) && preg_match('/^[0-9a-f]{32}$/D', $id)
-                ? 'https://doaj.org/api/v4/journals/'.$id : null, 'retrieved_at' => $retrievedAt, 'payload' => $record];
+            if (is_array($record)) {
+                $record['_acquisition'] = ['provider' => 'doaj', 'transport' => $transport, 'source' => $transport === 'csv' ? DoajCsvClient::SOURCE : 'https://doaj.org/api/v4'];
+            }
+
+            return ['external_id' => $id, 'source_url' => $transport === 'csv' ? DoajCsvClient::SOURCE : (is_string($id) && preg_match('/^[0-9a-f]{32}$/D', $id)
+                ? 'https://doaj.org/api/v4/journals/'.$id : null), 'retrieved_at' => $retrievedAt, 'payload' => $record];
         }, $records);
     }
 
@@ -59,6 +75,14 @@ class DoajProvider implements ProviderAdapter
     {
         PostgresText::validate($payload);
         $this->validateUrls($payload);
+        if (($payload['_acquisition']['transport'] ?? null) === 'csv') {
+            if (isset($payload['_csv_error'])) {
+                throw new DomainException($payload['_csv_error'] === 'postgres_incompatible_text' ? 'postgres_incompatible_text' : 'doaj_csv_invalid_row');
+            }
+            Validator::make($payload, ['id' => ['required', 'string', 'regex:/^(?:[0-9a-f]{32}|csv\.[0-9a-f]{64})$/D'], '_csv_row' => 'required|array'])->validate();
+
+            return;
+        }
         Validator::make($payload, [
             'id' => 'required|string|regex:/^[0-9a-f]{32}$/D',
             'bibjson' => 'required|array',
@@ -84,6 +108,9 @@ class DoajProvider implements ProviderAdapter
     public function normalize(array $payload): array
     {
         $this->validatePayload($payload);
+        if (($payload['_acquisition']['transport'] ?? null) === 'csv') {
+            $payload['bibjson'] = app(DoajCsvNormalizer::class)->normalize($payload['_csv_row']);
+        }
         Validator::make($payload, [
             'bibjson.title' => 'required|string|max:255',
             'bibjson.pissn' => 'sometimes|nullable|string|max:32',
