@@ -1,0 +1,44 @@
+{
+  "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "created_date": "2026-01-01T00:00:00Z",
+  "last_updated": "2026-09-01T00:00:00Z",
+  "admin": {
+    "in_doaj": true
+  },
+  "bibjson": {
+    "title": "Synthetic DOAJ Research Journal",
+    "pissn": "1234-5679",
+    "eissn": "2049-3630",
+    "publisher": {
+      "name": "Synthetic Academic Publisher",
+      "country": "MG"
+    },
+    "language": [
+      "fr",
+      "en"
+    ],
+    "subject": [
+      {
+        "scheme": "LCC",
+        "code": "Q",
+        "term": "Science"
+      }
+    ],
+    "boai": true,
+    "oa_start": 2020,
+    "ref": {
+      "journal": "https://journal.example.test",
+      "author_instructions": "https://journal.example.test/guidelines"
+    },
+    "apc": {
+      "has_apc": true,
+      "max": [
+        {
+          "price": 1200,
+          "currency": "USD"
+        }
+      ],
+      "url": "https://journal.example.test/fees"
+    }
+  }
+}

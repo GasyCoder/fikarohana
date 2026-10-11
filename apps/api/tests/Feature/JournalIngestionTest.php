@@ -447,9 +447,10 @@ class JournalIngestionTest extends TestCase
         Http::assertNothingSent();
     }
 
-    public function test_provider_registry_has_no_real_provider_and_source_type_mismatch_is_denied(): void
+    public function test_provider_registry_excludes_later_providers_and_source_type_mismatch_is_denied(): void
     {
-        foreach (['doaj', 'crossref', 'openalex', 'official'] as $name) {
+        $this->assertSame('doaj', app(ProviderRegistry::class)->get('doaj')->key());
+        foreach (['crossref', 'openalex', 'official'] as $name) {
             try {
                 app(ProviderRegistry::class)->get($name);
                 $this->fail('Real providers must not be registered.');
@@ -860,7 +861,7 @@ SQL);
             }
         }
         $record = $this->records()[0];
-        $record['payload']['website'] = 'https://example.test/home?token=do-not-retain';
+        $record['payload']['website'] = 'https://user:do-not-retain@example.test/home';
         $item = $this->stage([$record], $source)->items->first();
         $this->assertNull($item->payload);
         $this->assertNull($item->source_record_id);
