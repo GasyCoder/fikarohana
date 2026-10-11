@@ -10,6 +10,9 @@ use App\Models\JournalSource;
 use App\Services\JournalIngestion\IngestJournalRecords;
 use App\Services\JournalIngestion\ProcessIngestionRun;
 use App\Services\JournalIngestion\ProviderRegistry;
+use App\Services\JournalIngestion\Providers\Crossref\CrossrefCandidates;
+use App\Services\JournalIngestion\Providers\Crossref\CrossrefClient;
+use App\Services\JournalIngestion\Providers\Crossref\CrossrefProvider;
 use App\Services\JournalIngestion\Providers\Doaj\DoajClient;
 use App\Services\JournalIngestion\Providers\Doaj\DoajCsvClient;
 use App\Services\JournalIngestion\Providers\Doaj\DoajProvider;
@@ -24,10 +27,10 @@ use Throwable;
 class JournalIngestion extends Command
 {
     protected $signature = 'journals:ingestion {action : source|stage|process|status|review|publish} {id?}
-        {--transport=} {--provider=synthetic} {--source=} {--file=} {--key=} {--dry-run}
+        {--issn=*} {--transport=} {--provider=synthetic} {--source=} {--file=} {--key=} {--dry-run}
         {--status=} {--actor=} {--method=} {--reason=} {--assertions=} {--limit=} {--query=_exists_:bibjson.title}';
 
-    protected $description = 'Controlled journal ingestion: synthetic local fixtures or explicit DOAJ retrieval';
+    protected $description = 'Controlled journal ingestion: synthetic fixtures, DOAJ retrieval or explicit Crossref identity enrichment';
 
     public function handle(ProviderRegistry $providers): int
     {
@@ -48,6 +51,9 @@ class JournalIngestion extends Command
             }
             if ($this->option('transport') !== null && ($this->argument('action') !== 'stage' || $this->option('provider') !== 'doaj' || ! in_array($this->option('transport'), ['api', 'csv'], true))) {
                 throw new DomainException('invalid_transport');
+            }
+            if ($this->option('issn') !== [] && ($this->argument('action') !== 'stage' || $this->option('provider') !== 'crossref')) {
+                throw new DomainException('crossref_issn_requires_stage');
             }
             $result = match ($this->argument('action')) {
                 'source' => $this->source(),
@@ -74,6 +80,9 @@ class JournalIngestion extends Command
         if ($this->option('provider') === 'doaj') {
             return ['source_id' => $this->doajSource()->id];
         }
+        if ($this->option('provider') === 'crossref') {
+            return ['source_id' => $this->crossrefSource()->id];
+        }
         $name = (string) $this->argument('id');
         if (! preg_match('/^[a-z0-9][a-z0-9_.-]{0,63}$/D', $name) || $this->option('provider') !== 'synthetic') {
             throw new DomainException('invalid_synthetic_source');
@@ -90,6 +99,9 @@ class JournalIngestion extends Command
     private function stage(ProviderRegistry $providers): array
     {
         $provider = $providers->get((string) $this->option('provider'));
+        if ($provider instanceof CrossrefProvider) {
+            return $this->stageCrossref($provider);
+        }
         if ($provider instanceof DoajProvider) {
             if ($this->option('file') !== null) {
                 throw new DomainException('doaj_file_not_supported');
@@ -139,6 +151,46 @@ class JournalIngestion extends Command
             $provider, JournalSource::findOrFail($this->option('source')),
             (string) $this->option('key'), $records, (bool) $this->option('dry-run'),
         );
+    }
+
+    private function stageCrossref(CrossrefProvider $provider): array
+    {
+        if ($this->option('file') !== null || $this->option('query') !== '_exists_:bibjson.title') {
+            throw new DomainException('crossref_identifier_lookup_only');
+        }
+        $key = (string) $this->option('key');
+        $limit = $this->option('limit') === null ? IngestJournalRecords::MAX_RECORDS : (int) $this->option('limit');
+        $identifiers = $this->option('issn');
+        if (! preg_match('/^[A-Za-z0-9_.:-]{1,128}$/D', $key) || $identifiers === [] || count($identifiers) > $limit) {
+            throw new DomainException('crossref_invalid_request');
+        }
+        // Existing canonical/staged identity only; finish preflight before any HTTP or writes.
+        foreach ($identifiers as $identifier) {
+            app(CrossrefCandidates::class)->identifiers($identifier);
+        }
+        $source = $this->option('source') !== null ? JournalSource::findOrFail($this->option('source'))
+            : JournalSource::where('type', 'crossref')->where('name', 'Crossref')->first();
+        if ($source !== null && ! $provider->accepts($source)) {
+            throw new DomainException('provider_source_mismatch');
+        }
+        $lookup = app(CrossrefClient::class)->lookup($identifiers, $limit);
+        $dryRun = (bool) $this->option('dry-run');
+        $diagnostics = ['lookups' => $lookup['lookups'], 'records_observed' => count($lookup['records']), 'not_found' => $lookup['not_found']];
+        if ($lookup['records'] === []) {
+            return ['dry_run' => $dryRun, ...$diagnostics, 'items' => []];
+        }
+        $source ??= $dryRun ? new JournalSource(['type' => 'crossref', 'name' => 'Crossref', 'base_url' => CrossrefClient::BASE]) : $this->crossrefSource();
+
+        return [...app(IngestJournalRecords::class)->ingest($provider, $source, $key, $provider->envelopes($lookup['records']), $dryRun), ...$diagnostics];
+    }
+
+    private function crossrefSource(): JournalSource
+    {
+        return DB::transaction(function (): JournalSource {
+            DB::select('SELECT pg_advisory_xact_lock(170003)');
+
+            return JournalSource::firstOrCreate(['type' => 'crossref', 'name' => 'Crossref'], ['base_url' => CrossrefClient::BASE]);
+        });
     }
 
     private function doajSource(): JournalSource
