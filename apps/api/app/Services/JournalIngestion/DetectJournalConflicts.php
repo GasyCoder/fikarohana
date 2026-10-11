@@ -13,7 +13,7 @@ class DetectJournalConflicts
 {
     public function assertion(JournalAssertion $claim): array
     {
-        if ($claim->availability === FactAvailability::Unknown) {
+        if ($claim->availability === FactAvailability::Unknown && $claim->fee?->basis !== 'doaj_reported_no_apc') {
             return [];
         }
 
@@ -30,7 +30,7 @@ class DetectJournalConflicts
             }
         }
         foreach ($proposal['fees'] ?? [] as $fee) {
-            if ($fee['availability'] === 'unknown') {
+            if ($fee['availability'] === 'unknown' && $fee['basis'] !== 'doaj_reported_no_apc') {
                 continue;
             }
             $availability = $fee['availability'];
@@ -61,7 +61,7 @@ class DetectJournalConflicts
     {
         $ids = [];
         foreach (JournalAssertion::where('journal_id', $journalId)->where('field', $field->value)->get() as $other) {
-            if ($other->id === $exclude || $other->availability === FactAvailability::Unknown
+            if ($other->id === $exclude || ($other->availability === FactAvailability::Unknown && $other->fee?->basis !== 'doaj_reported_no_apc')
                 || in_array($other->verificationStatus(), [VerificationStatus::Rejected, VerificationStatus::Stale], true)) {
                 continue;
             }

@@ -171,7 +171,8 @@ class DoajProvider implements ProviderAdapter
             if (($apc['max'] ?? []) !== []) {
                 throw new DomainException('doaj_conflicting_apc');
             }
-            $fee['availability'] = 'not_applicable';
+            // The scalar amount remains unknown: explicit absence is preserved in basis/context and raw flag.
+            $fee['basis'] = 'doaj_reported_no_apc';
             $fee['applicability'] = 'DOAJ explicitly reports no APC; other charges are not implied absent.';
         } elseif (($apc['has_apc'] ?? null) === true && count($apc['max'] ?? []) === 1) {
             $max = $apc['max'][0];
