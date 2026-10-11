@@ -1,0 +1,29 @@
+[
+  {
+    "external_id": "synthetic-001",
+    "source_url": "https://catalog.example.test/journals/synthetic-001",
+    "retrieved_at": "2026-01-01T12:00:00Z",
+    "payload": {
+      "title": "Synthetic Journal of Evidence",
+      "identifiers": [{"type": "issn", "value": "12345679"}],
+      "scope": "Synthetic scope for ingestion tests only.",
+      "fees": [{"fee_type": "apc", "availability": "known", "amount": "0", "currency": "USD", "basis": "per_article", "applicability": "Synthetic research articles; no tax or waiver inference."}]
+    }
+  },
+  {
+    "external_id": "synthetic-unknown",
+    "source_url": "https://catalog.example.test/journals/unknown",
+    "retrieved_at": "2026-01-01T12:00:00Z",
+    "payload": {
+      "title": "Synthetic Journal with Unknown Fees",
+      "identifiers": [{"type": "eissn", "value": "2049-3630"}],
+      "fees": [{"fee_type": "apc", "availability": "unknown", "amount": null, "currency": null, "basis": "per_article", "applicability": "Fee context not verified."}]
+    }
+  },
+  {
+    "external_id": "synthetic-invalid",
+    "source_url": "https://catalog.example.test/journals/invalid",
+    "retrieved_at": "2026-01-01T12:00:00Z",
+    "payload": {"title": "Synthetic Invalid Identifier", "identifiers": [{"type": "issn", "value": "1234-5670"}]}
+  }
+]
