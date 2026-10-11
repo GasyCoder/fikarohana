@@ -49,4 +49,4 @@ Encrypt confidential storage/backups using deployment controls; assess field enc
 
 Classify advisories by direct/transitive, runtime/build, actual exploitability and compatible upstream fix before changing versions. Never force-install, force-audit-fix or bypass peer dependencies without explicit approval. Preserve Expo SDK compatibility; Doctor and install compatibility checks must pass when dependencies change.
 
-Release checks include authorization/isolation, web CSRF/mobile revocation, sanitized errors/logs, provider SSRF behavior, dependency review and backup restoration. File/parser and RAG threat checks are mandatory only when those capabilities are introduced; they remain blockers for those later releases.
+Release checks include authorization/isolation, web CSRF/mobile revocation, sanitized errors/logs, provider SSRF behavior, dependency review and backup restoration. MVP V1 also requires project ownership/deletion and contextual assistant grounding, abstention, prompt-injection and selected-journal isolation checks. File/parser and private-manuscript retrieval checks remain blockers for the later releases that introduce those capabilities.

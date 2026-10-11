@@ -37,7 +37,7 @@ Cloudflare R2 is a candidate object-store vendor; vendor, region, residency and 
 
 ## Domain modules
 
-Keep clear Laravel modules for catalog/provenance, ingestion, discovery/recommendation and accounts/saves. Add projects/files, assistant and analyses only in their phases. Domain modules communicate through application services and transactions. Start with existing Laravel structure; a new module framework is unnecessary.
+MVP V1 Laravel modules cover catalog/provenance, ingestion, discovery/recommendation, accounts/saves, lightweight projects and contextual journal assistance. Add files and manuscript analyses only after V1. Projects own metadata, selection/revision and the three-state workflow; the assistant consumes journal evidence without owning project policy. Domain modules communicate through application services and transactions. Start with existing Laravel structure; a new module framework is unnecessary.
 
 Laravel owns canonical database writes and final eligibility/ranking. Python returns embeddings, similarity/features or extraction results tagged with model/input versions. Laravel validates and persists them. Initially pass bounded inputs/results through authenticated internal requests or jobs; do not grant FastAPI general database credentials. If later read-only vector access is necessary, document a narrow role and authorization boundary before changing this design.
 
@@ -47,7 +47,11 @@ Discovery: client POSTs research input → Laravel validates and applies request
 
 Ingestion: scheduler/authorized operator → provider adapter → staged source records → identity resolution and assertions → validation/review → transactional publication of a new journal revision → search/vector/cache refresh. Unreviewed staging never becomes a public fact automatically. Ingestion must be retryable, checkpointed and idempotent.
 
-Future uploads: Laravel authorizes the project and prepares a private object key/upload grant → client uploads under bounded rules → completion is validated → quarantined processing → worker passes only authorized content to extraction → Laravel stores analysis/version metadata. Download grants are issued only after authorization.
+MVP project/workspace: authenticated client creates/edits a private project → Laravel validates ownership, minimum metadata and `discovery` → `journal_selected` → `preparation` → stores selection and requirements revision → returns project state and scoped journal evidence for Overview, Requirements, Fees and Template. Journal change clears/replaces the revision and transient assistant context. Authors are metadata, not access grants.
+
+MVP assistant: authenticated question under a project → Laravel checks ownership and selected journal → retrieves verified stored facts and permitted authoritative journal passages for the applicable revision → returns deterministic cited answers or optionally validated generated wording. If evidence is unavailable/insufficient, explicitly return that the information could not be verified. No project abstract/authors are automatically sent to an AI provider; no manuscript retrieval or generic writing chat. See [RAG](../ai/RAG.md).
+
+Post-MVP uploads: Laravel authorizes the project and prepares a private object key/upload grant → client uploads under bounded rules → completion is validated → quarantined processing → worker passes only authorized content to extraction → Laravel stores analysis/version metadata. Download grants are issued only after authorization.
 
 ## API and contract boundary
 
@@ -65,7 +69,11 @@ Proposed resource endpoints, not implemented routes:
 | `DELETE /api/v1/saved-searches/{id}` | Delete owned saved search | Owner; MVP |
 | `GET/POST /api/v1/saved-journals` | List/create private bookmarks | Owner; MVP |
 | `DELETE /api/v1/saved-journals/{id}` | Delete owned bookmark | Owner; MVP |
-| `/api/v1/projects` | Project lifecycle | Future; contract not fixed |
+| `GET/POST /api/v1/projects` | List/create owned lightweight projects | Owner; MVP V1 |
+| `GET/PATCH/DELETE /api/v1/projects/{id}` | Resume/edit/delete; validated status and journal selection | Owner; MVP V1 |
+| `POST /api/v1/projects/{id}/assistant/questions` | Selected-journal question and cited answer/insufficiency result | Owner with selected journal; MVP V1 |
+
+Project responses include metadata, selected journal/revision and evidence references. Workspace tabs reuse project and scoped journal resources; tab-specific services are unnecessary. Laravel resolves journal scope from the owned project, never from an unchecked client-supplied journal ID. A selection/revision change during processing must reject/discard an obsolete assistant answer. Q&A is transient by default; persisted conversations are not a V1 requirement. Endpoint shapes are proposals to finalize in OpenAPI, not implemented APIs.
 
 Basic comparison can use bounded journal profile retrieval; add a comparison resource only if server behavior warrants it. Discovery POST avoids placing unpublished abstracts in query URLs. Do not persist anonymous request text beyond transient processing by default.
 
@@ -77,7 +85,7 @@ Specify request validation, stable IDs, UTC timestamps, cursor/list bounds, erro
 
 Use bounded retries and provider-specific backoff; poison jobs enter a failed-job/review path. Unique work keys prevent duplicate publication. Database transactions cover canonical updates; after-commit jobs and repairable revision-based refreshes handle cache/vector consistency. External calls never hold long database transactions.
 
-Cache public journal revisions only under predictable versioned keys. Do not place personal discovery text/results in shared caches. On FastAPI failure, return lexical results labeled with the actual ranking mode; on provider failure, keep previously valid catalog revisions and surface freshness warnings.
+Cache public journal revisions only under predictable versioned keys. Do not place personal discovery text/results in shared caches. On FastAPI failure, return lexical results labeled with the actual ranking mode; the required journal assistant retains a deterministic verified-fact/passage answer path or reports an explicit unavailable result; on provider failure, keep previously valid catalog revisions and surface freshness warnings.
 
 Run TLS at the public edge, keep database/Redis/AI private, separate environments and credentials, and collect sanitized request/job metrics. Back up database and eligible objects, validate restoration and define recovery objectives before production. No Kubernetes, event bus or additional vector database is required by this design.
 

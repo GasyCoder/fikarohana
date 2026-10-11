@@ -6,7 +6,7 @@ Status: proposed relational design; no migrations are implemented. PostgreSQL is
 
 | Entity | Key relationships | Purpose / constraints |
 | --- | --- | --- |
-| `users` | Own saved searches/journals | Existing scaffold entity; public IDs and future lifecycle policy require design |
+| `users` | Own saved searches/journals and lightweight projects | Existing scaffold entity; public IDs and future lifecycle policy require design |
 | `publishers` | One publisher may relate to many journals | Sourced identity; publisher changes do not overwrite historical assertions |
 | `journals` | Publisher reference; many identifiers/assertions/revisions | Stable opaque ID, lifecycle state, current published revision |
 | `journal_identifiers` | Belong to journal | Scheme/value/provider; normalized ISSNs checked; duplicate ownership requires review |
@@ -25,9 +25,35 @@ Status: proposed relational design; no migrations are implemented. PostgreSQL is
 | `recommendation_matches` | Run + journal revision | Rank, relevance/features, warnings and evidence references |
 | `saved_searches` | Owner + optional run | Explicitly saved private input/preferences and optional result revision references |
 | `saved_journals` | Owner + journal | Unique owner/journal bookmark; deletion never deletes the public journal |
+| `projects` | Owner, shortlist, selected journal/revision | Private minimum project data and validated three-state workflow; timestamps managed by Laravel |
+| `project_authors` | Ordered descriptive entries under project | Author metadata only; no collaboration/account invitations |
+| `project_shortlists` | Project + journal | Unique project/journal candidate references, optional ordering; no duplicated journal facts |
+| `project_requirements_snapshots` | Project + selected journal revision | Lightweight immutable reference to published requirements/evidence; no analysis data required |
+| `document_chunks` | Journal document + revision | Permitted authoritative passages with source locators; MVP assistant retrieval |
+| `chunk_embeddings` | Optional document chunk + model/version | Derived vectors only when semantic retrieval is justified; not required for deterministic retrieval |
 | `audit_events` | Actor + resource/action | Sanitized operational/security trail, no manuscript body or credentials |
 
 Do not persist raw anonymous discovery input or a durable anonymous user profile by default. Recommendation-run operational metadata must be bounded by approved retention and must not allow reconstruction of research text. Authenticated transient discovery is also not automatic consent to save a search.
+
+## Minimum MVP V1 project
+
+| Field | Logical type / invariant |
+| --- | --- |
+| `title` | User-provided bounded text |
+| `abstract` | Private text, may be incomplete during preparation |
+| `scientific_field` | User-provided/confirmed field or vocabulary reference; unknown not invented |
+| `keywords` | Validated list of strings |
+| `authors` | Ordered private descriptive entries, backed by `project_authors` |
+| `journal_shortlist` | Journal references backed by `project_shortlists` |
+| `selected_journal` | Nullable journal foreign key before selection |
+| `status` | `discovery`, `journal_selected`, `preparation` |
+| `created_at`, `updated_at` | Server-managed UTC timestamps |
+
+Technical metadata also includes project ID, owner foreign key and selected journal revision/snapshot reference. Laravel enforces ownership on list/read/update/delete and assistant requests. Authors do not receive access. Empty lists or incomplete abstract/field metadata are not automatically filled by an LLM.
+
+Workflow is `discovery` → `journal_selected` → `preparation`. Selection is required for the latter two states; preparation is user progress, not compliance/readiness. A project can be created after selection in `journal_selected`. Clearing selection returns to discovery. Reselection replaces the revision reference and resets to journal_selected; all transient question context is cleared. Revision refresh is explicit. Selection/status/revision updates are transactional; stale concurrent assistant responses must be discarded or rejected.
+
+The workspace reads the selected requirements snapshot and public-safe field provenance. It does not copy unverified rules into project facts. No manuscript file/version/analysis records are needed in V1. Q&A reads verified facts and authorized journal passages; persistent assistant conversations/messages are deferred by default. Minimal sanitized question-operation metadata may be retained under approved limits, without raw prompts.
 
 ## Evidence versus projection
 
@@ -50,6 +76,12 @@ erDiagram
     USER ||--o{ SAVED_SEARCH : owns
     USER ||--o{ SAVED_JOURNAL : owns
     JOURNAL ||--o{ SAVED_JOURNAL : bookmarked
+    USER ||--o{ PROJECT : owns
+    PROJECT ||--o{ PROJECT_AUTHOR : describes
+    PROJECT ||--o{ PROJECT_SHORTLIST : shortlists
+    JOURNAL ||--o{ PROJECT_SHORTLIST : candidate
+    PROJECT ||--o{ PROJECT_REQUIREMENTS_SNAPSHOT : selects
+    JOURNAL_REVISION ||--o{ PROJECT_REQUIREMENTS_SNAPSHOT : anchors
 ```
 
 Use foreign keys, explicit lifecycle transitions, unique provider keys and owner/journal uniqueness. Stable opaque public IDs are recommended for new resources; decide UUID/ULID conventions during foundation without gratuitously changing existing user IDs. Public IDs do not replace authorization.
@@ -60,12 +92,10 @@ Money uses exact decimal values or validated minor units plus ISO currency; neve
 
 | Entity group | Relationships / invariants |
 | --- | --- |
-| `projects`, `project_authors`, `project_shortlists` | Owner required; selected journal optional during discovery; author personal data stays private |
-| `project_requirements_snapshots` | Immutable selection of journal revision and requirements; journal change invalidates old compliance applicability |
 | `project_files`, `manuscript_versions` | Private object references, hash/type/size/status; versions tied to project and uploader |
 | `analysis_runs`, `analysis_findings` | Manuscript version + requirements snapshot + analyzer version; findings cite rules and report unsupported checks |
-| `assistant_conversations`, `assistant_messages` | Explicit retention and owner/project scope; citations refer to authorized evidence |
-| `document_chunks`, `chunk_embeddings` | Document revision and scope; separate public journal and private project retrieval |
+| `assistant_conversations`, `assistant_messages` | Optional later persisted history with explicit owner/project scope, retention/deletion and selected journal revision |
+| Private manuscript chunks/embeddings | Later authorized project-file retrieval kept separate from the MVP public journal corpus |
 | `project_activity` | Safe workflow events, never full manuscript text |
 | `institutions`, `memberships`, `project_access` | Later tenant model; design role and ownership migration before institution release |
 
@@ -75,4 +105,4 @@ Do not create these tables in the foundation merely because they appear in this 
 
 Withdrawn/merged journals remain traceable via lifecycle state and successor references; saved historical results retain revision references. Only active eligible journals enter new recommendations. Source corrections append reviews/revisions rather than destroying evidence history.
 
-User deletion cascades or schedules removal of private saved inputs and later files, derivatives and conversations. Public source facts are not deleted with a user account. Security audit retention uses minimized identifiers under the approved policy. Backups and provider-side deletion require a documented expiry/replay process; soft deletion alone does not satisfy a deletion request.
+Project deletion removes its private metadata, authors, shortlist and snapshot references and clears its transient assistant context. Account deletion also removes owned projects and saved inputs; deleting one project does not remove unrelated saved records. Later files, derivatives and persistent conversations follow the same explicit deletion policy. Removing a private snapshot reference does not remove its public source revision. Public source facts are not deleted with a user account. Security audit retention uses minimized identifiers under the approved policy. Backups and provider-side deletion require a documented expiry/replay process; soft deletion alone does not satisfy a deletion request.

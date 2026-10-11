@@ -2,9 +2,17 @@
 
 Status: design policy for all phases. [RECOMMENDATION-ENGINE](RECOMMENDATION-ENGINE.md) and [RAG](RAG.md) specialize this policy.
 
+## MVP V1 assistant boundary
+
+The simple contextual journal assistant is required inside the selected-journal project workspace. It answers questions about accepted languages, APC/other fees, article types, abstract requirements, reference style, official templates and official submission URL using verified Fikarohana data and retrieved authoritative journal sources. Cite evidence and applicability; when evidence is unavailable or insufficient, explicitly say the information could not be verified. Never invent journal requirements.
+
+It is not a generic research-writing chatbot. Full DOCX/PDF analysis, automatic manuscript rewriting/formatting, full compliance scoring, reference manager, automatic submission, acceptance prediction and full publication workflow automation are outside V1. Collaboration, institutional tenancy and billing implementation are also deferred. Project preparation status does not certify compliance.
+
+Laravel enforces project ownership and selected-journal/revision scope. Verified fact lookup and authoritative passage retrieval may use deterministic cited responses; an LLM, semantic embeddings and FastAPI deployment are optional. Private project abstract/authors are not attached automatically. Transient Q&A is the V1 default; durable history requires a separate approved policy. See [RAG](RAG.md).
+
 ## Allowed roles
 
-AI may assist semantic matching, derive labeled research-area hints, extract proposed structured rules, explain cited information, help manuscript preparation and perform later document analysis. It is never the source of truth for journal identity, APC/fees, accepted languages, indexation, timelines, templates or submission requirements.
+AI may assist semantic matching, derive labeled research-area hints, extract proposed structured rules, explain cited journal information in MVP V1 and assist manuscript drafting/analysis only in later separately scoped capabilities. It is never the source of truth for journal identity, APC/fees, accepted languages, indexation, timelines, templates or submission requirements.
 
 Candidates always originate in the stored catalog. AI extraction enters staging and review. Model confidence cannot mark a source claim verified. Canonical authorization, strict filters, workflow, pricing and eligibility remain in Laravel.
 
@@ -27,7 +35,7 @@ Fikarohana is not a substitute for scientific judgment or journal decisions. It 
 
 ## Data and provider controls
 
-Use the least content required. Research titles/abstracts can be confidential, even before a manuscript upload. No external embedding/LLM processing of private inputs before provider terms, retention/training settings, residency and user disclosure/consent basis are reviewed. If that gate is unmet, operate locally or disable the capability and retain the lexical/source-based experience.
+Use the least content required. Research titles/abstracts can be confidential, even before a manuscript upload. No external embedding/LLM processing of private inputs before provider terms, retention/training settings, residency and user disclosure/consent basis are reviewed. If that gate is unmet, disable external processing and retain local lexical discovery and deterministic verified-fact/authoritative-passage journal assistance. The required V1 assistant cannot be replaced with unsupported general model answers.
 
 No model training or fine-tuning on user manuscripts by default. Any future opt-in requires separate explicit policy and revocation semantics. Keep raw prompts, completions, files and tokens out of routine logs/analytics. Restrict evaluation fixtures to synthetic, public-permitted or explicitly consented content.
 

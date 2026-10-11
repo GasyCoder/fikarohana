@@ -29,8 +29,9 @@ Commands are not proof they have been executed. Do not run `npx` in a way that s
 | Auth/saves | Web CSRF/session paths; mobile token issuance/revocation; anonymous boundaries; list/read/create/delete isolation; saved record deletion |
 | Localization/web | French/English journey; source language labels; keyboard/form/status accessibility; responsive empty/error/loading states |
 | External boundaries | Provider timeouts/rate limits; safe redirects/DNS targets; schema validation; unavailable optional AI fallback |
-| Later projects/files | Ownership and lifecycle; selection snapshots; invalidated analyses on journal change; upload validation/quarantine; download authorization; deletion of derivatives |
-| Later RAG | Cited claim support; abstention; conflict/stale evidence; prompt injection; unauthorized document retrieval/leakage; provider outage |
+| MVP V1 projects/workspace | Minimum fields; owner-scoped CRUD/deletion; `discovery` → `journal_selected` → `preparation`; selection revision/refresh; reselection clears assistant context; five tabs and official links |
+| MVP V1 contextual assistant | Seven supported question types; cited fact/passage support; explicit inability to verify; conflict/stale evidence; prompt injection; cross-user denial; out-of-scope writing; revision-change concurrency; provider outage/fallback |
+| Later files | Upload validation/quarantine; download authorization; derivative deletion; future analyses invalidated on journal change |
 | Later analysis | Permitted format fixtures; section/word/reference extraction; contextual rules; unsupported checks marked unknown; parser limits |
 
 Use sanitized recorded source fixtures for repeatable ingestion tests, not paid/unreliable network calls on every CI run. Provider integration smoke checks are separate, use approved credentials and respect quotas. Mocking does not replace PostgreSQL integration tests for constraints/search/vector behavior.
@@ -45,6 +46,6 @@ Semantic/LLM changes require rerunning the relevant evaluation, not merely passi
 
 Foundation CI validates the contract, PostgreSQL Laravel tests and applicable web checks; mobile TypeScript checks run for affected mobile/shared-contract changes. AI checks are added only once implemented. All affected consumers must pass when contracts change.
 
-Before public release, run the MVP journey on a reviewed catalog, verify source rights/freshness, inspect logs/errors for private data, test rate limits and demonstrate backup restoration. Agree a representative load fixture and targets first. Before confidential uploads, add object/parser/deletion tests and review external processing.
+Before public release, run the full MVP V1 discovery → selection → project → five-tab workspace → contextual assistant journey on a reviewed catalog, test project isolation/deletion and grounded answers/abstention, verify source rights/freshness, inspect logs/errors for private data, test rate limits and demonstrate backup restoration. Agree a representative load fixture and targets first. Before confidential uploads, add object/parser/deletion tests and review external processing.
 
 Documentation-only work uses whitespace/link/coverage checks and manual consistency review. Do not run unrelated production builds or claim application behavior was tested when only specifications changed. Once relevant checks pass, broaden only for unresolved failures/risks or new changes.

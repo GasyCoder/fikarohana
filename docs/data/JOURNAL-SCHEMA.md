@@ -67,4 +67,4 @@ Validate identifier formats/checksums, bounded strings/lists, supported currency
 
 A journal becomes eligible for discovery after sourced identity and usable scope evidence have passed review. Strict constraints need current applicable verified facts. Incomplete metadata does not disqualify every journal automatically; it limits which filters/categories can truthfully include it. Recommendation results explicitly expose important unknowns.
 
-A material source change creates a new revision and invalidates related cached/derived data. Future projects retain their selected snapshot and show a newer-guidance notice rather than silently replacing requirements.
+A material source change creates a new revision and invalidates related cached/derived data. MVP V1 lightweight projects retain their selected requirements revision/snapshot and show a newer-guidance notice rather than silently replacing requirements.

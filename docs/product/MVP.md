@@ -1,47 +1,72 @@
-# MVP delivery boundary
+# MVP V1 delivery boundary
 
-Status: initial design. The first MVP validates sourced discovery and journal selection, not the entire publication workflow.
+Status: corrected design scope. MVP V1 guides researchers beyond journal recommendation into a lightweight, journal-specific research workspace. This specifies planned behavior, not implemented features.
+
+## Target journey
+
+Research intent → Journal discovery → Recommendation → Comparison → Journal selection → Research project → Journal-specific workspace → Requirements/templates → Contextual journal assistant.
 
 ## Included
 
-1. A reviewed, bounded journal catalog with stable identifiers, source records, field-level verification and official links.
-2. Anonymous discovery from topic/title/abstract or field, with optional keywords and publication preferences.
-3. A candidate-retrieval and configurable ranking pipeline returning up to five eligible journals, with deterministic reasons and visible missing data. Semantic matching is introduced only after a measured improvement over the lexical baseline.
-4. Profiles with verified available identity, scope, languages, fees, OA, article types, indexation, guidelines/template links and timestamps. Detailed requirements may be incomplete and must say so.
-5. Basic comparison of 2–3 journals.
-6. Sanctum-backed accounts, saved journals and saved searches with ownership checks and deletion.
-7. French and English UI foundations and the same `/api/v1` contract for all clients.
-8. Internal ingestion commands/jobs and review tools sufficient to maintain the pilot catalog; a custom administration UI is unnecessary initially.
+1. Journal discovery from topic/title/abstract or field, with optional keywords and publication preferences; anonymous browsing remains supported.
+2. Journal recommendation from a reviewed, bounded catalog: up to five eligible journals, configurable ranking, deterministic reasons, visible uncertainty and provenance. Semantic enrichment needs evaluation; scores mean relevance, never acceptance probability.
+3. Basic comparison of 2–3 journals with scope, languages, applicable fees, OA, article types, indexation and source freshness.
+4. Explicit journal selection carried into an authenticated project, not merely a saved bookmark.
+5. Lightweight private research projects with creation, edit, resume and deletion, validated ownership and minimal workflow.
+6. Journal-specific workspace with Overview, Requirements, Fees, Template and Assistant.
+7. Verified available journal requirements with field evidence, applicability, selected revision, freshness and explicit unknown/conflict states.
+8. Official guideline/template links and official submission URL where verified. Link first; mirroring needs rights. Missing links/requirements are acknowledged, not invented.
+9. Simple contextual assistant answering selected-journal questions from verified Fikarohana data and retrieved authoritative sources, with citations and explicit abstention.
 
-Web is the first proposed release client. Keep mobile scaffold intact and verify contract usability for mobile; a full mobile release is a separate gate, subject to human validation. No client-specific business API is permitted.
+Supporting V1 scope includes Sanctum accounts, saved journals/searches, French/English UI, a shared `/api/v1` OpenAPI contract, internal ingestion/review and safe operational controls. Laravel 13 remains canonical; Next.js and Expo are clients; PostgreSQL + pgvector, Redis and private S3-compatible storage retain their established roles. FastAPI remains optional specialized computation.
 
-## Excluded
+Web is the proposed first release client; full mobile delivery needs validation. All clients share the same API and policies.
 
-Research projects and manuscript files; full journal workspace; assistant/chat; DOCX/PDF analysis; compliance/readiness scoring; automatic article generation/submission; collaboration/institutional tenancy; billing; advanced saved comparisons; exhaustive catalog coverage; arbitrary live crawling during a discovery request.
+## Minimum project and workflow
 
-LLM explanations are optional after baseline evaluation and privacy approval. The MVP must remain useful without an LLM or an active FastAPI deployment.
+| Field | Purpose |
+| --- | --- |
+| `title` | User-provided project title |
+| `abstract` | Private research summary, editable during preparation |
+| `scientific_field` | User-provided/confirmed field; no fabricated classification |
+| `keywords` | Ordered/listed research keywords |
+| `authors` | Descriptive author entries; no collaboration/invitations |
+| `journal_shortlist` | References to candidate journal records |
+| `selected_journal` | Selected journal reference, nullable before selection |
+| `status` | `discovery`, `journal_selected` or `preparation` |
+| `created_at`, `updated_at` | Server-managed UTC timestamps |
 
-## Delivery slices
+Owner and project ID are server-enforced metadata. Selection also references the journal requirements revision. Minimum workflow: `discovery` → `journal_selected` → `preparation`. Selection is required before preparation; journal changes reset the relevant context/status. No compliance/readiness claim follows from status. Full transition/revision behavior is defined in [PRODUCT](PRODUCT.md).
 
-| Slice | Deliverable | Exit evidence |
-| --- | --- | --- |
-| Foundation | PostgreSQL, versioned API, authentication design, OpenAPI, error/privacy conventions | PostgreSQL-backed smoke checks; contract validation; cookie/token flow tests |
-| Journal model | Identity, assertions/evidence, requirements/documents and quality states | Unknown/zero/conflict distinctions and identifier merges tested |
-| Ingestion | Reviewed seed import and first approved provider adapter | Repeat import does not duplicate records; partial failure preserves published data |
-| Discovery | Filters and bounded candidate retrieval | Strict unsupported criteria return partial/empty results with reasons |
-| Recommendation V1 | Versioned scoring and deterministic explanations | Judged fixture and reproducibility report; no acceptance language |
-| Profiles | Sourced facts, official guidelines/templates | Every material fact has evidence; stale/conflicting values visible |
-| Comparison/accounts | Basic comparison, saves and deletion | Cross-user access denial; bilingual end-to-end pilot journey |
+## Minimum workspace
 
-These slices are sequential capabilities, not independently deployable microservices. The roadmap may gate semantic enrichment separately.
+Overview edits project metadata and selection. Requirements displays sourced rules and guideline links. Fees explains APC/other known fees and conditions. Template provides official applicable links. Assistant answers selected-journal questions. Before selection, journal-specific tabs ask the user to choose a journal.
 
-## Pilot gate
+Assistant question examples: French acceptance, APC, accepted article types, abstract requirements, reference style, official template and official submission URL. Each factual answer is evidence-backed. If evidence is unavailable or insufficient, explicitly say the information could not be verified. No invented journal requirements, generic writing chat or project-wide manuscript retrieval. Transient Q&A is sufficient; durable conversation history is deferred unless separately validated.
 
-- Human reviewers approve source rights, catalog scope and a benchmark set representative of French and English research inputs.
-- Every published journal has a sourced identity and enough scope evidence for retrieval; other missing fields do not silently become facts.
-- Recommendation output is drawn exclusively from active catalog IDs and honors strict filters.
-- Fees display amount, currency, fee type, applicability and verification state; unknown fees cannot qualify as free.
-- Users can inspect sources, compare, save and delete; personal data is isolated.
-- Relevant checks in [TESTING](../development/TESTING.md) pass; basic monitoring, backup restore and incident handling are demonstrated before production.
+The assistant is required V1 functionality; an LLM and FastAPI deployment are implementation choices. Verified fact lookup and authoritative passage retrieval can produce deterministic cited answers. Optional generated wording requires grounding and privacy gates. Removing the assistant altogether would fail V1 scope.
 
-Catalog count, relevance target, request quotas and load budget remain proposed inputs to this gate. Do not substitute arbitrary numbers for a validated pilot design.
+## Outside MVP V1
+
+- Full DOCX/PDF manuscript analysis and manuscript uploads/versioning.
+- Automatic manuscript rewriting and automatic formatting.
+- Full compliance scoring and submission readiness scoring.
+- Reference manager.
+- Collaboration and institutional tenancy.
+- Billing implementation.
+- Automatic submission and acceptance prediction.
+- Full publication workflow automation.
+
+Also deferred: Related Articles/Manuscript tabs, generic research-writing chat, advanced saved comparisons and exhaustive catalog coverage. No arbitrary live crawling from user questions.
+
+## Ordered delivery slices and release gate
+
+1. Foundation: PostgreSQL/pgvector readiness, Redis, `/api/v1`, Sanctum, OpenAPI and privacy/error conventions.
+2. Journal model and ingestion: identity, assertions/reviews, revisions, requirements/documents, reviewed seed and approved adapter.
+3. Discovery and recommendation: bounded retrieval, hard filters, configurable ranking and researcher-reviewed evaluation.
+4. Profiles, requirements and comparison: evidence, official links, fee context and selection.
+5. Lightweight projects and workspace: owner-scoped CRUD/deletion, minimum data/workflow, selection revision and all five tabs.
+6. Contextual assistant: verified fact lookup, scoped authoritative passage retrieval, citations, abstention and adversarial/privacy tests.
+7. MVP V1 pilot release: full bilingual journey, isolation/deletion, grounding, operational and accessibility checks.
+
+Slices 1–4 are intermediate deliveries, not the complete V1 MVP. Release requires slices 5–6 as well. Human reviewers approve source rights, coverage/freshness, relevance and assistant evaluation thresholds, limits and privacy/hosting controls. Missing evidence is acceptable when explicitly acknowledged; unsupported answers are not. See [TESTING](../development/TESTING.md) and [DECISIONS](../architecture/DECISIONS.md).

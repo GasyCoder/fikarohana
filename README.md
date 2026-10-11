@@ -1,6 +1,6 @@
 # Fikarohana
 
-Fikarohana is an API-first platform that helps researchers find suitable scientific journals and prepare for submission. It guides users from a research topic to a small, explainable shortlist, verified journal requirements, and eventually a journal-specific manuscript workspace.
+Fikarohana is an API-first platform that helps researchers find suitable scientific journals and prepare for submission. It guides users from a research topic to a small, explainable shortlist, verified journal requirements, and a lightweight journal-specific research workspace with contextual journal assistance in MVP V1.
 
 This repository is in the formal design phase. The documents describe planned behavior, not released features. Journal recommendations must come from stored, sourced journal records; match scores never predict acceptance.
 
@@ -33,9 +33,13 @@ The existing `docs/api/API.md`, `AUTHENTICATION.md`, and `OPENAPI.md` remain pla
 
 ## First delivery
 
-Build the foundation and journal data layer first: PostgreSQL, versioned API, Sanctum flows, contract validation, provenance, a reviewed seed dataset and an idempotent ingestion path. Then deliver discovery, configurable recommendations, journal profiles and basic comparison. Research projects, the contextual assistant and manuscript analysis follow separate gates.
+Build the foundation and journal data layer first: PostgreSQL, versioned API, Sanctum flows, contract validation, provenance, a reviewed seed dataset and an idempotent ingestion path. MVP V1 then delivers discovery → recommendation → comparison → journal selection → lightweight research project → journal-specific workspace → requirements/templates → contextual journal assistant. Intermediate finder-only deliveries do not complete V1.
 
-French and English are priority interface languages. Anonymous discovery is supported; saving searches or journals requires an account. Pricing, quotas and the initial catalog need human validation; see the [decision register](docs/architecture/DECISIONS.md).
+Projects store title, abstract, scientific field, keywords, authors, journal shortlist, selected journal, status, created_at and updated_at. Workflow is `discovery` → `journal_selected` → `preparation`; workspace tabs are Overview, Requirements, Fees, Template and Assistant. The assistant answers selected-journal questions from verified data and authoritative retrieved sources, cites evidence and explicitly says when information could not be verified. It is not a generic writing chatbot.
+
+Full DOCX/PDF analysis, manuscript uploads/versioning, automatic rewriting/formatting, full compliance scoring, reference manager, collaboration, institutional tenancy, billing implementation, automatic submission, acceptance prediction and full publication workflow automation remain outside MVP V1.
+
+French and English are priority interface languages. Anonymous discovery is supported; saving searches/journals, creating/resuming projects and using the project assistant require an account. Pricing, quotas and the initial catalog need human validation; see the [decision register](docs/architecture/DECISIONS.md).
 
 ## Working locally
 

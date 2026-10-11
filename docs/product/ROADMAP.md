@@ -1,6 +1,6 @@
 # Capability roadmap
 
-Status: initial design. Phases are dependency gates, not calendar commitments. [TODO](../development/TODO.md) holds actionable foundation work.
+Status: corrected MVP V1 scope. Phases 1–9 deliver V1; phases 10 onward are later capabilities. Phases are dependency gates, not calendar commitments. [TODO](../development/TODO.md) holds actionable foundation work.
 
 | Order | Phase | Scope | Exit gate |
 | --- | --- | --- | --- |
@@ -10,17 +10,17 @@ Status: initial design. Phases are dependency gates, not calendar commitments. [
 | 4 | Journal discovery | Public profiles at minimum identity level, filters, lexical retrieval | Validated queries and honest empty-result behavior |
 | 5 | Recommendation V1 | Configurable rank, 3–5 shortlist, reasons, evaluation; semantic enrichment if justified | Researcher-reviewed benchmark and reproducible outputs |
 | 6 | Journal profiles | Rich evidence, guidelines, official templates, freshness visibility | Field-level citations and source conflict handling |
-| 7 | Comparison and pilot release | Basic comparison, account saves, French/English journey | MVP acceptance and privacy/security gates passed |
-| 8 | Research projects | Selected journal, snapshots, workspace, versioned private files | Ownership, deletion, file security and snapshot-change tests |
-| 9 | Contextual journal assistant | Permission-aware document retrieval and cited answers | Grounding, prompt-injection and private-data evaluation passed |
+| 7 | Comparison and selection (V1) | Basic comparison, account saves and explicit journal choice | Selection and source-aware comparison checks; intermediate delivery only |
+| 8 | Lightweight projects/workspace (V1) | Minimum project metadata, `discovery` → `journal_selected` → `preparation`, selected revision; Overview, Requirements, Fees, Template, Assistant | Owner-scoped CRUD/deletion, transition and revision-change checks; no manuscript files |
+| 9 | Contextual journal assistant and V1 release | Verified fact lookup and authoritative journal retrieval, cited answers and explicit inability to verify | Grounding/abstention, prompt-injection, privacy and complete bilingual workspace journey pass |
 | 10 | Manuscript analysis | DOCX/PDF extraction, rule checks, declarations, reference/length checks | Supported formats and limits agreed; rule/evidence traceability proven |
 | 11 | Advanced publication workflow | Rich readiness, collaboration, integrations, institutional features | User demand, tenant model and operational capacity validated |
 
-Full mobile delivery, commercial subscriptions and institutional tenancy require their own validated scope; they are not implied by completing the web MVP. Related articles can be added when licensed bibliographic coverage supports the workspace.
+MVP V1 release occurs after phase 9; projects/workspace and the simple assistant are required, not post-MVP extensions. Full mobile delivery, commercial subscriptions and institutional tenancy require their own validated scope; they are not implied by completing the web MVP. Related Articles/Manuscript tabs, manuscript uploads/versioning, full DOCX/PDF analysis, rewriting, formatting, compliance scoring, reference management, collaboration, billing implementation, automatic submission, acceptance prediction and full workflow automation stay outside V1.
 
 ## Dependencies and experiments
 
-Evaluate semantic retrieval against the lexical baseline before operating FastAPI for embeddings. Evaluate journal document coverage before building the assistant. Evaluate extraction accuracy on permitted sample manuscripts before promising compliance checks. Introduce billing only after plan boundaries and payment provider choices are approved.
+Evaluate semantic retrieval against the lexical baseline before operating FastAPI for embeddings. Validate permitted authoritative journal evidence and supported-question coverage before the V1 assistant release. Begin with verified facts and bounded passage retrieval; semantic RAG and an LLM are optional implementation choices, not conditions for including the assistant. Evaluate extraction accuracy on permitted sample manuscripts before promising compliance checks. Introduce billing only after plan boundaries and payment provider choices are approved.
 
 Prioritize freshness, evidence and usability over catalog size. If strict constraints frequently produce empty results, expand relevant verified coverage or improve user guidance; do not relax constraints silently.
 
