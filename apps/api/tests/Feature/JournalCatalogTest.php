@@ -464,6 +464,8 @@ class JournalCatalogTest extends TestCase
         $migration = require database_path('migrations/2026_10_11_170000_create_journal_catalog.php');
         try {
             DB::transaction(function () use ($migration): void {
+                // Dependent ingestion tables must roll back before their catalog parents.
+                (require database_path('migrations/2026_10_11_180000_create_journal_ingestion.php'))->down();
                 $migration->down();
                 $this->assertFalse(Schema::hasTable('journals'));
                 $this->assertFalse(Schema::hasTable('journal_assertions'));
