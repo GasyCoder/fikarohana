@@ -16,7 +16,7 @@ Assertions carry immutable evidence/context, scalar identity/scope values, effec
 
 Source observations, assertions, reviews and typed facts are append-only under PostgreSQL triggers, including SQL bypassing Eloquent. Revisions assemble in draft and seal once; their membership cannot change after publication. Referenced source identities and vocabularies are protected against semantic edits. History-bearing foreign keys restrict deletion; no cascade removes evidence. An unreferenced working journal/publisher or unused vocabulary can be deleted. To stop using a fact, append a review or publish a replacement/omitting revision instead of deleting its link. Migration rollback deliberately removes the catalog schema/functions, but preserves pgvector.
 
-See [JOURNAL-DATA-MODEL-V1](../development/JOURNAL-DATA-MODEL-V1.md) for physical columns, invariants, publication/deletion details and executed tests. No external ingestion, provider dataset, public catalog API or live fetching exists.
+See [JOURNAL-DATA-MODEL-V1](../development/JOURNAL-DATA-MODEL-V1.md) for physical columns, invariants, publication/deletion details and executed tests. Phase 3B adds bounded DOAJ retrieval into existing ingestion tables; no real dataset was persisted during the failed live probe, and no public catalog API exists. See [DOAJ mapping](../development/DOAJ-ADAPTER-V1.md).
 
 ## Wider MVP logical entities (implemented catalog plus planned personal/processing entities)
 
@@ -122,3 +122,7 @@ Do not create these tables in the foundation merely because they appear in this 
 Withdrawn/merged journals remain traceable via lifecycle state and successor references; saved historical results retain revision references. Only active eligible journals enter new recommendations. Source corrections append reviews/revisions rather than destroying evidence history.
 
 Project deletion removes its private metadata, authors, shortlist and snapshot references and clears its transient assistant context. Account deletion also removes owned projects and saved inputs; deleting one project does not remove unrelated saved records. Later files, derivatives and persistent conversations follow the same explicit deletion policy. Removing a private snapshot reference does not remove its public source revision. Public source facts are not deleted with a user account. Security audit retention uses minimized identifiers under the approved policy. Backups and provider-side deletion require a documented expiry/replay process; soft deletion alone does not satisfy a deletion request.
+
+## Phase 3B mapping extensions
+
+No new schema or parallel provenance model. Shared proposal/materialization supports publisher name/country, explicit accepted language codes and qualified flat DOAJ subjects using existing publisher/language/subject assertions and typed links. Publisher country never becomes journal country. Full original DOAJ records/provider dates remain bounded staging evidence; generalized OA context and multiple-currency APC maxima stay unmapped/unknown. Run content identity excludes envelope retrieval time so identical network retries preserve the original observation and run. Provider-specific locators refer to retained raw fields.

@@ -94,6 +94,24 @@ Valid identifiers reserve immutable ownership while assertions remain pending. I
 
 The new migration fixes a Phase 2 PostgreSQL parameter/column ambiguity when selecting identifier evidence, keeping the existing helper signature. Ingestion rollback removes its own tables/functions and retains this harmless catalog helper correction. Provider rights, real-payload retention, identity transfers, vocabularies and field freshness remain release decisions. [Phase 3A report](../development/JOURNAL-INGESTION-V1.md) documents behavior, limits and checks.
 
+## Phase 3B bounded DOAJ decisions
+
+2026-10-11 — Extend the existing registry/CLI with explicit DOAJ v4 retrieval, native Laravel HTTP, separate page validation and transport-free mapping. Fixed official HTTPS roots, redirects disabled, 1–100 records and bounded retries; no generic URL fetcher or provider-specific catalog writes. Official source commit/schema and terms are recorded in [DOAJ-ADAPTER-V1](../development/DOAJ-ADAPTER-V1.md). Live compatibility remains unverified after connection failure; this is not full-catalog support.
+
+Exclude envelope retrieval time from run content hashes across providers: identical fetched content under the same key replays without resetting evidence freshness. Provider dates remain in raw content/fingerprint; changed content still requires a new caller key. Extend canonical proposals using existing publisher/language/subject models and raw field locators, without schema changes. Publisher country remains publisher metadata. DOAJ subjects use qualified flat names, not automatic taxonomy reconciliation. Superseded by the CSV extension below: the initial no-APC → not_applicable mapping was incorrect; explicit absence is now retained in fee basis/context with unknown scalar monetary values; multiple currencies stay raw/unknown. All claims remain pending/conflicting until explicit review.
+
 ## Change process
 
 For a consequential change, record date, status, context, chosen option, alternatives, consequences and affected documents. Keep prior decisions visible when superseded. Validate API compatibility and privacy effects before adopting the new design. Do not change package versions or infrastructure merely to make documentation appear implemented.
+
+## Phase 3B official CSV extension
+
+2026-10-11 — User-authorized second acquisition transport, not a second provider/pipeline. API remains the default targeted search/refresh transport; official public CSV supports bounded bootstrap samples (1–100), without full synchronization. CSV normalizes export questions into the shared DOAJ bibjson representation. The stable `/csv` source may redirect once to the observed exact DOAJ S3 bucket and export filename pattern; signed URLs remain ephemeral transport details. No model/migration, dependency, canonical API or service boundary changes.
+
+Correct the initial APC mapping: official DOAJ `has_apc=false` means no APC is charged, not not-applicable and not absence of every other fee. Keep the explicit flag/raw row plus `doaj_reported_no_apc` basis/context; scalar amount/currency remain unknown under the existing currency-required known-money invariant. Explicit absence participates in ingestion conflict detection even though its monetary availability is unknown. Unknown/absence/positive/not-applicable/waiver remain distinguishable; publication of this unknown monetary claim stays blocked by existing rules. A richer typed fee-presence model would require separate human review; it is not introduced here. Mapper version advances to `doaj-v4-csv-v2`; old evidence/reviews are unchanged.
+
+## Phase 3B final metadata URL correction
+
+2026-10-11 — Explicit user correction: metadata storage validation must be separate from fetch authorization. HTTP(S) metadata accepts query/fragment/percent encoding/path parameters. Shared URL normalization rejects controls, invalid UTF-8, unsupported schemes and credentials; original DOAJ observations remain untouched. Optional invalid DOAJ websites are omitted from proposals/claims while identity/title/ISSN evidence remains staged. Recursive U+0000/UTF-8 protections still apply before retention. Raw unmapped links do not authorize any request.
+
+DOAJ API/CSV clients, exact official origins, controlled redirects, TLS, limits and timeouts are unchanged. CSV provenance stays the stable official `/csv` source, never the journal website or signed S3 download. Source-envelope validation remains distinct and conservative. Mapper is `doaj-v4-csv-v3` so old quarantined items can be remapped without modifying immutable observations or claiming a fresh retrieval. APC model and semantics are unchanged.

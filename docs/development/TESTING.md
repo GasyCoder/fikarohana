@@ -1,6 +1,6 @@
 # Verification strategy
 
-Status: Foundation V1, Phase 2 journal/provenance and Phase 3A local ingestion verification are implemented; real-provider and later domain gates remain planned. Test the affected layer and meaningful behavior; avoid tests that merely repeat an implementation.
+Status: Foundation V1, Phase 2 journal/provenance and Phase 3A local ingestion verification are implemented; Phase 3B DOAJ transport/mapping tests are offline; other-provider and later domain gates remain planned. Test the affected layer and meaningful behavior; avoid tests that merely repeat an implementation.
 
 ## Current versus planned checks
 
@@ -8,7 +8,7 @@ Run commands from the indicated directory after the existing dependencies/enviro
 
 | Layer | Current commands | Additional foundation/release work |
 | --- | --- | --- |
-| Laravel, `apps/api` | `php artisan test` (PHPUnit through Laravel); `vendor/bin/pint --test` for formatting | Isolated PostgreSQL Foundation, catalog and local ingestion tests implemented; real-provider/client domain tests remain future |
+| Laravel, `apps/api` | `php artisan test` (PHPUnit through Laravel); `vendor/bin/pint --test` for formatting | Isolated PostgreSQL Foundation, catalog and local ingestion tests implemented; DOAJ mapping/transport tests are offline; other-provider/client tests remain future |
 | Next.js, `apps/web` | `npm run lint`; `npx --no-install tsc --noEmit`; `npm run build` | Add justified journey/component test tools when tests are introduced |
 | Expo, `apps/mobile` | `npx --no-install tsc --noEmit`; declared lint script needs tooling availability checked | On dependency changes, `npx expo-doctor` and `npx expo install --check`; pin/provision required validation tools deliberately |
 | Python, `services/ai` | None: metadata/app/tests are empty placeholders | Add `pytest` and typed service checks when a real Python feature is introduced |
@@ -64,10 +64,20 @@ Security regression coverage includes Hash::check on both mobile failure paths w
 
 `JournalCatalogTest` uses the same dedicated PostgreSQL test instance/RefreshDatabase as Foundation. It checks real SQL CHECK/UNIQUE/composite foreign-key constraints and triggers through direct database writes as well as Eloquent. Expected constraint failures run in nested transactions/savepoints so PostgreSQL transaction aborts cannot hide later assertions. Synthetic factories and JournalCatalogFixture provide journal/source/fee/language/indexation/template cases; no live provider calls or copied journal facts.
 
-Coverage includes UUIDv7/non-unique titles, publisher and hierarchy relations, ISSN checksum/normalization/global ownership, accepted/unknown/explicitly unsupported languages, article types, exact zero/unknown/not-applicable/paid fees, currencies, typed requirements, template/indexation evidence, immutable observation idempotency, field/journal attribution, reviews/effective dates, conflict resolution without evidence deletion, historical/current usability, sealed catalog snapshots, deletion restrictions and transactional migration rollback preserving vector. [JOURNAL-DATA-MODEL-V1](JOURNAL-DATA-MODEL-V1.md) records exact executed counts. No CI pipeline, real-provider ingestion test, recommendation evaluation or journal API is claimed. Phase 3A synthetic ingestion tests are recorded in [JOURNAL-INGESTION-V1](JOURNAL-INGESTION-V1.md).
+Coverage includes UUIDv7/non-unique titles, publisher and hierarchy relations, ISSN checksum/normalization/global ownership, accepted/unknown/explicitly unsupported languages, article types, exact zero/unknown/not-applicable/paid fees, currencies, typed requirements, template/indexation evidence, immutable observation idempotency, field/journal attribution, reviews/effective dates, conflict resolution without evidence deletion, historical/current usability, sealed catalog snapshots, deletion restrictions and transactional migration rollback preserving vector. [JOURNAL-DATA-MODEL-V1](JOURNAL-DATA-MODEL-V1.md) records exact executed counts. No CI pipeline, successful live-provider verification, recommendation evaluation or journal API is claimed; offline DOAJ provider tests are now implemented. Phase 3A synthetic ingestion tests are recorded in [JOURNAL-INGESTION-V1](JOURNAL-INGESTION-V1.md).
 
 ## Phase 3A correction-pass verification
 
 PostgreSQL ingestion regressions cover valid/NUL/valid batches, nested values and keys, hash-only quarantine without unsafe summaries, zero-write dry-run, omitted/1/100 and invalid CLI limits, provider/source isolation enforced by SQL, unique-item counters across duplicate positions/replays/resume, completed-run guards, completion-failure recovery with preserved items and deterministic exit codes (including all-quarantine success).
 
 The rollback test enters the real item processor and uses a temporary PostgreSQL trigger to fail fee insertion after actual journal/identifier/assertion/item writes. Assertions prove that item's writes vanish, earlier results remain, sanitized failed states persist and retry creates no duplicates. The trigger exists only in the test; no production failure seam. Exact executed counts and quality gates are recorded in [JOURNAL-INGESTION-V1](JOURNAL-INGESTION-V1.md). No live provider or SQLite is used.
+
+## Phase 3B DOAJ verification
+
+DoajProviderTest uses PostgreSQL/RefreshDatabase, synthetic current-schema fixtures and Laravel Http::fake with stray requests prohibited. No live network is a test requirement. Tests exercise actual 3A/Phase 2 staging, provenance, identity, conflicting evidence, explicit review/publication plus bounded native-HTTP pagination, retries, limits, dry-run, malformed pages and safe errors. Fake sleeps avoid real retry delays. The optional one-record live probe is separately reported as unverified, with zero writes, in [DOAJ-ADAPTER-V1](DOAJ-ADAPTER-V1.md).
+
+## Phase 3B official CSV tests
+
+`DoajCsvTest` uses the same isolated PostgreSQL database and prohibits stray HTTP requests. Synthetic fixtures follow the verified public CSV schema. Tests cover shared API/CSV mapping parity, raw row/transport/fingerprint/locators, identifiers and optional columns, languages/countries/selected LCC subjects, APC absence/unknown/paid/multiple currencies/waiver, duplicate and changed rows, API/CSV identity, provider namespace isolation, malformed quotes/headers/rows, UTF-8/U+0000 quarantine, formula-as-text behavior, bounded download/redirect/limit/timeout configuration, dry-run and staged/pending publication boundaries. Explicit no-APC versus positive-APC conflicts are tested in both directions. A tiny live CSV dry-run is separate from PHPUnit; network failure must not weaken deterministic logic. Exact final counts and all failures are recorded in [DOAJ-ADAPTER-V1](DOAJ-ADAPTER-V1.md).
+
+Final metadata-URL regressions cover query, fragment, both, percent encoding/path parameters, malformed URLs, credentials, controls and javascript/file/data schemes through both API and CSV mapping. Invalid optional websites are omitted while raw evidence survives; U+0000 remains quarantined. HTTP request assertions prove only the official CSV source is requested and journal URLs are never fetched. Existing origin/redirect restrictions remain under the complete DOAJ suite. Final executed counts are in the DOAJ report.

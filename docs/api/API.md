@@ -2,7 +2,7 @@
 
 Status: implemented foundation. Laravel 13 is the canonical business API. Public discovery/journal/recommendation/project/workspace/assistant APIs remain unimplemented. Phase 2 implements only the internal journal/provenance schema and revision primitives; see [Phase 2](../development/JOURNAL-DATA-MODEL-V1.md). The approved complete MVP still includes them.
 
-Phase 3A adds trusted-operator Artisan ingestion/review/publication commands, without changing routes or OpenAPI. See [Phase 3A](../development/JOURNAL-INGESTION-V1.md); no real provider or public catalog write endpoint exists.
+Phase 3A adds trusted-operator Artisan ingestion/review/publication commands, without changing routes or OpenAPI. See [Phase 3A](../development/JOURNAL-INGESTION-V1.md); Phase 3B now adds explicit bounded DOAJ retrieval through the same command; no public catalog endpoint exists. See [DOAJ adapter](../development/DOAJ-ADAPTER-V1.md).
 
 ## Routes
 

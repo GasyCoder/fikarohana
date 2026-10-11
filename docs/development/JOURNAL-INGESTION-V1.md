@@ -1,6 +1,6 @@
 # Phase 3A — Controlled journal ingestion framework
 
-Status: implemented locally with synthetic fixtures, 2026-10-11. No real provider, external HTTP call or live catalog is introduced. Stop before DOAJ (Phase 3B). [Phase 3 plan](JOURNAL-INGESTION-PLAN.md) describes later providers.
+Status: historical Phase 3A implementation with synthetic fixtures, 2026-10-11. Phase 3B now extends this framework with bounded explicit DOAJ retrieval; see [DOAJ adapter](DOAJ-ADAPTER-V1.md). The synthetic-only statements below describe the Phase 3A delivery boundary. No real provider, external HTTP call or live catalog is introduced. Stop before DOAJ (Phase 3B). [Phase 3 plan](JOURNAL-INGESTION-PLAN.md) describes later providers.
 
 ## Architecture
 
@@ -28,7 +28,7 @@ Input is a JSON array of 1–100 envelopes, at most 1 MiB. Each envelope contain
 
 Canonical V1 materialization supports identifiers, title, scope, country, website, submission URL and fees. Other Phase 2 fact types remain available in the catalog model but need explicit mapping/validation/materialization extensions in later slices; arbitrary payload keys cannot create them. The synthetic adapter never infers requirements, publication languages, indexation or accepted article types.
 
-Names retain display text and use existing matching normalization. ISSNs are checksum-validated/formatted while original values remain in staging and identifier evidence. URLs normalize scheme/host without altering case-sensitive paths. In this ingestion slice, URL credentials, query strings and fragments are rejected before payload retention; syntactically valid URLs remain untrusted and are never fetched. Syntax checks do not establish official ownership or SSRF safety.
+Names retain display text and use existing matching normalization. ISSNs are checksum-validated/formatted while original values remain in staging and identifier evidence. URLs normalize scheme/host without altering case-sensitive paths. Current metadata policy permits query strings/fragments in valid HTTP(S) website/submission URLs. Embedded credentials and control characters remain invalid mapped URLs. Stable source-envelope references retain their existing no-query/no-fragment rule; DOAJ constructs these separately from journal links. Raw DOAJ optional links remain evidence, while malformed optional websites are omitted from mapping. Syntactically valid metadata URLs remain untrusted and are never fetched. Syntax checks do not establish official ownership or SSRF safety.
 
 Structurally safe observations use immutable Phase 2 source_records, even when a mapped identifier/value is invalid and the staging item is quarantined. Before JSONB persistence, recursive validation checks strings and object/array keys for U+0000 and invalid UTF-8. U+0000 in any envelope or nested payload quarantines that record with `postgres_incompatible_text`; valid neighbors remain staged. Nothing is stripped or replaced. Unsafe envelopes retain only a SHA-256 input identity and fixed error code, without their incompatible payload/source record. The local CLI rejects invalid JSON/UTF-8 before accepting a batch. A pre-existing quarantined source observation cannot be promoted by this pipeline. Normalization/retrieval/structural validation never create a verified review.
 
@@ -144,3 +144,13 @@ docs/development/TESTING.md
 docs/development/TODO.md
 docs/product/ROADMAP.md
 ```
+
+## Phase 3B extension (2026-10-11)
+
+The existing command/registry now support explicit `--provider=doaj`; synthetic remains default. DOAJ transport/page handling/mapping feed the same staging and Phase 2 review/publication path. No new tables. Canonical proposals add publisher/country, languages and qualified subjects; raw provider locators preserve field provenance. Run hashes exclude envelope retrieved_at, so identical later-time retrieval can replay without renewing evidence. `--limit` remains 1–100 and authoritative for retrieval; dry-run writes nothing, including DOAJ source creation. See [DOAJ-ADAPTER-V1](DOAJ-ADAPTER-V1.md) for exact configuration, mappings, tests, terms and failed one-record live verification. Earlier 3A counts/file inventories remain historical, not the final 3B totals.
+
+## Phase 3B CSV extension (current behavior)
+
+The historical synthetic-only boundary above does not describe the current provider registry. DOAJ now supports API v4 and official CSV acquisition into this exact pipeline. CSV headers/rows are bounded and validated; malformed, invalid UTF-8 and U+0000 rows retain hash-only quarantine and do not destroy valid neighbors. An unterminated quoted record may consume the remaining file and is quarantined as one malformed record; no fabricated row boundaries are guessed. Raw valid CSV rows and fingerprints stay staged alongside transport metadata; signed download URLs never become provenance. Optional provider source-locator payload context identifies the actual raw API field or CSV column.
+
+Use `stage --provider=doaj --transport=csv --key=CSV_KEY --limit=1 --dry-run`, or explicit `--transport=api`. Omitted DOAJ transport remains API; synthetic remains the default provider. CSV rejects an API search query rather than silently ignoring it. Downloads happen outside added database transactions. No full-catalog synchronization, automatic review/publication or independent evidence model exists. See [DOAJ report](DOAJ-ADAPTER-V1.md) for current verified sources, APC correction and executed tests.
