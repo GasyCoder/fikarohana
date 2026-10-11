@@ -9,6 +9,7 @@ use App\Services\JournalIngestion\ProviderAdapter;
 use App\Support\CatalogNormalizer;
 use DomainException;
 use Illuminate\Support\Facades\Validator;
+use InvalidArgumentException;
 
 /** Public v4 journal mapping only. Raw public record stays in Phase 3A staging. */
 class DoajProvider implements ProviderAdapter
@@ -20,7 +21,7 @@ class DoajProvider implements ProviderAdapter
 
     public function mappingVersion(): string
     {
-        return 'doaj-v4-csv-v2';
+        return 'doaj-v4-csv-v3';
     }
 
     public function accepts(JournalSource $source): bool
@@ -74,7 +75,6 @@ class DoajProvider implements ProviderAdapter
     public function validatePayload(array $payload): void
     {
         PostgresText::validate($payload);
-        $this->validateUrls($payload);
         if (($payload['_acquisition']['transport'] ?? null) === 'csv') {
             if (isset($payload['_csv_error'])) {
                 throw new DomainException($payload['_csv_error'] === 'postgres_incompatible_text' ? 'postgres_incompatible_text' : 'doaj_csv_invalid_row');
@@ -91,25 +91,24 @@ class DoajProvider implements ProviderAdapter
         ])->validate();
     }
 
-    private function validateUrls(array $values): void
-    {
-        foreach ($values as $value) {
-            if (is_array($value)) {
-                $this->validateUrls($value);
-            } elseif (is_string($value) && preg_match('/^https?:\/\//i', trim($value))) {
-                $url = CatalogNormalizer::url($value);
-                if (parse_url($url, PHP_URL_QUERY) !== null || parse_url($url, PHP_URL_FRAGMENT) !== null) {
-                    throw new DomainException('doaj_unsafe_url');
-                }
-            }
-        }
-    }
-
     public function normalize(array $payload): array
     {
         $this->validatePayload($payload);
         if (($payload['_acquisition']['transport'] ?? null) === 'csv') {
             $payload['bibjson'] = app(DoajCsvNormalizer::class)->normalize($payload['_csv_row']);
+        }
+        // Optional URL mapping is separate from raw evidence retention and network authorization.
+        // Work on this local copy only; the original observation remains untouched in staging.
+        if (isset($payload['bibjson']['ref']['journal'])) {
+            $website = $payload['bibjson']['ref']['journal'];
+            try {
+                if (! is_string($website) || strlen($website) > 2048) {
+                    throw new InvalidArgumentException('Invalid optional website.');
+                }
+                CatalogNormalizer::url($website);
+            } catch (InvalidArgumentException) {
+                unset($payload['bibjson']['ref']['journal']);
+            }
         }
         Validator::make($payload, [
             'bibjson.title' => 'required|string|max:255',

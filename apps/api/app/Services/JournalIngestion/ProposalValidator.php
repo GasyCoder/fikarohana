@@ -73,9 +73,6 @@ class ProposalValidator
         foreach (['website', 'submission_url'] as $field) {
             if (isset($proposal[$field])) {
                 CatalogNormalizer::url($proposal[$field]);
-                if (parse_url($proposal[$field], PHP_URL_QUERY) !== null || parse_url($proposal[$field], PHP_URL_FRAGMENT) !== null) {
-                    throw new DomainException('url_query_or_fragment_not_permitted');
-                }
             }
         }
         if (isset($proposal['country']) && ! preg_match('/^[A-Z]{2}$/D', $proposal['country'])) {

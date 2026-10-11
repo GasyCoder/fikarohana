@@ -121,10 +121,7 @@ class IngestJournalRecords
             }
             foreach (['website', 'submission_url'] as $field) {
                 if (isset($record['payload'][$field])) {
-                    $candidate = CatalogNormalizer::url($record['payload'][$field]);
-                    if (parse_url($candidate, PHP_URL_QUERY) !== null || parse_url($candidate, PHP_URL_FRAGMENT) !== null) {
-                        throw new DomainException('payload_url_query_or_fragment');
-                    }
+                    CatalogNormalizer::url($record['payload'][$field]);
                 }
             }
             $url = CatalogNormalizer::url($record['source_url']);

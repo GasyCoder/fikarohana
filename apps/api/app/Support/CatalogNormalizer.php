@@ -35,6 +35,9 @@ class CatalogNormalizer
         if ($value === null) {
             return null;
         }
+        if (! mb_check_encoding($value, 'UTF-8') || preg_match('/[\x00-\x1f\x7f]/', $value)) {
+            throw new InvalidArgumentException('Catalog URLs must contain valid text without controls.');
+        }
         $value = trim($value);
         $parts = parse_url($value);
         $scheme = strtolower($parts['scheme'] ?? '');
