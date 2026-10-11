@@ -18,4 +18,7 @@ interface ProviderAdapter
 
     /** Return the bounded canonical proposal understood by ProposalValidator. */
     public function normalize(array $payload): array;
+
+    /** Translate canonical proposal paths into locators in the retained provider record. */
+    public function sourceLocator(string $field): string;
 }

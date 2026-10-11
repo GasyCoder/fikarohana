@@ -12,7 +12,7 @@ class ProposalValidator
     {
         PostgresText::validate($payload);
         Validator::make(['payload' => $payload], [
-            'payload' => 'required|array:title,identifiers,scope,country,website,submission_url,fees',
+            'payload' => 'required|array:title,identifiers,scope,country,website,submission_url,fees,publisher,publisher_country,languages,subjects',
             'payload.title' => 'required|string|max:255',
             'payload.identifiers' => 'required|array|min:1|max:2',
             'payload.identifiers.*' => 'required|array:type,value',
@@ -30,6 +30,12 @@ class ProposalValidator
             'payload.fees.*.currency' => 'present|nullable|string|max:3',
             'payload.fees.*.basis' => 'required|string|max:64',
             'payload.fees.*.applicability' => 'required|string|max:2048',
+            'payload.publisher' => 'sometimes|required|string|max:255',
+            'payload.publisher_country' => 'sometimes|required|string|regex:/^[A-Z]{2}$/D',
+            'payload.languages' => 'sometimes|array|max:30',
+            'payload.languages.*' => 'required|string|distinct|regex:/^[a-z]{2,3}$/D',
+            'payload.subjects' => 'sometimes|array|max:30',
+            'payload.subjects.*' => 'required|string|distinct|max:255',
         ])->validate();
     }
 
@@ -47,6 +53,14 @@ class ProposalValidator
         $this->validateShape($raw);
         if (trim($proposal['title']) === '') {
             throw new DomainException('empty_title');
+        }
+        foreach ([$proposal['publisher'] ?? null, ...($proposal['subjects'] ?? [])] as $name) {
+            if ($name !== null && trim($name) === '') {
+                throw new DomainException('empty_vocabulary_name');
+            }
+        }
+        if (isset($proposal['publisher_country']) && ! isset($proposal['publisher'])) {
+            throw new DomainException('publisher_country_without_publisher');
         }
         $seen = [];
         foreach ($proposal['identifiers'] as $identifier) {

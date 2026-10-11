@@ -11,7 +11,13 @@ use App\Models\Journal;
 use App\Models\JournalAssertion;
 use App\Models\JournalFee;
 use App\Models\JournalIdentifier;
+use App\Models\JournalLanguage;
 use App\Models\JournalSource;
+use App\Models\JournalSubject;
+use App\Models\Language;
+use App\Models\Publisher;
+use App\Models\Subject;
+use App\Support\CatalogNormalizer;
 use DomainException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -65,26 +71,44 @@ class ProcessIngestionItem
                 // Existing immutable ownership is reused; this observation remains on the staging item.
                 $existingIdentifier = JournalIdentifier::where('normalized_value', $identifier['value'])->first();
                 if ($existingIdentifier === null) {
-                    $claim = $this->claim($item, JournalField::Identifier, ['type' => $identifier['type'], 'value' => $identifier['value']], 'identifiers');
+                    $claim = $this->claim($item, JournalField::Identifier, ['type' => $identifier['type'], 'value' => $identifier['value']], $provider->sourceLocator('identifiers'));
                     JournalIdentifier::create([
                         'journal_id' => $journal->id, 'assertion_id' => $claim->id, 'type' => $identifier['type'],
                         'value' => $identifier['original_value'] ?? $identifier['value'],
                     ]);
                 } elseif ($existingIdentifier->assertion->source_record_id === $item->source_record_id) {
-                    $this->claim($item, JournalField::Identifier, ['type' => $identifier['type'], 'value' => $identifier['value']], 'identifiers');
+                    $this->claim($item, JournalField::Identifier, ['type' => $identifier['type'], 'value' => $identifier['value']], $provider->sourceLocator('identifiers'));
                 }
             }
             $conflicts = [];
+            if (isset($proposal['publisher'])) {
+                // The assertion carries reported publisher identity; working journal ownership is unchanged.
+                $publisher = Publisher::firstOrCreate(['normalized_name' => CatalogNormalizer::name($proposal['publisher']), 'country_code' => $proposal['publisher_country'] ?? null], ['name' => $proposal['publisher']]);
+                $claim = $this->claim($item, JournalField::Publisher, ['publisher_id' => $publisher->id], $provider->sourceLocator('publisher'));
+                $conflicts = array_merge($conflicts, $this->conflicts($claim));
+            }
+            foreach ($proposal['languages'] ?? [] as $code) {
+                // Code remains the display name until a reviewed localized vocabulary is available.
+                $language = Language::firstOrCreate(['code' => $code], ['name' => $code]);
+                $claim = $this->claim($item, JournalField::Language, ['language_id' => $language->id, 'supported' => true], $provider->sourceLocator('languages'));
+                JournalLanguage::firstOrCreate(['assertion_id' => $claim->id], ['journal_id' => $journal->id, 'language_id' => $language->id, 'supported' => true]);
+                $conflicts = array_merge($conflicts, $this->conflicts($claim));
+            }
+            foreach ($proposal['subjects'] ?? [] as $name) {
+                $subject = Subject::firstOrCreate(['parent_id' => null, 'normalized_name' => CatalogNormalizer::name($name)], ['name' => $name]);
+                $claim = $this->claim($item, JournalField::Subject, ['subject_id' => $subject->id], $provider->sourceLocator('subjects'));
+                JournalSubject::firstOrCreate(['assertion_id' => $claim->id], ['journal_id' => $journal->id, 'subject_id' => $subject->id]);
+            }
             foreach (['title' => JournalField::Title, 'scope' => JournalField::Scope, 'country' => JournalField::Country,
                 'website' => JournalField::Website, 'submission_url' => JournalField::SubmissionUrl] as $key => $field) {
                 if (array_key_exists($key, $proposal)) {
-                    $claim = $this->claim($item, $field, ['text_value' => $proposal[$key]], $key,
+                    $claim = $this->claim($item, $field, ['text_value' => $proposal[$key]], $provider->sourceLocator($key),
                         $proposal[$key] === null ? FactAvailability::Unknown : FactAvailability::Known);
                     $conflicts = array_merge($conflicts, $this->conflicts($claim));
                 }
             }
             foreach ($proposal['fees'] ?? [] as $index => $fee) {
-                $claim = $this->claim($item, JournalField::Fee, $fee, 'fees.'.$index, FactAvailability::from($fee['availability']));
+                $claim = $this->claim($item, JournalField::Fee, $fee, $provider->sourceLocator('fees.'.$index), FactAvailability::from($fee['availability']));
                 if ($claim->fee === null) {
                     JournalFee::create([
                         'journal_id' => $journal->id, 'assertion_id' => $claim->id,
@@ -108,8 +132,8 @@ class ProcessIngestionItem
             ->where('ingestion_items.source_record_id', $item->source_record_id)->where('claim_hash', $hash)->value('assertion_id');
         $claim = $existing === null ? JournalAssertion::create([
             'journal_id' => $item->journal_id, 'source_record_id' => $item->source_record_id, 'field' => $field,
-            'availability' => $availability, 'text_value' => $value['text_value'] ?? null, 'source_locator' => $locator,
-            'original_wording' => is_string($item->payload[$locator] ?? null) ? $item->payload[$locator] : null,
+            'availability' => $availability, 'text_value' => $value['text_value'] ?? null, 'publisher_id' => $value['publisher_id'] ?? null, 'source_locator' => $locator,
+            'original_wording' => is_string(data_get($item->payload, $locator)) ? data_get($item->payload, $locator) : null,
         ]) : JournalAssertion::findOrFail($existing);
         DB::table('ingestion_claims')->insertOrIgnore(['ingestion_item_id' => $item->id, 'assertion_id' => $claim->id, 'claim_hash' => $hash]);
 

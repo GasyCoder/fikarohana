@@ -19,6 +19,11 @@ class SyntheticProvider implements ProviderAdapter
         return 'synthetic-v1';
     }
 
+    public function sourceLocator(string $field): string
+    {
+        return $field;
+    }
+
     public function accepts(JournalSource $source): bool
     {
         return $source->type === JournalSourceType::Other;

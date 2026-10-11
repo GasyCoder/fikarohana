@@ -36,7 +36,9 @@ class IngestJournalRecords
         if (strlen(CanonicalJson::encode($records)) > 1024 * 1024) {
             throw new DomainException('batch_too_large');
         }
-        $hash = CanonicalJson::hash([$provider->key(), $provider->mappingVersion(), $records]);
+        // Fetch time is observation metadata, not a new input revision on an identical retry.
+        $identityRecords = array_map(fn ($record) => is_array($record) ? array_diff_key($record, ['retrieved_at' => true]) : $record, $records);
+        $hash = CanonicalJson::hash([$provider->key(), $provider->mappingVersion(), $identityRecords]);
         $prepared = array_map(fn ($record) => $this->prepare($provider, $record), $records);
         if ($dryRun) {
             return ['dry_run' => true, 'items' => array_map(function ($item) {

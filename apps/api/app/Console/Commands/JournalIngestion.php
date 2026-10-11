@@ -10,6 +10,8 @@ use App\Models\JournalSource;
 use App\Services\JournalIngestion\IngestJournalRecords;
 use App\Services\JournalIngestion\ProcessIngestionRun;
 use App\Services\JournalIngestion\ProviderRegistry;
+use App\Services\JournalIngestion\Providers\Doaj\DoajClient;
+use App\Services\JournalIngestion\Providers\Doaj\DoajProvider;
 use App\Services\JournalIngestion\PublishIngestionItem;
 use App\Services\JournalIngestion\ReviewIngestionAssertion;
 use DomainException;
@@ -22,9 +24,9 @@ class JournalIngestion extends Command
 {
     protected $signature = 'journals:ingestion {action : source|stage|process|status|review|publish} {id?}
         {--provider=synthetic} {--source=} {--file=} {--key=} {--dry-run}
-        {--status=} {--actor=} {--method=} {--reason=} {--assertions=} {--limit=}';
+        {--status=} {--actor=} {--method=} {--reason=} {--assertions=} {--limit=} {--query=_exists_:bibjson.title}';
 
-    protected $description = 'Controlled local journal ingestion; no network provider is available';
+    protected $description = 'Controlled journal ingestion: synthetic local fixtures or explicit DOAJ retrieval';
 
     public function handle(ProviderRegistry $providers): int
     {
@@ -65,6 +67,9 @@ class JournalIngestion extends Command
 
     private function source(): array
     {
+        if ($this->option('provider') === 'doaj') {
+            return ['source_id' => $this->doajSource()->id];
+        }
         $name = (string) $this->argument('id');
         if (! preg_match('/^[a-z0-9][a-z0-9_.-]{0,63}$/D', $name) || $this->option('provider') !== 'synthetic') {
             throw new DomainException('invalid_synthetic_source');
@@ -80,6 +85,31 @@ class JournalIngestion extends Command
 
     private function stage(ProviderRegistry $providers): array
     {
+        $provider = $providers->get((string) $this->option('provider'));
+        if ($provider instanceof DoajProvider) {
+            if ($this->option('file') !== null) {
+                throw new DomainException('doaj_file_not_supported');
+            }
+            $dryRun = (bool) $this->option('dry-run');
+            $source = $this->option('source') !== null ? JournalSource::findOrFail($this->option('source'))
+                : JournalSource::where('type', 'doaj')->where('name', 'DOAJ')->first();
+            if ($source !== null && ! $provider->accepts($source)) {
+                throw new DomainException('provider_source_mismatch');
+            }
+            // Reject invalid caller keys before any outbound request or source creation.
+            $key = (string) $this->option('key');
+            if (! preg_match('/^[A-Za-z0-9_.:-]{1,128}$/D', $key)) {
+                throw new DomainException('invalid_batch_key');
+            }
+            $limit = $this->option('limit') === null ? IngestJournalRecords::MAX_RECORDS : (int) $this->option('limit');
+            $records = app(DoajClient::class)->search((string) $this->option('query'), $limit);
+            if ($records === []) {
+                return ['dry_run' => $dryRun, 'records_observed' => 0, 'items' => []];
+            }
+            $source ??= $dryRun ? new JournalSource(['type' => 'doaj', 'name' => 'DOAJ', 'base_url' => 'https://doaj.org']) : $this->doajSource();
+
+            return app(IngestJournalRecords::class)->ingest($provider, $source, $key, $provider->envelopes($records), $dryRun);
+        }
         $file = realpath((string) $this->option('file'));
         if ($file === false || ! is_file($file) || ! is_readable($file)) {
             throw new DomainException('local_file_required');
@@ -97,9 +127,18 @@ class JournalIngestion extends Command
         $records = array_slice($records, 0, $limit);
 
         return app(IngestJournalRecords::class)->ingest(
-            $providers->get((string) $this->option('provider')), JournalSource::findOrFail($this->option('source')),
+            $provider, JournalSource::findOrFail($this->option('source')),
             (string) $this->option('key'), $records, (bool) $this->option('dry-run'),
         );
+    }
+
+    private function doajSource(): JournalSource
+    {
+        return DB::transaction(function (): JournalSource {
+            DB::select('SELECT pg_advisory_xact_lock(170003)');
+
+            return JournalSource::firstOrCreate(['type' => 'doaj', 'name' => 'DOAJ'], ['base_url' => 'https://doaj.org']);
+        });
     }
 
     private function process(ProviderRegistry $providers): array

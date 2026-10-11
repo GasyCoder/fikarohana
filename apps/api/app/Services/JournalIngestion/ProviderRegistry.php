@@ -2,6 +2,7 @@
 
 namespace App\Services\JournalIngestion;
 
+use App\Services\JournalIngestion\Providers\Doaj\DoajProvider;
 use DomainException;
 
 class ProviderRegistry
@@ -10,6 +11,7 @@ class ProviderRegistry
     {
         return match ($key) {
             'synthetic' => new SyntheticProvider,
+            'doaj' => new DoajProvider,
             default => throw new DomainException('provider_not_registered'),
         };
     }
