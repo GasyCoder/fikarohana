@@ -1,8 +1,22 @@
 # Logical data model
 
-Status: proposed relational design; no migrations are implemented. PostgreSQL is the canonical store. [JOURNAL-SCHEMA](JOURNAL-SCHEMA.md) defines field semantics; [DATA-SOURCES](DATA-SOURCES.md) defines evidence policy.
+Status: Phase 2 journal data/provenance schema is implemented in Laravel/PostgreSQL; personal MVP entities and later capabilities below remain planned. PostgreSQL is the canonical store. [JOURNAL-SCHEMA](JOURNAL-SCHEMA.md) defines field semantics; [DATA-SOURCES](DATA-SOURCES.md) defines evidence policy.
 
-## MVP entities
+## Implemented Phase 2 catalog
+
+The physical schema uses UUIDv7 (`HasUuids` in installed Laravel 13), retaining integer user/token IDs. Publishers/journals hold working identity records, not implicitly verified publication facts. `submission_url` is an evidenced scalar assertion, not a mutable journal column. Every language/type/subject/indexation/fee/requirement/template/identifier claim references one field-specific assertion; composite foreign keys prevent cross-journal or cross-field attribution.
+
+Implemented tables: `publishers`, `journals`, `journal_identifiers`, `subjects`, `journal_subjects`, `languages`, `journal_languages`, `article_types`, `journal_article_types`, `indexation_services`, `journal_indexations`, `journal_fees`, `journal_requirements`, `journal_templates`, `journal_sources`, `source_records`, `journal_assertions`, `assertion_reviews`, `journal_revisions`, `journal_revision_assertions`, `catalog_revisions`, `catalog_revision_journals`.
+
+Assertions carry immutable evidence/context, scalar identity/scope values, effective dates and same-journal/same-field `supersedes_id`. Typed relationship/value tables retain queryable material values; only requirement string lists use JSONB. Reviews append `pending`, `verified`, `stale`, `conflicting` or `rejected` decisions; no review means pending. A review's sequence determines the latest decision, including timestamp ties. Verification dates belong to reviews; retrieval dates belong to source records. Availability is `known`, `unknown` or `not_applicable`; conflict is a verification/resolution condition, not a fabricated value.
+
+`PublishJournalRevision` is an internal transactional primitive, not an ingestion job or endpoint. It selects explicit reviewed assertions, requires sourced title, rejects unknowns/competing verified or conflicting claims and publishes an immutable journal revision plus a complete catalog snapshot. It never chooses a source winner automatically. The catalog UUID/version can anchor later recommendation reproducibility. `currentRevision` selects the latest published journal version; `usableSelections` excludes stale/rejected/conflicting reviews, competing claims and inapplicable effective dates, while historical selections keep their exact publication review IDs. Public exposure/eligibility and freshness jobs remain later work.
+
+Source observations, assertions, reviews and typed facts are append-only under PostgreSQL triggers, including SQL bypassing Eloquent. Revisions assemble in draft and seal once; their membership cannot change after publication. Referenced source identities and vocabularies are protected against semantic edits. History-bearing foreign keys restrict deletion; no cascade removes evidence. An unreferenced working journal/publisher or unused vocabulary can be deleted. To stop using a fact, append a review or publish a replacement/omitting revision instead of deleting its link. Migration rollback deliberately removes the catalog schema/functions, but preserves pgvector.
+
+See [JOURNAL-DATA-MODEL-V1](../development/JOURNAL-DATA-MODEL-V1.md) for physical columns, invariants, publication/deletion details and executed tests. No external ingestion, provider dataset, public catalog API or live fetching exists.
+
+## Wider MVP logical entities (implemented catalog plus planned personal/processing entities)
 
 | Entity | Key relationships | Purpose / constraints |
 | --- | --- | --- |
@@ -10,16 +24,16 @@ Status: proposed relational design; no migrations are implemented. PostgreSQL is
 | `publishers` | One publisher may relate to many journals | Sourced identity; publisher changes do not overwrite historical assertions |
 | `journals` | Publisher reference; many identifiers/assertions/revisions | Stable opaque ID, lifecycle state, current published revision |
 | `journal_identifiers` | Belong to journal | Scheme/value/provider; normalized ISSNs checked; duplicate ownership requires review |
-| `disciplines` | Linked to journals with evidence | Versioned vocabulary and optional parent; no invented disciplinary assignment |
-| `journal_disciplines` | Journal + discipline + assertion | Curated or attributed scope classification |
-| `data_sources` | Many source records and ingestion runs | Provider authority/terms metadata; secrets kept elsewhere |
+| `subjects` | Linked to journals with evidence | Referenced vocabulary is immutable, with optional parent; external taxonomy/version mappings remain planned |
+| `journal_subjects` | Journal + discipline + assertion | Curated or attributed scope classification |
+| `journal_sources` | Many source records and ingestion runs | Provider authority/terms metadata; secrets kept elsewhere |
 | `ingestion_runs` | Provider, many staged/source records | Status, checkpoint, counts, error codes, adapter version; no private text in errors |
 | `source_records` | Provider/source key, ingestion run | Source URL, retrieved date, source date, hash and optional private artifact reference |
 | `journal_assertions` | Journal + source record | Immutable typed field claim, original/normalized value, context, effective dates |
 | `assertion_reviews` | Assertion, reviewer/method | Append verification/rejection/conflict decisions and review timestamps |
 | `journal_revisions` | Journal, selected assertion references | Coherent published projection; immutable version and publication time |
-| `journal_documents` | Journal + source record/assertion | Guideline/template/document URL, kind, language, version/hash and reuse permissions |
-| `journal_requirements` | Journal revision + supporting assertions | Structured contextual rules, units and original wording |
+| `journal_templates` / `source_records` | Journal assertion / provider | Implemented template links and canonical source observations; broader document extraction/rights fields remain planned |
+| `journal_requirements` | Typed values + assertion, selected through revision membership | Structured contextual rules, units and original wording |
 | `journal_embeddings` | Journal revision + model version | Optional derived vector, language/input hash, dimensions and creation time |
 | `recommendation_runs` | Optional owner; config + catalog revision | Minimal reproducibility metadata and ranked IDs; private text only if explicitly saved |
 | `recommendation_matches` | Run + journal revision | Rank, relevance/features, warnings and evidence references |
@@ -59,7 +73,7 @@ The workspace reads the selected requirements snapshot and public-safe field pro
 
 Source records describe observations. Assertions describe field claims. Reviews describe verification decisions. A published revision selects the assertions that back its values. Derived scope summaries, embeddings and relevance scores are stored separately from authoritative facts with their derivation versions.
 
-Use structured relational records for identity, fees, languages, memberships, ownership and constraints. JSONB is appropriate for original provider payloads (when permitted), contextual assertion values and versioned feature diagnostics; it is not a substitute for foreign keys and indexed business relationships. Require typed validation for JSON assertion values.
+Use structured relational records for identity, fees, languages, memberships, ownership and constraints. In Phase 2, JSONB is used only for controlled requirement string lists. Permitted provider payloads and versioned feature diagnostics may use JSONB in later phases; it is not a substitute for foreign keys and indexed business relationships. Require typed validation for JSON assertion values.
 
 Public availability states are `known`, `unknown`, `not_applicable` or `conflicted`; known values also carry verification/freshness state. Explicit verified zero is distinct from null. A conflict cannot yield a verified projection until resolved. Not-applicable requires context and evidence or a documented rule.
 
@@ -84,7 +98,7 @@ erDiagram
     JOURNAL_REVISION ||--o{ PROJECT_REQUIREMENTS_SNAPSHOT : anchors
 ```
 
-Use foreign keys, explicit lifecycle transitions, unique provider keys and owner/journal uniqueness. Stable opaque public IDs are recommended for new resources; decide UUID/ULID conventions during foundation without gratuitously changing existing user IDs. Public IDs do not replace authorization.
+Use foreign keys, explicit lifecycle transitions, unique provider keys and owner/journal uniqueness. Stable opaque public IDs are recommended for new resources; UUIDv7 is chosen for new Phase 2 resources without gratuitously changing existing user IDs. Public IDs do not replace authorization.
 
 Money uses exact decimal values or validated minor units plus ISO currency; never floats. Store timestamps in UTC; preserve source timezone/date precision separately. Store original source units and wording alongside normalized requirements. Index identifiers, active revisions, discipline links, source keys and owner relationships. Add full-text and vector indexes only against representative query plans and chosen embedding dimensions.
 

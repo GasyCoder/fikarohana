@@ -1,6 +1,6 @@
 # Journal source policy
 
-Status: source-selection design. No live provider documentation, access rights, quotas or coverage were verified during this documentation task. The entries below are candidate roles, not integration or licensing guarantees. Validate current official documentation and terms before implementation.
+Status: source/evidence records and explicit precedence policy are implemented in Phase 2; external adapters and source selection remain design. No live provider documentation, access rights, quotas or coverage were verified during this model-only phase. The entries below are candidate roles, not integration or licensing guarantees. Validate current official documentation and terms before implementation.
 
 ## Candidate register
 
@@ -39,7 +39,7 @@ A unique provider/source record key and content hash make repeat imports idempot
 
 Every material published fact must have an assertion ID, source/provider, source URL, `retrieved_at`, nullable `verified_at`, verification method/reviewer and applicable context. `retrieved_at` means observed; `verified_at` means checked under a stated policy. A fetch alone is not verification. Original source publication dates, if known, are separate.
 
-States are `unverified`, `verified`, `stale`, `conflicted` and `rejected`. Missing is represented by no known value and an availability reason, not a fictitious assertion. Field-specific configurable freshness windows must be approved before release. On expiry, retain history and mark stale; a new fetch cannot automatically reset verification.
+Implemented review states are `pending`, `verified`, `stale`, `conflicting` and `rejected`; absent review means pending. Missing is represented by no known value and an availability reason, not a fictitious assertion. Field-specific configurable freshness windows must be approved before release. On expiry, retain history and mark stale; a new fetch cannot automatically reset verification.
 
 Public profiles display evidence and dates for important fields. Strict constraints require current verified applicable assertions. Preferred criteria may surface unknown/stale facts with warnings; unresolved conflicts are never resolved silently.
 
@@ -48,3 +48,13 @@ Public profiles display evidence and dates for important fields. Strict constrai
 Measure identifier collisions, missing scope, fee/language coverage, stale assertions, conflicts and provider failures. Assign review queues for disputed facts and source changes. Provide a correction path without allowing anonymous edits to publish immediately.
 
 Before activating an adapter, document terms/permissions, sample records, mappings, field authority, refresh/review schedule, tests and rollback. Do not promise exhaustive indexing, trustworthy-journal classification or free document redistribution without evidence and rights.
+
+## Implemented provenance primitives; ingestion still pending
+
+`journal_sources` identifies providers without credentials or hidden confidence/authority percentages. `source_records` records source ID, external key, immutable revision fingerprint, source URL, first retrieval timestamp, optional SHA-256 content hash and optional permitted metadata reference. Unique `(journal_source_id, external_id, revision_fingerprint)` supports repeat-safe creation; a changed fingerprint creates a new observation. Reusing an existing observation never advances its retrieval date or verification freshness. Records are captured or quarantined; quarantined observations cannot support publication. No source document contents are downloaded or copied.
+
+Each material claim has its own `journal_assertion` and source record, context/effective dates, optional locator/original wording and optional predecessor. Separate append-only reviews record status, reviewed/verified times, method and optional non-sensitive reviewer reference. No admin workflow or external verification automation exists. Observation/review clocks are distinct; verification cannot predate retrieval.
+
+`SourcePrecedence::preferredTypes` is an explicit review preference: official journal/publisher for current fees, languages, article types, requirements, templates, submission and scope; relevant index registry for indexation; official/directory/bibliographic sources may corroborate identity. It neither ranks trust universally nor auto-deletes losing evidence. Competing current assertions require explicit review resolution; even corroborating duplicate verified assertions must be resolved to one selected claim per context in this conservative V1 primitive. A registry claim remains specifically attributed; DOAJ/provider presence is not universal trust.
+
+HTTP(S) syntax/userinfo is checked and hostname/scheme normalized while preserving path/query/fragment. URLs remain untrusted strings: no fetching, DNS/redirect checking, SSRF-safe adapter or access-rights validation is implemented. Never store secret query parameters, executable source content or private researcher text in metadata/fixtures. Before ingestion, approve provider terms/rights, field coverage, ownership verification, currency/locale/taxonomy vocabulary, retention/freshness and conflict review operations. [Phase 2 report](../development/JOURNAL-DATA-MODEL-V1.md) details the schema and deletion rules.

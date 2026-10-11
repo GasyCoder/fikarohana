@@ -1,6 +1,6 @@
 # Implementation backlog
 
-Status: Foundation V1 technical slice implemented; journal/data and later MVP slices remain pending. Follow [ROADMAP](../product/ROADMAP.md) and preserve existing user changes.
+Status: Foundation V1 and Phase 2 journal data/provenance schema implemented; external ingestion and later MVP slices remain pending. Follow [ROADMAP](../product/ROADMAP.md) and preserve existing user changes.
 
 ## Phase 1 — foundation progress and next data slice
 
@@ -10,15 +10,15 @@ Completed technical foundation: PostgreSQL/pgvector, versioned API, Sanctum and 
 | --- | --- | --- |
 | 1 | Confirm package manager/runtime conventions, pilot scope and data-review owner | O-11 package/tool choices resolved; O-01 pilot scope/review owner still pending |
 | 2 | Completed: isolated local/test PostgreSQL and vector extension; Redis implementation deferred | Laravel PostgreSQL connection/migrations and test isolation pass; no production SQLite reliance |
-| 3 | Completed: `/api/v1`, removal of unconsumed `/api/user`, safe JSON/errors/request IDs; future domain ID convention remains open | Document compatibility decision; versioned smoke endpoint tested |
+| 3 | Completed: `/api/v1`, removal of unconsumed `/api/user`, safe JSON/errors/request IDs; Phase 2 resolves new domain IDs to UUIDv7 | Document compatibility decision; versioned smoke endpoint tested |
 | 4 | Completed: API/auth/OpenAPI docs, OpenAPI 3.1 specification, validator/generator | Contract validation and reproducible generated client check; no hand-edited generated types |
 | 5 | Completed: tested Sanctum cookie/CSRF and device-named expiring/revocable token flows | Auth and cross-user/anonymous denial tests; no secrets in logs |
-| 6 | Implement journal identity, sources, assertions/reviews and published revision model | PostgreSQL migrations and missing/zero/conflict/identity tests |
+| 6 | Completed Phase 2: journal identity/vocabularies, typed facts, sources, assertions/reviews and journal/catalog revisions | PostgreSQL migrations, field provenance, history/unknown/zero/conflict/identity/rollback tests; synthetic fixtures only |
 | 7 | Build approved synthetic/permitted seed import and source registry | Idempotent import, field citations and reviewable sample projection |
 | 8 | Validate source rights and implement the first approved provider adapter with staging/review | Recorded terms review; retries/quarantine/partial failure tests; no provider auto-publication |
 | 9 | Add targeted CI and sanitized operational metrics | API/contract checks and ingestion counters demonstrate foundation gate |
 
-Technical parts of steps 1–5 are complete, with pilot/domain conventions still to validate; steps 6–8 are the recommended next data slice. Targeted checks are executable; CI wiring in step 9 remains pending. See [FOUNDATION-V1](FOUNDATION-V1.md) for actual verification. Vector similarity, Python deployment and private manuscript storage are not prerequisites to importing sourced metadata. Keep lightweight project and assistant implementation in the later V1 slices below; do not add those features during foundation.
+Technical parts of steps 1–5 are complete, with pilot decisions still to validate. Step 6 is complete, including UUIDv7 convention; steps 7–8 are the next ingestion slice. Targeted checks are executable; CI wiring in step 9 remains pending. See [FOUNDATION-V1](FOUNDATION-V1.md) for actual verification. Vector similarity, Python deployment and private manuscript storage are not prerequisites to importing sourced metadata. Keep lightweight project and assistant implementation in the later V1 slices below; do not add those features during foundation.
 
 Before public catalog publication, approve provider rights, field authority, refresh windows and data-quality review. While those choices are pending, development can use reviewed synthetic/permitted fixtures.
 
@@ -52,3 +52,5 @@ Before public catalog publication, approve provider rights, field authority, ref
 See [DECISIONS](../architecture/DECISIONS.md) for IDs and owners. Highest-priority items are initial catalog scope, provider terms/authority, freshness/review workflow, the now-resolved package manager/OpenAPI/authentication choices (O-11/O-12). Before V1 release, also resolve source-passage coverage/rights, deterministic versus optional LLM response strategy, project validation/reselection UX, assistant grounding thresholds, web/mobile delivery scope, project/question quotas and privacy/hosting/retention/recovery choices. Transient Q&A is the default; persistent history needs separate validation. Inclusion of projects/workspace/assistant in V1 is settled, not an open scope question. Commercial decisions do not block the technical foundation but do block billing commitments.
 
 Foundation, catalog, discovery and comparison are intermediate deliveries; lightweight projects/workspace and contextual journal assistance must pass their gates before MVP V1 release. Do not convert unresolved options into implied promises. Update relevant docs and tests when a decision becomes concrete. Keep acceptance probability, fabricated metadata, automatic submission and full manuscript analysis outside MVP.
+
+Phase 2 schema/results and remaining ingestion work are recorded in [JOURNAL-DATA-MODEL-V1](JOURNAL-DATA-MODEL-V1.md). No journal API, seed catalog import, external fetching or provider data exists yet; synthetic fixtures are test-only.

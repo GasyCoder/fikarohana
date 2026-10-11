@@ -72,6 +72,14 @@ No unresolved item authorizes inventing source facts, bypassing Laravel or colle
 
 2026-10-11 — APPROVED by the user after the read-only security review: configurable mobile PersonalAccessToken expiration, default 43200 minutes (30 days), through `SANCTUM_MOBILE_TOKEN_EXPIRATION` and Laravel config. Invalid durations fail configuration loading; issuance sets explicit `expires_at`. Existing tokens retain their issuance expiry, and web session lifetime is unchanged. The earlier implementation record is retained as history: its hardcoded 30-day duration was an implementation choice, not separately approved at that time; D-16 supersedes that choice. Keeping bcrypt, enforcing its 72-byte limit and comparable missing-account hash verification are authorized Foundation corrections. No domain or infrastructure expansion is authorized. CI remains planned, not implemented.
 
+## Phase 2 journal data decisions
+
+2026-10-11 — Implemented within the user-authorized data-model phase: Laravel-native UUIDv7 (`HasUuids`) for all new domain records; existing user/token IDs remain unchanged. This resolves the previously open UUID/ULID choice without a new dependency. Material publication facts use explicit typed tables and field-level immutable assertions/source observations; append-only review states are pending/verified/stale/conflicting/rejected. No review means pending, not verified.
+
+Journal revisions select assertion plus review IDs and seal once; complete immutable catalog snapshots retain journal revision mappings for later reproducibility. A small internal publication service serializes snapshots transactionally; no event sourcing, ingestion endpoint or automatic source winner selection. Source precedence is a documented review policy. All history-bearing deletions restrict rather than cascade; referenced source/vocabulary semantics cannot be rewritten. Mutable working identities are not implicitly verified public facts. The global normalized ISSN/eISSN ownership constraint is conservative; transfers/corrections require an explicit future identity-resolution policy, not automatic merging.
+
+Public APIs/eligibility, provider rights/access, freshness/retention, controlled vocabularies and operational review remain unresolved ingestion/release decisions. Projects/workspace/assistant remain required full MVP capabilities and are unimplemented in this phase.
+
 ## Change process
 
 For a consequential change, record date, status, context, chosen option, alternatives, consequences and affected documents. Keep prior decisions visible when superseded. Validate API compatibility and privacy effects before adopting the new design. Do not change package versions or infrastructure merely to make documentation appear implemented.

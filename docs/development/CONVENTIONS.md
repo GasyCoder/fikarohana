@@ -21,7 +21,7 @@ Start within existing framework conventions. Directory restructuring and module 
 
 ## API conventions
 
-New public business routes are `/api/v1`. Use resource names and HTTP semantics; private discovery text goes in POST bodies. Define bounded pagination/filtering, validation and stable machine-readable error codes in OpenAPI. UTC ISO timestamps, explicit nullable/unknown states and opaque domain IDs are preferred. Secrets and stack traces never appear in responses.
+New public business routes are `/api/v1`. Use resource names and HTTP semantics; private discovery text goes in POST bodies. Define bounded pagination/filtering, validation and stable machine-readable error codes in OpenAPI. UTC ISO timestamps, explicit nullable/unknown states and opaque domain IDs are preferred. Phase 2 resolves new domain IDs to Laravel-native UUIDv7 via HasUuids; existing integer user/token IDs remain unchanged. Secrets and stack traces never appear in responses.
 
 Authentication remains Sanctum: first-party web cookies/CSRF and revocable mobile tokens, with ownership enforcement in Laravel. CORS/client affordances are not authorization. Document the framework CSRF route exception and scaffold route migration before changing existing behavior.
 

@@ -1,6 +1,6 @@
 # Foundation V1 API
 
-Status: implemented foundation. Laravel 13 is the canonical business API. Domain discovery, journals, recommendations, projects, workspace and assistant remain unimplemented. The approved complete MVP still includes them.
+Status: implemented foundation. Laravel 13 is the canonical business API. Public discovery/journal/recommendation/project/workspace/assistant APIs remain unimplemented. Phase 2 implements only the internal journal/provenance schema and revision primitives; see [Phase 2](../development/JOURNAL-DATA-MODEL-V1.md). The approved complete MVP still includes them.
 
 ## Routes
 
