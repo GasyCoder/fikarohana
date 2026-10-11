@@ -2,6 +2,8 @@
 
 Status: Phase 2 journal data/provenance schema is implemented in Laravel/PostgreSQL; personal MVP entities and later capabilities below remain planned. PostgreSQL is the canonical store. [JOURNAL-SCHEMA](JOURNAL-SCHEMA.md) defines field semantics; [DATA-SOURCES](DATA-SOURCES.md) defines evidence policy.
 
+Phase 3A adds five relational ingestion tables: `ingestion_source_providers` (immutable one-provider-per-source binding), `ingestion_runs` (source, provider/mapping version, input hash and unique run key), `ingestion_items` (bounded immutable payload, normalized proposal, outcome, journal/source and publication receipt), `ingestion_run_items` (immutable ordered membership and prior-item reuse flag) and `ingestion_claims` (exact assertion links and claim hashes). Run and item IDs use UUIDv7. Runs support staged/failed/completed states and fixed sanitized interruption diagnostics; items can be failed and retried. Completion rejects unfinished items. Unique-item counters are derived from membership/current outcomes (seen, staged, quarantined, unchanged, failed), with no mutable counter columns. Stage membership and claims restrict deletion and cannot be rewritten. Item processing/review/publication reuse the Phase 2 catalog; staged data is not public verified data. See [Phase 3A](../development/JOURNAL-INGESTION-V1.md).
+
 ## Implemented Phase 2 catalog
 
 The physical schema uses UUIDv7 (`HasUuids` in installed Laravel 13), retaining integer user/token IDs. Publishers/journals hold working identity records, not implicitly verified publication facts. `submission_url` is an evidenced scalar assertion, not a mutable journal column. Every language/type/subject/indexation/fee/requirement/template/identifier claim references one field-specific assertion; composite foreign keys prevent cross-journal or cross-field attribution.
@@ -27,7 +29,7 @@ See [JOURNAL-DATA-MODEL-V1](../development/JOURNAL-DATA-MODEL-V1.md) for physica
 | `subjects` | Linked to journals with evidence | Referenced vocabulary is immutable, with optional parent; external taxonomy/version mappings remain planned |
 | `journal_subjects` | Journal + discipline + assertion | Curated or attributed scope classification |
 | `journal_sources` | Many source records and ingestion runs | Provider authority/terms metadata; secrets kept elsewhere |
-| `ingestion_runs` | Provider, many staged/source records | Status, checkpoint, counts, error codes, adapter version; no private text in errors |
+| `ingestion_runs` | Source/provider, ordered staged items | Implemented local run status, mapping version, input hash and idempotency key; unique-item counters derive from immutable membership/current status; failed items support resume; real-provider pagination checkpoints remain planned |
 | `source_records` | Provider/source key, ingestion run | Source URL, retrieved date, source date, hash and optional private artifact reference |
 | `journal_assertions` | Journal + source record | Immutable typed field claim, original/normalized value, context, effective dates |
 | `assertion_reviews` | Assertion, reviewer/method | Append verification/rejection/conflict decisions and review timestamps |
@@ -73,7 +75,7 @@ The workspace reads the selected requirements snapshot and public-safe field pro
 
 Source records describe observations. Assertions describe field claims. Reviews describe verification decisions. A published revision selects the assertions that back its values. Derived scope summaries, embeddings and relevance scores are stored separately from authoritative facts with their derivation versions.
 
-Use structured relational records for identity, fees, languages, memberships, ownership and constraints. In Phase 2, JSONB is used only for controlled requirement string lists. Permitted provider payloads and versioned feature diagnostics may use JSONB in later phases; it is not a substitute for foreign keys and indexed business relationships. Require typed validation for JSON assertion values.
+Use structured relational records for identity, fees, languages, memberships, ownership and constraints. In Phase 2, JSONB is used only for controlled requirement string lists. Phase 3A uses bounded JSONB for validated staging payloads/proposals and sanitized diagnostic lists, with relational run membership and assertion provenance. Real-provider payload retention and versioned feature diagnostics remain later decisions; it is not a substitute for foreign keys and indexed business relationships. Require typed validation for JSON assertion values.
 
 Public availability states are `known`, `unknown`, `not_applicable` or `conflicted`; known values also carry verification/freshness state. Explicit verified zero is distinct from null. A conflict cannot yield a verified projection until resolved. Not-applicable requires context and evidence or a documented rule.
 

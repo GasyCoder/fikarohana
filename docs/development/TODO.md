@@ -1,6 +1,6 @@
 # Implementation backlog
 
-Status: Foundation V1 and Phase 2 journal data/provenance schema implemented; external ingestion and later MVP slices remain pending. Follow [ROADMAP](../product/ROADMAP.md) and preserve existing user changes.
+Status: Foundation V1, Phase 2 journal data/provenance and Phase 3A controlled synthetic ingestion implemented; real providers and later MVP slices remain pending. Follow [ROADMAP](../product/ROADMAP.md) and preserve existing user changes.
 
 ## Phase 1 — foundation progress and next data slice
 
@@ -14,13 +14,25 @@ Completed technical foundation: PostgreSQL/pgvector, versioned API, Sanctum and 
 | 4 | Completed: API/auth/OpenAPI docs, OpenAPI 3.1 specification, validator/generator | Contract validation and reproducible generated client check; no hand-edited generated types |
 | 5 | Completed: tested Sanctum cookie/CSRF and device-named expiring/revocable token flows | Auth and cross-user/anonymous denial tests; no secrets in logs |
 | 6 | Completed Phase 2: journal identity/vocabularies, typed facts, sources, assertions/reviews and journal/catalog revisions | PostgreSQL migrations, field provenance, history/unknown/zero/conflict/identity/rollback tests; synthetic fixtures only |
-| 7 | Build approved synthetic/permitted seed import and source registry | Idempotent import, field citations and reviewable sample projection |
-| 8 | Validate source rights and implement the first approved provider adapter with staging/review | Recorded terms review; retries/quarantine/partial failure tests; no provider auto-publication |
+| 7 | Completed Phase 3A: source ingestion framework using synthetic adapter/fixtures | PostgreSQL-tested durable staging, idempotency, dry-run, identifier resolution, conflicts, explicit review/publication and field provenance |
+| 8 | Phase 3B: validate rights and implement DOAJ as the first provider; then 3C Crossref, 3D OpenAlex, 3E official sources | Versioned mappings, synthetic/permitted recorded fixtures, bounded transport and provider-specific evidence; no automatic verification |
 | 9 | Add targeted CI and sanitized operational metrics | API/contract checks and ingestion counters demonstrate foundation gate |
 
-Technical parts of steps 1–5 are complete, with pilot decisions still to validate. Step 6 is complete, including UUIDv7 convention; steps 7–8 are the next ingestion slice. Targeted checks are executable; CI wiring in step 9 remains pending. See [FOUNDATION-V1](FOUNDATION-V1.md) for actual verification. Vector similarity, Python deployment and private manuscript storage are not prerequisites to importing sourced metadata. Keep lightweight project and assistant implementation in the later V1 slices below; do not add those features during foundation.
+Technical parts of steps 1–5 are complete, with pilot decisions still to validate. Step 6 is complete, including UUIDv7 convention; step 7 (3A) is complete; step 8 starts with DOAJ (3B) after provider access/mapping validation. Targeted checks are executable; CI wiring in step 9 remains pending. See [FOUNDATION-V1](FOUNDATION-V1.md) for actual verification. Vector similarity, Python deployment and private manuscript storage are not prerequisites to importing sourced metadata. Keep lightweight project and assistant implementation in the later V1 slices below; do not add those features during foundation.
 
 Before public catalog publication, approve provider rights, field authority, refresh windows and data-quality review. While those choices are pending, development can use reviewed synthetic/permitted fixtures.
+
+## Phase 3 — ordered ingestion slices
+
+3A is implemented; 3B–3E remain planned. See [JOURNAL-INGESTION-PLAN](JOURNAL-INGESTION-PLAN.md) for boundaries and exit gates.
+
+- [x] **3A — Framework:** provider adapter boundary, durable staging, idempotency, validation/quarantine, explicit review/publication and provenance; synthetic fixtures, recursive incompatible-text quarantine, bounded `--limit`, unique-item counters, sanitized interruption/resume, provider/source binding and real PostgreSQL partial-write rollback tests; no external calls.
+- [ ] **3B — DOAJ first:** approved API ingestion, normalization and mapping; synthetic plus permitted, sanitized recorded fixtures; deterministic offline tests.
+- [ ] **3C — Crossref:** identity enrichment with collision/transfer review; no current submission-rule authority.
+- [ ] **3D — OpenAlex:** reviewed subjects/discovery enrichment; derived bibliographic signals remain distinct from journal scope or accepted languages.
+- [ ] **3E — Official journal/publisher sources:** authoritative requirements/APC/template evidence and links; controlled fetching later, behind access and SSRF/resource-limit gates.
+
+Each provider reuses 3A and Phase 2 evidence/revision primitives. New provider observations never erase prior evidence or silently merge identities. Fetching, normalization and validation do not verify facts.
 
 ## Ordered MVP V1 implementation after foundation
 
@@ -53,4 +65,4 @@ See [DECISIONS](../architecture/DECISIONS.md) for IDs and owners. Highest-priori
 
 Foundation, catalog, discovery and comparison are intermediate deliveries; lightweight projects/workspace and contextual journal assistance must pass their gates before MVP V1 release. Do not convert unresolved options into implied promises. Update relevant docs and tests when a decision becomes concrete. Keep acceptance probability, fabricated metadata, automatic submission and full manuscript analysis outside MVP.
 
-Phase 2 schema/results and remaining ingestion work are recorded in [JOURNAL-DATA-MODEL-V1](JOURNAL-DATA-MODEL-V1.md). No journal API, seed catalog import, external fetching or provider data exists yet; synthetic fixtures are test-only.
+Phase 2 schema/results and remaining ingestion work are recorded in [JOURNAL-DATA-MODEL-V1](JOURNAL-DATA-MODEL-V1.md). Phase 3A now supports controlled local synthetic batches through Artisan; see [JOURNAL-INGESTION-V1](JOURNAL-INGESTION-V1.md). No public journal API, real-provider seed catalog or external fetching exists yet.

@@ -2,13 +2,13 @@
 
 Fikarohana is an API-first platform that helps researchers find suitable scientific journals and prepare for submission. It guides users from a research topic to a small, explainable shortlist, verified journal requirements, and a lightweight journal-specific research workspace with contextual journal assistance in MVP V1.
 
-Foundation V1 is implemented: PostgreSQL/pgvector setup, Laravel `/api/v1`, Sanctum SPA/mobile authentication and a validated OpenAPI contract. Phase 2 journal data/provenance models and immutable revisions are also implemented internally; external ingestion, public catalog endpoints and user-facing domain capabilities remain planned. Journal recommendations must come from stored, sourced journal records; match scores never predict acceptance.
+Foundation V1 is implemented: PostgreSQL/pgvector setup, Laravel `/api/v1`, Sanctum SPA/mobile authentication and a validated OpenAPI contract. Phase 2 journal data/provenance models and immutable revisions, plus Phase 3A controlled local ingestion, are implemented internally; real provider integrations, public catalog endpoints and user-facing domain capabilities remain planned. Journal recommendations must come from stored, sourced journal records; match scores never predict acceptance.
 
 ## Repository
 
 | Path | Responsibility | Current state |
 | --- | --- | --- |
-| `apps/api` | Laravel 13 canonical business API; Sanctum authentication | Foundation V1 API plus Phase 2 journal/provenance schema and PostgreSQL tests |
+| `apps/api` | Laravel 13 canonical business API; Sanctum authentication | Foundation V1 API, Phase 2 catalog and Phase 3A ingestion framework with PostgreSQL tests |
 | `apps/web` | Next.js and TypeScript presentation client | Starter application |
 | `apps/mobile` | Expo and React Native presentation client | Starter application |
 | `services/ai` | Internal Python/FastAPI capabilities when Python is justified | Empty service directories and metadata placeholder |
@@ -33,7 +33,7 @@ Implemented behavior: [API](docs/api/API.md), [authentication](docs/api/AUTHENTI
 
 ## First delivery
 
-The PostgreSQL/versioned API/Sanctum/OpenAPI foundation is complete. Phase 2 journal identity/provenance schema is complete with synthetic test fixtures and internal publication primitives. Next validate source rights/review policy and implement a reviewed seed import/provider ingestion; no journal API or live catalog exists yet. MVP V1 then delivers discovery → recommendation → comparison → journal selection → lightweight research project → journal-specific workspace → requirements/templates → contextual journal assistant. Intermediate finder-only deliveries do not complete V1.
+The PostgreSQL/versioned API/Sanctum/OpenAPI foundation is complete. Phase 2 journal identity/provenance schema is complete with synthetic test fixtures and internal publication primitives. Phase 3A is implemented with synthetic adapters, local staging, dry-run, explicit review and repeat-safe publication; see the [execution guide](docs/development/JOURNAL-INGESTION-V1.md). The [Phase 3 sequence](docs/development/JOURNAL-INGESTION-PLAN.md) continues with 3B DOAJ API → 3C Crossref identity → 3D OpenAlex subjects/discovery → 3E official requirements/APC/templates, with controlled official-site fetching later. Real-provider rights/review policy remain to validate; no real provider, public journal API or live catalog exists yet. MVP V1 then delivers discovery → recommendation → comparison → journal selection → lightweight research project → journal-specific workspace → requirements/templates → contextual journal assistant. Intermediate finder-only deliveries do not complete V1.
 
 Projects store title, abstract, scientific field, keywords, authors, journal shortlist, selected journal, status, created_at and updated_at. Workflow is `discovery` → `journal_selected` → `preparation`; workspace tabs are Overview, Requirements, Fees, Template and Assistant. The assistant answers selected-journal questions from verified data and authoritative retrieved sources, cites evidence and explicitly says when information could not be verified. It is not a generic writing chatbot.
 

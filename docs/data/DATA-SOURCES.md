@@ -1,6 +1,6 @@
 # Journal source policy
 
-Status: source/evidence records and explicit precedence policy are implemented in Phase 2; external adapters and source selection remain design. No live provider documentation, access rights, quotas or coverage were verified during this model-only phase. The entries below are candidate roles, not integration or licensing guarantees. Validate current official documentation and terms before implementation.
+Status: Phase 2 source/evidence primitives and Phase 3A controlled local ingestion are implemented; real-provider adapters and source activation remain design. No live provider documentation, access rights, quotas or coverage were verified during this model-only phase. The entries below are candidate roles, not integration or licensing guarantees. Validate current official documentation and terms before implementation.
 
 ## Candidate register
 
@@ -24,6 +24,8 @@ Fee assertions must specify fee kind, amount/currency, article type, OA route, t
 Reported timelines need stage/metric and source context: first decision, review, acceptance-to-publication and submission-to-publication are different measures. Never translate an average into a guaranteed deadline.
 
 ## Ingestion and resolution
+
+Planned delivery order: **3A** common ingestion framework (adapters, staging, idempotency, validation, explicit review/publication, provenance); **3B** DOAJ API normalization/mapping with synthetic and permitted recorded fixtures; **3C** Crossref identity enrichment; **3D** OpenAlex subjects/discovery enrichment; **3E** official journal/publisher requirements, APC and template evidence, with controlled fetching later. Only the transport-free synthetic adapter is implemented; no real provider is implemented or enabled. See [Phase 3 plan](../development/JOURNAL-INGESTION-PLAN.md) for exit gates and source-specific boundaries.
 
 1. Fetch from an approved provider with bounded rate, timeouts and retries; record the ingestion run and retrieval time.
 2. Preserve source ID, URL, content hash and permitted raw artifact. If retaining content is prohibited, retain permitted metadata and a reproducible retrieval reference.
@@ -49,12 +51,12 @@ Measure identifier collisions, missing scope, fee/language coverage, stale asser
 
 Before activating an adapter, document terms/permissions, sample records, mappings, field authority, refresh/review schedule, tests and rollback. Do not promise exhaustive indexing, trustworthy-journal classification or free document redistribution without evidence and rights.
 
-## Implemented provenance primitives; ingestion still pending
+## Implemented provenance and controlled ingestion primitives
 
 `journal_sources` identifies providers without credentials or hidden confidence/authority percentages. `source_records` records source ID, external key, immutable revision fingerprint, source URL, first retrieval timestamp, optional SHA-256 content hash and optional permitted metadata reference. Unique `(journal_source_id, external_id, revision_fingerprint)` supports repeat-safe creation; a changed fingerprint creates a new observation. Reusing an existing observation never advances its retrieval date or verification freshness. Records are captured or quarantined; quarantined observations cannot support publication. No source document contents are downloaded or copied.
 
-Each material claim has its own `journal_assertion` and source record, context/effective dates, optional locator/original wording and optional predecessor. Separate append-only reviews record status, reviewed/verified times, method and optional non-sensitive reviewer reference. No admin workflow or external verification automation exists. Observation/review clocks are distinct; verification cannot predate retrieval.
+Each material claim has its own `journal_assertion` and source record, context/effective dates, optional locator/original wording and optional predecessor. Separate append-only reviews record status, reviewed/verified times, method and optional non-sensitive reviewer reference. Phase 3A provides trusted-operator Artisan review and controlled publication; no public/admin UI or external verification automation exists. Observation/review clocks are distinct; verification cannot predate retrieval.
 
 `SourcePrecedence::preferredTypes` is an explicit review preference: official journal/publisher for current fees, languages, article types, requirements, templates, submission and scope; relevant index registry for indexation; official/directory/bibliographic sources may corroborate identity. It neither ranks trust universally nor auto-deletes losing evidence. Competing current assertions require explicit review resolution; even corroborating duplicate verified assertions must be resolved to one selected claim per context in this conservative V1 primitive. A registry claim remains specifically attributed; DOAJ/provider presence is not universal trust.
 
-HTTP(S) syntax/userinfo is checked and hostname/scheme normalized while preserving path/query/fragment. URLs remain untrusted strings: no fetching, DNS/redirect checking, SSRF-safe adapter or access-rights validation is implemented. Never store secret query parameters, executable source content or private researcher text in metadata/fixtures. Before ingestion, approve provider terms/rights, field coverage, ownership verification, currency/locale/taxonomy vocabulary, retention/freshness and conflict review operations. [Phase 2 report](../development/JOURNAL-DATA-MODEL-V1.md) details the schema and deletion rules.
+HTTP(S) syntax/userinfo is checked and hostname/scheme normalized while preserving path/query/fragment. URLs remain untrusted strings: no fetching, DNS/redirect checking, SSRF-safe transport or access-rights validation is implemented. Never store secret query parameters, executable source content or private researcher text in metadata/fixtures. Before real-provider ingestion, approve provider terms/rights, field coverage, ownership verification, currency/locale/taxonomy vocabulary, retention/freshness and conflict review operations. [Phase 2 report](../development/JOURNAL-DATA-MODEL-V1.md) details the schema and deletion rules.

@@ -80,6 +80,20 @@ Journal revisions select assertion plus review IDs and seal once; complete immut
 
 Public APIs/eligibility, provider rights/access, freshness/retention, controlled vocabularies and operational review remain unresolved ingestion/release decisions. Projects/workspace/assistant remain required full MVP capabilities and are unimplemented in this phase.
 
+## Phase 3A controlled ingestion decisions
+
+2026-10-11 — User-authorized implementation: a minimal transport-free provider mapping interface and a registry containing only the synthetic adapter. Laravel owns local bounded runs, PostgreSQL staging, validation, ISSN/eISSN ownership resolution, conflict detection, explicit operator reviews and transactional publication through Phase 2 revisions. No real provider, HTTP fetching, public route, Redis or FastAPI is introduced. Phase 3B starts with DOAJ separately.
+
+Correction pass, 2026-10-11: use an immutable relational one-provider-per-source binding rather than adding another provider dimension to Phase 2 source observations. PostgreSQL checks run/provider consistency; a second provider must have a distinct source. This preserves existing provenance identities.
+
+Run identity is source plus caller key with a canonical input hash; changed input under the same key is rejected. Source content fingerprints include the source URL and original permitted payload, separately from mapping version and retrieval time. Same-content observations preserve first retrieval; changed mapping versions create new staging items and reuse identical source assertions. Publication receipts prevent duplicate revisions for the same observation/explicit assertion selection. Changed selections require a new staging proposal, never rewriting a published receipt.
+
+Unique-item counters derive from immutable membership (including whether an item was reused) and current outcomes; no incrementing counters are stored. Handled processing failures roll back the item before a separate sanitized failure-state transaction; retries keep earlier results and historical run diagnostics. Incompatible PostgreSQL text is rejected recursively before JSONB and quarantined with hash-only retention. The synthetic CLI stages at most a selected prefix of 1–100 records; it never transports provider data.
+
+Valid identifiers reserve immutable ownership while assertions remain pending. Identifier collisions/type reassignment are quarantined; titles never merge identities. Repeat identifier observations retain their source-to-journal staging link without violating the existing unique ownership constraint. Different values in the same field/context create a conflicting incoming review and preserve prior evidence; automatic comparison never verifies or chooses a winner. Trusted CLI access relies on host/operator permissions, without a public admin/roles subsystem.
+
+The new migration fixes a Phase 2 PostgreSQL parameter/column ambiguity when selecting identifier evidence, keeping the existing helper signature. Ingestion rollback removes its own tables/functions and retains this harmless catalog helper correction. Provider rights, real-payload retention, identity transfers, vocabularies and field freshness remain release decisions. [Phase 3A report](../development/JOURNAL-INGESTION-V1.md) documents behavior, limits and checks.
+
 ## Change process
 
 For a consequential change, record date, status, context, chosen option, alternatives, consequences and affected documents. Keep prior decisions visible when superseded. Validate API compatibility and privacy effects before adopting the new design. Do not change package versions or infrastructure merely to make documentation appear implemented.
