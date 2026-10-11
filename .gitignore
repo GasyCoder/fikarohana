@@ -1,25 +1,48 @@
-*.log
-.DS_Store
+# Environment
 .env
-.env.backup
-.env.production
-.phpactor.json
-.phpunit.result.cache
-/.fleet
-/.idea
-/.nova
-/.phpunit.cache
-/.vscode
-/.zed
-/auth.json
-/node_modules
-/public/build
-/public/hot
-/public/storage
-/storage/*.key
-/storage/pail
-/vendor
-_ide_helper.php
-Homestead.json
-Homestead.yaml
+.env.*
+!.env.example
+
+# OS / editors
+.DS_Store
 Thumbs.db
+.idea/
+.vscode/
+
+# Logs
+*.log
+logs/
+
+# Dependencies
+**/vendor/
+**/node_modules/
+
+# Laravel
+apps/api/storage/*.key
+apps/api/storage/framework/cache/*
+apps/api/storage/framework/sessions/*
+apps/api/storage/framework/views/*
+apps/api/storage/logs/*
+apps/api/bootstrap/cache/*.php
+apps/api/database/*.sqlite
+
+# Next.js
+apps/web/.next/
+apps/web/out/
+apps/web/.vercel/
+
+# Expo / React Native
+apps/mobile/.expo/
+apps/mobile/dist/
+apps/mobile/web-build/
+
+# Python
+**/__pycache__/
+**/*.py[cod]
+services/ai/.venv/
+services/ai/.pytest_cache/
+
+# Build/cache
+.vite/
+.cache/
+coverage/
