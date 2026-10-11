@@ -1,6 +1,12 @@
 <?php
 
 return [
+    'crossref' => [
+        'base_url' => env('CROSSREF_API_BASE_URL', 'https://api.crossref.org'),
+        'mailto' => env('CROSSREF_API_MAILTO', ''),
+        'timeout' => env('CROSSREF_API_TIMEOUT', 20),
+        'connect_timeout' => env('CROSSREF_API_CONNECT_TIMEOUT', 5),
+    ],
     'doaj_csv' => [
         'timeout' => env('DOAJ_CSV_TIMEOUT', 60),
         'connect_timeout' => env('DOAJ_CSV_CONNECT_TIMEOUT', 5),

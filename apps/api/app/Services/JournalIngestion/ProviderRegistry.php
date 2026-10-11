@@ -2,6 +2,7 @@
 
 namespace App\Services\JournalIngestion;
 
+use App\Services\JournalIngestion\Providers\Crossref\CrossrefProvider;
 use App\Services\JournalIngestion\Providers\Doaj\DoajProvider;
 use DomainException;
 
@@ -12,6 +13,7 @@ class ProviderRegistry
         return match ($key) {
             'synthetic' => new SyntheticProvider,
             'doaj' => new DoajProvider,
+            'crossref' => new CrossrefProvider,
             default => throw new DomainException('provider_not_registered'),
         };
     }
