@@ -1,6 +1,6 @@
 # Verification strategy
 
-Status: Foundation V1, Phase 2 journal/provenance and Phase 3A local ingestion verification are implemented; Phase 3B DOAJ transport/mapping tests are offline; other-provider and later domain gates remain planned. Test the affected layer and meaningful behavior; avoid tests that merely repeat an implementation.
+Status: Foundation V1, Phase 2 journal/provenance and Phase 3A local ingestion verification are implemented; Phase 3B DOAJ and Phase 3C Crossref transport/mapping tests are offline; other-provider and later domain gates remain planned. Test the affected layer and meaningful behavior; avoid tests that merely repeat an implementation.
 
 ## Current versus planned checks
 
@@ -8,7 +8,7 @@ Run commands from the indicated directory after the existing dependencies/enviro
 
 | Layer | Current commands | Additional foundation/release work |
 | --- | --- | --- |
-| Laravel, `apps/api` | `php artisan test` (PHPUnit through Laravel); `vendor/bin/pint --test` for formatting | Isolated PostgreSQL Foundation, catalog and local ingestion tests implemented; DOAJ mapping/transport tests are offline; other-provider/client tests remain future |
+| Laravel, `apps/api` | `php artisan test` (PHPUnit through Laravel); `vendor/bin/pint --test` for formatting | Isolated PostgreSQL Foundation, catalog and local ingestion tests implemented; DOAJ/Crossref mapping/transport tests are offline; OpenAlex/official-source/client tests remain future |
 | Next.js, `apps/web` | `npm run lint`; `npx --no-install tsc --noEmit`; `npm run build` | Add justified journey/component test tools when tests are introduced |
 | Expo, `apps/mobile` | `npx --no-install tsc --noEmit`; declared lint script needs tooling availability checked | On dependency changes, `npx expo-doctor` and `npx expo install --check`; pin/provision required validation tools deliberately |
 | Python, `services/ai` | None: metadata/app/tests are empty placeholders | Add `pytest` and typed service checks when a real Python feature is introduced |
@@ -81,3 +81,7 @@ DoajProviderTest uses PostgreSQL/RefreshDatabase, synthetic current-schema fixtu
 `DoajCsvTest` uses the same isolated PostgreSQL database and prohibits stray HTTP requests. Synthetic fixtures follow the verified public CSV schema. Tests cover shared API/CSV mapping parity, raw row/transport/fingerprint/locators, identifiers and optional columns, languages/countries/selected LCC subjects, APC absence/unknown/paid/multiple currencies/waiver, duplicate and changed rows, API/CSV identity, provider namespace isolation, malformed quotes/headers/rows, UTF-8/U+0000 quarantine, formula-as-text behavior, bounded download/redirect/limit/timeout configuration, dry-run and staged/pending publication boundaries. Explicit no-APC versus positive-APC conflicts are tested in both directions. A tiny live CSV dry-run is separate from PHPUnit; network failure must not weaken deterministic logic. Exact final counts and all failures are recorded in [DOAJ-ADAPTER-V1](DOAJ-ADAPTER-V1.md).
 
 Final metadata-URL regressions cover query, fragment, both, percent encoding/path parameters, malformed URLs, credentials, controls and javascript/file/data schemes through both API and CSV mapping. Invalid optional websites are omitted while raw evidence survives; U+0000 remains quarantined. HTTP request assertions prove only the official CSV source is requested and journal URLs are never fetched. Existing origin/redirect restrictions remain under the complete DOAJ suite. Final executed counts are in the DOAJ report.
+
+## Phase 3C Crossref verification
+
+`php artisan test --filter=CrossrefProviderTest` uses isolated PostgreSQL, synthetic fixtures, Http::fake/preventStrayRequests and fake sleeps. Tests exercise canonical/staged candidates, print/electronic/both exact lookup, declared/missing types, original observations, title/publisher conflicts, owned-identifier collisions including untyped incoming values, no title merge/bootstrap, pending review/publication and rollback, replay/changed input/first retrieval/provider namespaces, NUL/incompatible JSON, malformed optional/required data, size bounds, dry-run all-table counts, CLI limits/preflight, 404, bounded 429/5xx/timeout retries, origin/TLS/MIME/schema restrictions and no metadata-URL fetching. Network partial failure persists no batch; semantic partial failure retains valid results/counters. Full framework tests continue to cover real partial-write rollback and concurrent PostgreSQL locks. No live provider is required for deterministic tests. Exact final counts, quality gates and the separately reported single-ISSN probe appear in [Crossref report](CROSSREF-ADAPTER-V1.md).

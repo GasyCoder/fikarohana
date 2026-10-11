@@ -1,6 +1,6 @@
 # Implementation backlog
 
-Status: Foundation V1, Phase 2 journal data/provenance and Phase 3A controlled synthetic ingestion implemented; Phase 3B bounded DOAJ adapter is implemented with offline tests; live compatibility and other providers/later MVP slices remain pending. Follow [ROADMAP](../product/ROADMAP.md) and preserve existing user changes.
+Status: Foundation V1, Phase 2 journal data/provenance and Phase 3A controlled synthetic ingestion implemented; Phase 3B bounded DOAJ and Phase 3C Crossref identity adapters are implemented with offline tests; live compatibility and other providers/later MVP slices remain pending. Follow [ROADMAP](../product/ROADMAP.md) and preserve existing user changes.
 
 ## Phase 1 — foundation progress and next data slice
 
@@ -15,23 +15,24 @@ Completed technical foundation: PostgreSQL/pgvector, versioned API, Sanctum and 
 | 5 | Completed: tested Sanctum cookie/CSRF and device-named expiring/revocable token flows | Auth and cross-user/anonymous denial tests; no secrets in logs |
 | 6 | Completed Phase 2: journal identity/vocabularies, typed facts, sources, assertions/reviews and journal/catalog revisions | PostgreSQL migrations, field provenance, history/unknown/zero/conflict/identity/rollback tests; synthetic fixtures only |
 | 7 | Completed Phase 3A: source ingestion framework using synthetic adapter/fixtures | PostgreSQL-tested durable staging, idempotency, dry-run, identifier resolution, conflicts, explicit review/publication and field provenance |
-| 8 | Bounded DOAJ adapter implemented; validate live compatibility/production policy, then 3C Crossref, 3D OpenAlex, 3E official sources | Versioned mappings, synthetic/permitted recorded fixtures, bounded transport and provider-specific evidence; no automatic verification |
+| 8 | Bounded DOAJ and Crossref adapters implemented; validate live coverage/production policy, then 3D OpenAlex and 3E official sources | Versioned mappings, synthetic/permitted recorded fixtures, bounded transport and provider-specific evidence; no automatic verification |
 | 9 | Add targeted CI and sanitized operational metrics | API/contract checks and ingestion counters demonstrate foundation gate |
 
-Technical parts of steps 1–5 are complete, with pilot decisions still to validate. Step 6 is complete, including UUIDv7 convention; step 7 (3A) is complete; step 8 has a bounded DOAJ implementation; deployed-schema/recorded-fixture and production activation gates remain pending. Targeted checks are executable; CI wiring in step 9 remains pending. See [FOUNDATION-V1](FOUNDATION-V1.md) for actual verification. Vector similarity, Python deployment and private manuscript storage are not prerequisites to importing sourced metadata. Keep lightweight project and assistant implementation in the later V1 slices below; do not add those features during foundation.
+Technical parts of steps 1–5 are complete, with pilot decisions still to validate. Step 6 is complete, including UUIDv7 convention; step 7 (3A) is complete; step 8 has bounded DOAJ and Crossref implementations; deployed-schema/recorded-fixture and production activation gates remain pending. Targeted checks are executable; CI wiring in step 9 remains pending. See [FOUNDATION-V1](FOUNDATION-V1.md) for actual verification. Vector similarity, Python deployment and private manuscript storage are not prerequisites to importing sourced metadata. Keep lightweight project and assistant implementation in the later V1 slices below; do not add those features during foundation.
 
 Before public catalog publication, approve provider rights, field authority, refresh windows and data-quality review. While those choices are pending, development can use reviewed synthetic/permitted fixtures.
 
 ## Phase 3 — ordered ingestion slices
 
-3A and bounded 3B are implemented; live DOAJ mapping/recorded fixture remain unverified. 3C–3E remain planned. See [JOURNAL-INGESTION-PLAN](JOURNAL-INGESTION-PLAN.md) for boundaries and exit gates.
+3A and bounded 3B are implemented; live DOAJ mapping/recorded fixture remain unverified. 3C existing-candidate Crossref enrichment is implemented; 3D–3E remain planned. See [JOURNAL-INGESTION-PLAN](JOURNAL-INGESTION-PLAN.md) for boundaries and exit gates.
 
 - [x] **3A — Framework:** provider adapter boundary, durable staging, idempotency, validation/quarantine, explicit review/publication and provenance; synthetic fixtures, recursive incompatible-text quarantine, bounded `--limit`, unique-item counters, sanitized interruption/resume, provider/source binding and real PostgreSQL partial-write rollback tests; no external calls.
 - [x] **3B — DOAJ adapter:** official-source-checked v4 API and official CSV transports/shared mapping into 3A, bounded acquisition, synthetic fixtures and offline PostgreSQL tests; see [DOAJ-ADAPTER-V1](DOAJ-ADAPTER-V1.md).
 - [x] Verify official CSV schema/download and repeat the bounded three-row CSV dry-run after separating metadata storage from fetch policy: 3 observed, 3 valid/mapped, 0 quarantined, exit 0; all 37 table counts unchanged.
 - [ ] Broaden real-record mapping coverage beyond the successful three-row CSV sample, complete live API verification, add permitted recorded fixture and approve production retention/freshness/review operations.
 - [ ] Decide separately whether/how to publish a structured currency-free DOAJ no-APC fact; current basis/context preserves explicit absence without redesigning canonical money.
-- [ ] **3C — Crossref:** identity enrichment with collision/transfer review; no current submission-rule authority.
+- [x] **3C — Crossref:** bounded explicit existing-candidate ISSN enrichment, immutable source/staging evidence, conflict quarantine/review and PostgreSQL offline tests; see [CROSSREF-ADAPTER-V1](CROSSREF-ADAPTER-V1.md). No APC/submission-rule authority or automatic identifier transfer.
+- [ ] Validate operational Crossref contact/quota coordination, publisher disambiguation, freshness/review/retention and broader permitted real-record coverage before production activation.
 - [ ] **3D — OpenAlex:** reviewed subjects/discovery enrichment; derived bibliographic signals remain distinct from journal scope or accepted languages.
 - [ ] **3E — Official journal/publisher sources:** authoritative requirements/APC/template evidence and links; controlled fetching later, behind access and SSRF/resource-limit gates.
 

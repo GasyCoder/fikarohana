@@ -2,7 +2,7 @@
 
 Fikarohana is an API-first platform that helps researchers find suitable scientific journals and prepare for submission. It guides users from a research topic to a small, explainable shortlist, verified journal requirements, and a lightweight journal-specific research workspace with contextual journal assistance in MVP V1.
 
-Foundation V1 is implemented: PostgreSQL/pgvector setup, Laravel `/api/v1`, Sanctum SPA/mobile authentication and a validated OpenAPI contract. Phase 2 journal data/provenance models and immutable revisions, plus Phase 3A controlled local ingestion, are implemented internally; Phase 3B bounded DOAJ retrieval is implemented; live compatibility, other providers, public catalog endpoints and user-facing capabilities remain pending. Journal recommendations must come from stored, sourced journal records; match scores never predict acceptance.
+Foundation V1 is implemented: PostgreSQL/pgvector setup, Laravel `/api/v1`, Sanctum SPA/mobile authentication and a validated OpenAPI contract. Phase 2 journal data/provenance models and immutable revisions, plus Phase 3A controlled local ingestion, are implemented internally; Phase 3B bounded DOAJ retrieval and Phase 3C Crossref identity enrichment are implemented; live compatibility, other providers, public catalog endpoints and user-facing capabilities remain pending. Journal recommendations must come from stored, sourced journal records; match scores never predict acceptance.
 
 ## Repository
 
@@ -64,3 +64,5 @@ Changes are made on `master` unless a branch is explicitly requested. No automat
 Journal schema, invariants, history/deletion policy and Phase 2 verification: [JOURNAL-DATA-MODEL-V1](docs/development/JOURNAL-DATA-MODEL-V1.md).
 
 Phase 3B adds an explicitly selected, bounded DOAJ API v4 / official Journal CSV ingestion adapter through the existing Laravel staging/provenance framework. No public journal API or automatic verification/publication is added. Offline tests use synthetic current-schema fixtures; the one-record live probe failed before an HTTP response. See [DOAJ adapter V1](docs/development/DOAJ-ADAPTER-V1.md) for mappings, configuration, CLI and limits.
+
+Phase 3C adds explicit bounded ISSN lookup for existing canonical/staged candidates through the same provenance/review pipeline. Crossref never bootstraps a catalog or establishes APC/submission rules. See [Crossref adapter V1](docs/development/CROSSREF-ADAPTER-V1.md).

@@ -1,6 +1,6 @@
 # Journal source policy
 
-Status: Phase 2 evidence, Phase 3A controlled ingestion and Phase 3B bounded DOAJ v4 adapter are implemented. Official DOAJ schema/source/terms were reviewed on 2026-10-11; the one-record live probe failed before an HTTP response, so live mapping is unverified. See [DOAJ adapter](../development/DOAJ-ADAPTER-V1.md). Other providers and production source activation remain planned.
+Status: Phase 2 evidence, Phase 3A controlled ingestion and Phase 3B bounded DOAJ v4 adapter are implemented. Official DOAJ schema/source/terms were reviewed on 2026-10-11; the one-record live probe failed before an HTTP response, so live mapping is unverified. See [DOAJ adapter](../development/DOAJ-ADAPTER-V1.md). Phase 3C Crossref identity enrichment is implemented; OpenAlex, official-source transport and production activation remain planned. See [Crossref adapter](../development/CROSSREF-ADAPTER-V1.md).
 
 ## Candidate register
 
@@ -25,7 +25,7 @@ Reported timelines need stage/metric and source context: first decision, review,
 
 ## Ingestion and resolution
 
-Planned delivery order: **3A** common ingestion framework (adapters, staging, idempotency, validation, explicit review/publication, provenance); **3B** DOAJ API/official CSV normalization/mapping with synthetic and permitted recorded fixtures; **3C** Crossref identity enrichment; **3D** OpenAlex subjects/discovery enrichment; **3E** official journal/publisher requirements, APC and template evidence, with controlled fetching later. Synthetic local mapping and explicit bounded DOAJ retrieval are implemented; no scheduled/full-catalog synchronization is enabled. Crossref, OpenAlex and official-source transport remain unimplemented. See [Phase 3 plan](../development/JOURNAL-INGESTION-PLAN.md) for exit gates and source-specific boundaries.
+Planned delivery order: **3A** common ingestion framework (adapters, staging, idempotency, validation, explicit review/publication, provenance); **3B** DOAJ API/official CSV normalization/mapping with synthetic and permitted recorded fixtures; **3C** Crossref identity enrichment; **3D** OpenAlex subjects/discovery enrichment; **3E** official journal/publisher requirements, APC and template evidence, with controlled fetching later. Synthetic local mapping and explicit bounded DOAJ retrieval are implemented; no scheduled/full-catalog synchronization is enabled. Crossref bounded existing-candidate lookup is implemented; OpenAlex and official-source transport remain unimplemented. See [Phase 3 plan](../development/JOURNAL-INGESTION-PLAN.md) for exit gates and source-specific boundaries.
 
 1. Fetch from an approved provider with bounded rate, timeouts and retries; record the ingestion run and retrieval time.
 2. Preserve source ID, URL, content hash and permitted raw artifact. If retaining content is prohibited, retain permitted metadata and a reproducible retrieval reference.
@@ -68,3 +68,9 @@ Official verification date: **2026-10-11**. [Journal CSV documentation](https://
 CSV is for bootstrap/bounded batch import; API is for targeted lookup/refresh. Neither provides full-catalog synchronization here. Both retain provider, transport, stable source, first retrieval, external ID where exposed, raw payload/row fingerprint and mapper version through existing Phase 3A tables. Unknown external IDs use an explicitly local `csv.` surrogate, not an invented DOAJ ID. Exact checksum-valid ISSNs remain identity authority.
 
 [Official fee clarification](https://blog.doaj.org/2024/11/29/more-transparent-fee-information/) separates no APC from no other fees. Explicit `No`/false APC is preserved as `doaj_reported_no_apc` basis/context with null monetary values; scalar availability remains unknown because the existing known-money model requires a currency. This is distinguishable from unknown APC, known amount, not-applicable and independent waiver metadata. No charge does not invent a currency, imply all fees are absent or automatically publish a free-journal fact. Conflicts with reported positive APCs are retained for review. See [detailed mapping and limits](../development/DOAJ-ADAPTER-V1.md).
+
+## Crossref V1 authority and acquisition
+
+[Crossref adapter](../development/CROSSREF-ADAPTER-V1.md) records official sources accessed 2026-10-11, singleton `/journals/{issn}`, optional real `mailto`, reuse constraints and rate/error policy. Exact known/staged ISSN inputs only; no catalog bootstrap, works/member crawling or URL fetching. Bibliographic identity/title/publisher evidence enters the same staging/assertions/review path and cannot overwrite DOAJ evidence or automatically verify/publish facts. Existing typed ISSN ownership is reused with the corroborating observation retained on staging; new declared types get field assertions. Unsupported/untyped new identifiers remain raw, never inferred.
+
+DOAJ remains OA-directory/language/subject/APC evidence; Crossref is identity corroboration only. Official journal/publisher sources later supply current editorial requirements/APC/templates. Crossref never establishes accepted languages, fees, requirements, templates, acceptance probability, quality or Scopus/WoS membership. Disagreements remain reviewed conflicts or retained quarantine; missing matches never delete journals.
