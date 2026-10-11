@@ -1,0 +1,606 @@
+openapi: 3.1.0
+info:
+  title: Fikarohana Foundation V1 API
+  version: 1.0.0
+  description: Canonical Foundation V1 contract. No journal/project/assistant endpoints
+    are implemented. Authentication is Laravel Sanctum, never JWT.
+servers:
+- url: http://localhost:8000
+  description: Local API; production uses HTTPS.
+tags:
+- name: Readiness
+  description: Dependency readiness.
+- name: Authentication
+  description: Account, SPA session and mobile token operations.
+paths:
+  /api/v1/health:
+    get:
+      operationId: health
+      summary: Application readiness
+      description: Checks PostgreSQL connectivity and the installed vector extension.
+        /up is separate process liveness.
+      tags:
+      - Readiness
+      security: []
+      responses:
+        '200':
+          description: Application readiness
+          headers:
+            X-Request-ID: &id001
+              description: Server-generated correlation UUID; incoming IDs are not
+                trusted.
+              schema:
+                type: string
+                format: uuid
+            Cache-Control: &id002
+              description: Foundation API responses use no-store.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '503':
+          $ref: '#/components/responses/NotReady'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+  /api/v1/auth/register:
+    post:
+      operationId: register
+      summary: Create an account
+      description: 'Does not create a web login or issue a mobile token. Stateful
+        SPA requests require CSRF. Rate limit: 5/minute per IP and normalized email.'
+      tags:
+      - Authentication
+      security: []
+      responses:
+        '201':
+          description: Create an account
+          headers:
+            X-Request-ID: *id001
+            Cache-Control: *id002
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '419':
+          $ref: '#/components/responses/CsrfMismatch'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      parameters:
+      - in: header
+        name: Origin
+        required: false
+        description: Configured first-party frontend origin; Either an approved Origin or Referer must establish
+          Sanctum statefulness for web login/logout.
+        schema: &id003
+          type: string
+          format: uri
+      - in: header
+        name: X-XSRF-TOKEN
+        required: false
+        description: Preferred SPA CSRF token, URL-decoded from the XSRF-TOKEN cookie. Stateful writes require valid CSRF evidence; the framework also accepts _token in the body or X-CSRF-TOKEN.
+        schema: &id004
+          type: string
+  /api/v1/auth/login:
+    post:
+      operationId: webLogin
+      summary: Log in using a first-party SPA session
+      description: 'Requires stateful Origin/Referer and CSRF. Rotates session ID
+        on success; no bearer token. Rate limit: 10/minute per IP and normalized email.'
+      tags:
+      - Authentication
+      security: []
+      responses:
+        '200':
+          description: Log in using a first-party SPA session
+          headers:
+            X-Request-ID: *id001
+            Cache-Control: *id002
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '419':
+          $ref: '#/components/responses/CsrfMismatch'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      parameters: &id005
+      - in: header
+        name: Origin
+        required: false
+        description: Configured first-party frontend origin; Either an approved Origin or Referer must establish
+          Sanctum statefulness for web login/logout.
+        schema: *id003
+      - in: header
+        name: X-XSRF-TOKEN
+        required: false
+        description: Preferred SPA CSRF token, URL-decoded from the XSRF-TOKEN cookie. Stateful writes require valid CSRF evidence; the framework also accepts _token in the body or X-CSRF-TOKEN.
+        schema: *id004
+  /api/v1/auth/logout:
+    post:
+      operationId: webLogout
+      summary: Log out the web session
+      description: Invalidates the current web session and regenerates CSRF state.
+        Does not revoke device tokens.
+      tags:
+      - Authentication
+      security:
+      - sessionCookie: []
+      responses:
+        '200':
+          description: Log out the web session
+          headers:
+            X-Request-ID: *id001
+            Cache-Control: *id002
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '419':
+          $ref: '#/components/responses/CsrfMismatch'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+      parameters: *id005
+  /api/v1/auth/tokens:
+    post:
+      operationId: issueToken
+      summary: Issue a mobile device token
+      description: 'Email/password authentication with device_name. Returns token
+        once, with configurable expiry (SANCTUM_MOBILE_TOKEN_EXPIRATION; default 43200 minutes / 30 days); does not create a web session. Mobile omits SPA
+        Origin/Referer and uses Bearer auth. Rate limit: 10/minute per IP and normalized
+        email.'
+      tags:
+      - Authentication
+      security: []
+      responses:
+        '201':
+          description: Issue a mobile device token
+          headers:
+            X-Request-ID: *id001
+            Cache-Control: *id002
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '419':
+          $ref: '#/components/responses/CsrfMismatch'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
+  /api/v1/auth/tokens/current:
+    delete:
+      operationId: revokeCurrentToken
+      summary: Revoke the current mobile token
+      description: Deletes only the personal access token authenticating this request.
+        Cookie-only callers get 403; other device tokens survive.
+      tags:
+      - Authentication
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Revoke the current mobile token
+          headers:
+            X-Request-ID: *id001
+            Cache-Control: *id002
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '419':
+          $ref: '#/components/responses/CsrfMismatch'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+  /api/v1/me:
+    get:
+      operationId: me
+      summary: Get the authenticated user
+      description: auth:sanctum accepts the first-party web session or a valid personal
+        access token. Never returns password/token fields.
+      tags:
+      - Authentication
+      security:
+      - sessionCookie: []
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Get the authenticated user
+          headers:
+            X-Request-ID: *id001
+            Cache-Control: *id002
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+  /sanctum/csrf-cookie:
+    get:
+      operationId: csrfCookie
+      summary: Initialize SPA CSRF/session cookies
+      description: Framework exception outside /api/v1. Call with credentials from
+        the configured frontend before SPA writes. XSRF-TOKEN is readable for X-XSRF-TOKEN;
+        the session cookie is HttpOnly.
+      tags:
+      - Authentication
+      security: []
+      responses:
+        '204':
+          description: Initialize SPA CSRF/session cookies
+          headers:
+            X-Request-ID: *id001
+            Cache-Control:
+              description: Framework-managed cache policy; no-store is not guaranteed for this route.
+              schema:
+                type: string
+        '500':
+          description: Unexpected failure with sanitized details.
+          headers:
+            X-Request-ID: *id001
+            Cache-Control:
+              description: Framework-managed cache policy; no-store is not guaranteed for this route.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '405':
+          description: HTTP method not allowed.
+          headers:
+            X-Request-ID: *id001
+            Cache-Control:
+              description: Framework-managed cache policy; no-store is not guaranteed for this route.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: fikarohana-session
+      description: 'HttpOnly encrypted session cookie. Name follows APP_NAME or SESSION_COOKIE;
+        SPA requests need a configured Origin/Referer and CSRF for writes. Production:
+        Secure HTTPS, SameSite=Lax.'
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Sanctum personal access token. Opaque bearer credential, not JWT.
+  schemas:
+    User:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - name
+      - email
+      - email_verified_at
+      - created_at
+      - updated_at
+      properties:
+        id:
+          type: integer
+          format: int64
+        name: *id004
+        email: &id006
+          type: string
+          format: email
+          minLength: 1
+          maxLength: 255
+          description: Trimmed and lowercased before validation/storage.
+        email_verified_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        created_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        updated_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+    UserResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - data
+      properties:
+        data:
+          $ref: '#/components/schemas/User'
+    RegisterRequest:
+      type: object
+      required:
+      - name
+      - email
+      - password
+      - password_confirmation
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Non-empty after trimming; whitespace-only input is rejected.
+        email: *id006
+        password:
+          type: string
+          format: password
+          writeOnly: true
+          minLength: 12
+          description: At least 12 characters and at most 72 UTF-8 bytes (bcrypt); null bytes are rejected. No silent truncation. The byte limit is validated by the server, not JSON Schema maxLength.
+        password_confirmation: &id007
+          type: string
+          format: password
+          writeOnly: true
+          minLength: 1
+          description: Non-empty password, at most 72 UTF-8 bytes (bcrypt); null bytes are rejected. Registration confirmation must exactly match the password. The byte limit is validated by the server, not JSON Schema maxLength.
+    LoginRequest:
+      type: object
+      required:
+      - email
+      - password
+      properties:
+        email: *id006
+        password: *id007
+    TokenRequest:
+      type: object
+      required:
+      - email
+      - password
+      - device_name
+      properties:
+        email: *id006
+        password: *id007
+        device_name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          description: Non-empty after trimming; whitespace-only input is rejected.
+    HealthResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          additionalProperties: false
+          required:
+          - status
+          properties:
+            status:
+              type: string
+              const: ready
+    MessageResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          additionalProperties: false
+          required:
+          - message
+          properties:
+            message: *id004
+    TokenResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          additionalProperties: false
+          required:
+          - token
+          - token_type
+          - expires_at
+          - user
+          properties:
+            token:
+              type: string
+              description: Plaintext Sanctum token returned only at issuance; store
+                securely.
+            token_type:
+              type: string
+              const: Bearer
+            expires_at:
+              type: string
+              format: date-time
+              description: Explicit UTC expiry based on configured mobile token minutes; default 43200 (30 days), independent of web session lifetime.
+            user:
+              $ref: '#/components/schemas/User'
+    ErrorResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          additionalProperties: false
+          required:
+          - code
+          - message
+          - fields
+          - request_id
+          properties:
+            code:
+              type: string
+              enum:
+              - bad_request
+              - unauthenticated
+              - forbidden
+              - not_found
+              - method_not_allowed
+              - csrf_mismatch
+              - validation_error
+              - rate_limited
+              - not_ready
+              - server_error
+            message: *id004
+            fields:
+              type: object
+              additionalProperties:
+                type: array
+                items: *id004
+              description: Validation messages by field; empty object for other errors.
+            request_id:
+              type: string
+              format: uuid
+  responses:
+    BadRequest:
+      description: SPA origin/session required.
+      headers:
+        X-Request-ID: *id001
+        Cache-Control: *id002
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthenticated:
+      description: Missing, expired or invalid authentication/credentials.
+      headers:
+        X-Request-ID: *id001
+        Cache-Control: *id002
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Operation not permitted for this authentication method.
+      headers:
+        X-Request-ID: *id001
+        Cache-Control: *id002
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    MethodNotAllowed:
+      description: HTTP method not allowed.
+      headers:
+        X-Request-ID: *id001
+        Cache-Control: *id002
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    CsrfMismatch:
+      description: Missing or invalid SPA CSRF token.
+      headers:
+        X-Request-ID: *id001
+        Cache-Control: *id002
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ValidationError:
+      description: Input validation failed.
+      headers:
+        X-Request-ID: *id001
+        Cache-Control: *id002
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimited:
+      description: Request rate exceeded; retry after the indicated delay.
+      headers:
+        X-Request-ID: *id001
+        Cache-Control: *id002
+        Retry-After:
+          description: Seconds before retrying.
+          schema:
+            type: integer
+            minimum: 0
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    ServerError:
+      description: Unexpected failure; no internal details returned.
+      headers:
+        X-Request-ID: *id001
+        Cache-Control: *id002
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotReady:
+      description: PostgreSQL connection/vector extension unavailable.
+      headers:
+        X-Request-ID: *id001
+        Cache-Control: *id002
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'

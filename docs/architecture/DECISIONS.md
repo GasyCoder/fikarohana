@@ -21,6 +21,7 @@ Status: design with corrected MVP V1 scope, 2026-10-11. “Required” reflects 
 | D-13 | MVP V1 extends selection into lightweight research projects and journal-specific workspace | Required data: title, abstract, scientific field, keywords, authors, shortlist, selected journal, status, created_at and updated_at; workflow `discovery` → `journal_selected` → `preparation` |
 | D-14 | Overview, Requirements, Fees, Template and Assistant are required V1 tabs | Verified requirements and official guideline/template links support preparation without manuscript processing |
 | D-15 | Simple contextual journal assistant is required in MVP V1 | Selected-journal verified facts and authoritative retrieval only; citations and explicit inability to verify; no generic writing chatbot |
+| D-16 | Approved Foundation mobile token expiry is configurable, default 43200 minutes | SANCTUM_MOBILE_TOKEN_EXPIRATION is validated through Laravel config; explicit per-token expires_at; web sessions are independent |
 
 ## Proposed design decisions
 
@@ -49,8 +50,8 @@ Status: design with corrected MVP V1 scope, 2026-10-11. “Required” reflects 
 | O-08 | AI provider retention/training terms and private-data consent flow? | Privacy/security lead | Any external AI processing |
 | O-09 | Hosting/store vendor, regions, jurisdiction, backup RPO/RTO and deletion deadlines? | Operations + privacy lead | Production or confidential file uploads |
 | O-10 | Source-document and private-input retention periods, telemetry basis and policy text? | Privacy/legal + product | Production personal-data collection |
-| O-11 | Package manager, OpenAPI version/generator and contract CI tools? | Engineering | Foundation dependency/tool changes |
-| O-12 | `/api/user` migration and exact web/mobile authentication endpoints? | API + client leads | Versioned auth implementation |
+| O-11 | Resolved in Foundation V1: npm workspaces/root package-lock.json; OpenAPI 3.1.0; openapi-typescript and Redocly core validate/generate/check scripts | Engineering | Approved and implemented; future CI wiring remains separate |
+| O-12 | Resolved in Foundation V1: remove unconsumed `/api/user`; register, SPA login/logout, device tokens/current revocation and me under `/api/v1`; CSRF framework exception documented | API + client leads | Approved and implemented |
 | O-13 | Later manuscript formats, size limits and readiness criteria? | Product + scientific advisors | Post-MVP files/analysis scope commitment |
 | O-14 | Which permitted guideline passages, supported-question fixtures and verification workflow cover the pilot journals? | Data + AI + academic advisors | V1 assistant release |
 | O-15 | Deterministic retrieval alone or optional LLM wording; local/external processing and generation validation method? | Engineering + AI + privacy lead | V1 assistant implementation/release |
@@ -62,6 +63,14 @@ No unresolved item authorizes inventing source facts, bypassing Laravel or colle
 ## MVP scope correction record
 
 2026-10-11 — User-confirmed correction: discovery-only delivery was insufficient. Lightweight projects, selected-journal workspace and contextual Q&A now belong to MVP V1 (D-13–D-15), replacing P-03. Manuscript automation remains deferred. Consequences: project authorization/deletion, minimum workflow, requirement revision handling and assistant grounding/privacy tests become V1 release gates. API-first service boundaries are unchanged. Updated product, architecture, data, AI, backlog, README and supporting testing/security/privacy/schema documentation. V1 feature inclusion is settled; the open implementation choices above do not make projects or the assistant optional.
+
+## Foundation V1 implementation record
+
+2026-10-11 — User-approved decisions resolve O-11/O-12 without deleting history. npm workspaces/root package-lock.json replaces earlier package-manager uncertainty. OpenAPI 3.1.0 is canonical; pinned openapi-typescript/Redocly-core tooling validates and generates reproducible declarations. Laravel 13/Sanctum remains the business/auth layer; no JWT. Web uses HttpOnly first-party sessions with CSRF; mobile uses device-named 30-day Bearer tokens revocable individually. The no-consumer scaffold route is removed. PostgreSQL/pgvector development and test setup is implemented; no embedding columns. Redis, FastAPI, storage, client UI and all journal/project/assistant domain features are expressly deferred from this foundation task, not removed from full MVP V1. Tests and exact limitations are recorded in [FOUNDATION-V1](../development/FOUNDATION-V1.md).
+
+## Foundation security correction decision
+
+2026-10-11 — APPROVED by the user after the read-only security review: configurable mobile PersonalAccessToken expiration, default 43200 minutes (30 days), through `SANCTUM_MOBILE_TOKEN_EXPIRATION` and Laravel config. Invalid durations fail configuration loading; issuance sets explicit `expires_at`. Existing tokens retain their issuance expiry, and web session lifetime is unchanged. The earlier implementation record is retained as history: its hardcoded 30-day duration was an implementation choice, not separately approved at that time; D-16 supersedes that choice. Keeping bcrypt, enforcing its 72-byte limit and comparable missing-account hash verification are authorized Foundation corrections. No domain or infrastructure expansion is authorized. CI remains planned, not implemented.
 
 ## Change process
 

@@ -5,6 +5,15 @@ use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Laravel\Sanctum\Http\Middleware\AuthenticateSession;
 use Laravel\Sanctum\Sanctum;
 
+$mobileTokenExpiration = env('SANCTUM_MOBILE_TOKEN_EXPIRATION', 43200);
+$mobileTokenExpiration = (is_int($mobileTokenExpiration) || is_string($mobileTokenExpiration))
+    ? filter_var($mobileTokenExpiration, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 2147483647]])
+    : false;
+
+if ($mobileTokenExpiration === false) {
+    throw new InvalidArgumentException('SANCTUM_MOBILE_TOKEN_EXPIRATION must be an integer from 1 to 2147483647 minutes.');
+}
+
 return [
 
     /*
@@ -51,6 +60,9 @@ return [
     */
 
     'expiration' => null,
+
+    // Explicit per-token expires_at; independent of web session lifetime.
+    'mobile_token_expiration' => $mobileTokenExpiration,
 
     /*
     |--------------------------------------------------------------------------

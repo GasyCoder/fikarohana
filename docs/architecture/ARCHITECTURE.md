@@ -55,9 +55,9 @@ Post-MVP uploads: Laravel authorizes the project and prepares a private object k
 
 ## API and contract boundary
 
-The target contract lives at `packages/contracts/openapi.yaml` when foundation work creates it. It does not exist yet. OpenAPI is authoritative; generation tool and specification version must be chosen then.
+Foundation V1 implements `packages/contracts/openapi.yaml` using OpenAPI 3.1.0, with openapi-typescript declarations and Redocly-core validation. npm workspaces/root package-lock.json are canonical. Laravel implements the health/auth/me routes in [API](../api/API.md); the table below describes future domain endpoints alongside implemented me.
 
-Proposed resource endpoints, not implemented routes:
+Domain endpoint proposals (not implemented except `/me`):
 
 | Method/path | Purpose | Access/phase |
 | --- | --- | --- |
@@ -77,7 +77,7 @@ Project responses include metadata, selected journal/revision and evidence refer
 
 Basic comparison can use bounded journal profile retrieval; add a comparison resource only if server behavior warrants it. Discovery POST avoids placing unpublished abstracts in query URLs. Do not persist anonymous request text beyond transient processing by default.
 
-Define login/logout/registration/reset/token issuance in the authentication contract during foundation. Sanctum web CSRF bootstrap may use its framework route outside `/api/v1`; document that technical exception, while public business endpoints stay versioned. Existing `/api/user` is scaffold debt; do not silently break it. Record its migration/deprecation decision before replacing it.
+Foundation V1 implements register, SPA login/logout, device token issuance/current revocation and me. `/sanctum/csrf-cookie` is the documented CSRF framework exception outside `/api/v1`. `/api/user` is removed without a compatibility alias because no external consumer exists. Password-reset endpoints remain unimplemented. See [AUTHENTICATION](../api/AUTHENTICATION.md) for environment-driven first-party CORS/CSRF, HttpOnly sessions and expiring/revocable Bearer tokens.
 
 Specify request validation, stable IDs, UTC timestamps, cursor/list bounds, error code/message/field details and correlation IDs. Never include stack traces or private input in errors. Discovery responses include criteria, algorithm/config/data revision, matches, warnings and field provenance. Async job statuses and idempotency behavior are added when required, not speculatively to every endpoint.
 
@@ -91,4 +91,4 @@ Run TLS at the public edge, keep database/Redis/AI private, separate environment
 
 ## Current gaps
 
-The scaffold has default `/api/user`, SQLite and database cache/queue settings, no journal domain, no OpenAPI file and no runnable Python service. These are explicit foundation tasks; the documentation does not assert that target behavior is already available.
+Foundation V1 provides PostgreSQL development/test instances, vector activation without business columns, versioned health/auth/me, safe errors/request IDs, Sanctum session/device token tests and OpenAPI generation. Database-backed sessions/cache and the existing queue configuration are interim defaults; Redis is not implemented in this phase. Journals, recommendations, projects/workspace/assistant, AI, object storage, billing and client UI remain unimplemented. They retain their approved roadmap scope. See [Foundation verification](../development/FOUNDATION-V1.md).

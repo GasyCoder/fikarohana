@@ -10,6 +10,14 @@
   "scripts": {
     "dev:web": "npm --workspace apps/web run dev",
     "dev:mobile": "npm --workspace apps/mobile run start",
-    "build:web": "npm --workspace apps/web run build"
-  }
+    "build:web": "npm --workspace apps/web run build",
+    "contracts:validate": "node packages/contracts/scripts/contracts.mjs validate",
+    "contracts:generate": "node packages/contracts/scripts/contracts.mjs generate",
+    "contracts:check": "node packages/contracts/scripts/contracts.mjs check"
+  },
+  "devDependencies": {
+    "@redocly/openapi-core": "1.34.6",
+    "openapi-typescript": "7.13.0"
+  },
+  "packageManager": "npm@11.11.0"
 }

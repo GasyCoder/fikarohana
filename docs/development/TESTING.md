@@ -1,6 +1,6 @@
 # Verification strategy
 
-Status: planned gates, with current command inventory. No new test tooling is installed by this design task. Test the affected layer and meaningful behavior; avoid tests that merely repeat an implementation.
+Status: Foundation V1 verification is implemented; later domain gates remain planned. Test the affected layer and meaningful behavior; avoid tests that merely repeat an implementation.
 
 ## Current versus planned checks
 
@@ -8,14 +8,22 @@ Run commands from the indicated directory after the existing dependencies/enviro
 
 | Layer | Current commands | Additional foundation/release work |
 | --- | --- | --- |
-| Laravel, `apps/api` | `php artisan test` (PHPUnit through Laravel); `vendor/bin/pint --test` for formatting | Configure isolated PostgreSQL test DB; versioned API/auth/domain tests |
+| Laravel, `apps/api` | `php artisan test` (PHPUnit through Laravel); `vendor/bin/pint --test` for formatting | Isolated PostgreSQL Foundation tests implemented; domain tests remain future |
 | Next.js, `apps/web` | `npm run lint`; `npx --no-install tsc --noEmit`; `npm run build` | Add justified journey/component test tools when tests are introduced |
 | Expo, `apps/mobile` | `npx --no-install tsc --noEmit`; declared lint script needs tooling availability checked | On dependency changes, `npx expo-doctor` and `npx expo install --check`; pin/provision required validation tools deliberately |
 | Python, `services/ai` | None: metadata/app/tests are empty placeholders | Add `pytest` and typed service checks when a real Python feature is introduced |
-| OpenAPI/contracts | None: spec/generator/validator not selected | Validate specification, detect breaking changes and verify reproducible client generation |
+| OpenAPI/contracts, root | `npm run contracts:validate`; `npm run contracts:generate`; `npm run contracts:check` | OpenAPI 3.1 lint and exact generated-output check implemented; future CI compatibility checking |
 | Documentation | `git diff --check`; local relative-link and required-file checks | Review design consistency and distinguish proposed/current behavior |
 
-Commands are not proof they have been executed. Do not run `npx` in a way that silently installs tooling when installation is not authorized. The root manifest declares Yarn while example npm scripts also exist; resolve package-manager conventions before dependency changes.
+Commands are not proof they have been executed. Do not run `npx` in a way that silently installs tooling when installation is not authorized. Fikarohana uses npm workspaces and root package-lock.json; Yarn/pnpm are not introduced.
+
+## Foundation execution
+
+Start `docker compose -f infra/docker/compose.yml up -d --wait`. With PHP pdo_pgsql and provisioned Composer dependencies, run `php artisan test` and `vendor/bin/pint --test` in apps/api. phpunit.xml forces PostgreSQL and a dedicated fikarohana_test database, clears DB_URL and uses safe test-only key/credentials. Tests refuse non-PostgreSQL/non-*_test/DB_URL configurations before RefreshDatabase; failures never fall back to SQLite. Host/port/credentials can be configured for a different dedicated test instance.
+
+Foundation tests cover readiness/vector, registration/validation/duplicates, session login/me/logout/regeneration, tokens/me/expiry/current-only revocation, cross-auth denial, request IDs, sanitized errors/logging, first-party CORS, explicit CSRF enforcement and all three rate limits. The obsolete welcome-page test now targets `/up`. A real multi-request HTTP smoke verified encrypted-cookie/X-XSRF-TOKEN and PostgreSQL database-session behavior.
+
+The initial verification used the existing sail-8.4/app runtime because host PHP lacked pdo_pgsql. Host PHP now has both pdo_pgsql and pgsql; the correction suite runs directly on the host against the isolated PostgreSQL test container. Exact commands/results are in [FOUNDATION-V1](FOUNDATION-V1.md). Frontend/mobile UI and dependencies were not changed; no application UI builds are claimed.
 
 ## Behavioral matrix
 
@@ -42,10 +50,12 @@ Curate permitted bilingual research inputs and a fixed journal revision snapshot
 
 Semantic/LLM changes require rerunning the relevant evaluation, not merely passing API schema tests. Grounding and privacy tests are additional gates for assistant release.
 
-## CI and release scope
+## Planned CI and future release gates
 
-Foundation CI validates the contract, PostgreSQL Laravel tests and applicable web checks; mobile TypeScript checks run for affected mobile/shared-contract changes. AI checks are added only once implemented. All affected consumers must pass when contracts change.
+CI is not currently implemented: no GitHub Actions or other CI pipeline is supplied. Planned Foundation CI will validate the contract, PostgreSQL Laravel tests and applicable web checks; mobile TypeScript checks will run for affected mobile/shared-contract changes. AI checks will be added only once implemented. All affected consumers must pass when contracts change.
 
 Before public release, run the full MVP V1 discovery → selection → project → five-tab workspace → contextual assistant journey on a reviewed catalog, test project isolation/deletion and grounded answers/abstention, verify source rights/freshness, inspect logs/errors for private data, test rate limits and demonstrate backup restoration. Agree a representative load fixture and targets first. Before confidential uploads, add object/parser/deletion tests and review external processing.
 
 Documentation-only work uses whitespace/link/coverage checks and manual consistency review. Do not run unrelated production builds or claim application behavior was tested when only specifications changed. Once relevant checks pass, broaden only for unresolved failures/risks or new changes.
+
+Security regression coverage includes Hash::check on both mobile failure paths without timing assertions, ASCII/UTF-8 bcrypt byte boundaries across registration/login/token issuance, confirmation, validated expiry configuration with a frozen clock, existing-token preservation after web logout, current-token-only deletion, TransientToken/session-plus-Bearer rejection, Referer-only stateful context, and case/trim email buckets across different IPs.

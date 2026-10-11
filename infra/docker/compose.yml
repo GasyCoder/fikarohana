@@ -1,0 +1,34 @@
+name: fikarohana-foundation
+services:
+  postgres:
+    image: pgvector/pgvector:0.8.2-pg17
+    environment:
+      POSTGRES_DB: fikarohana
+      POSTGRES_USER: fikarohana_dev
+      POSTGRES_PASSWORD: fikarohana_dev_only
+    ports:
+      - "127.0.0.1:${FIKAROHANA_DB_PORT:-5433}:5432"
+    volumes:
+      - postgres-dev:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fikarohana_dev -d fikarohana"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  postgres-test:
+    image: pgvector/pgvector:0.8.2-pg17
+    environment:
+      POSTGRES_DB: fikarohana_test
+      POSTGRES_USER: fikarohana_test
+      POSTGRES_PASSWORD: fikarohana_test_only
+    ports:
+      - "127.0.0.1:${FIKAROHANA_TEST_DB_PORT:-5434}:5432"
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fikarohana_test -d fikarohana_test"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+volumes:
+  postgres-dev:

@@ -1,24 +1,24 @@
 # Implementation backlog
 
-Status: design handoff. Nothing below is implemented by the documentation task. Follow [ROADMAP](../product/ROADMAP.md) and preserve existing user changes.
+Status: Foundation V1 technical slice implemented; journal/data and later MVP slices remain pending. Follow [ROADMAP](../product/ROADMAP.md) and preserve existing user changes.
 
-## Phase 1 — recommended first implementation
+## Phase 1 — foundation progress and next data slice
 
-Goal: a reproducible API/data foundation and a reviewed small catalog, without discovery UI, projects or manuscript features.
+Completed technical foundation: PostgreSQL/pgvector, versioned API, Sanctum and OpenAPI. Next build journal identity/provenance and a reviewed small catalog; no domain/UI/project/manuscript feature was implemented in Foundation V1.
 
 | Priority | Work | Completion evidence |
 | --- | --- | --- |
-| 1 | Confirm package manager/runtime conventions, pilot scope and data-review owner | Record O-01/O-11 outcomes; no competing lockfiles |
-| 2 | Provision isolated local/test PostgreSQL, ensure pgvector availability, plan Redis integration | Laravel PostgreSQL connection/migrations and test isolation pass; no production SQLite reliance |
-| 3 | Define `/api/v1`, migration/deprecation of scaffold `/api/user`, JSON validation/error format and public ID convention | Document compatibility decision; versioned smoke endpoint tested |
-| 4 | Complete API/auth/OpenAPI docs and create `packages/contracts/openapi.yaml` using selected validator/generator | Contract validation and reproducible generated client check; no hand-edited generated types |
-| 5 | Implement/verify Sanctum cookie/CSRF and revocable mobile token flows for the agreed endpoints | Auth and cross-user/anonymous denial tests; no secrets in logs |
+| 1 | Confirm package manager/runtime conventions, pilot scope and data-review owner | O-11 package/tool choices resolved; O-01 pilot scope/review owner still pending |
+| 2 | Completed: isolated local/test PostgreSQL and vector extension; Redis implementation deferred | Laravel PostgreSQL connection/migrations and test isolation pass; no production SQLite reliance |
+| 3 | Completed: `/api/v1`, removal of unconsumed `/api/user`, safe JSON/errors/request IDs; future domain ID convention remains open | Document compatibility decision; versioned smoke endpoint tested |
+| 4 | Completed: API/auth/OpenAPI docs, OpenAPI 3.1 specification, validator/generator | Contract validation and reproducible generated client check; no hand-edited generated types |
+| 5 | Completed: tested Sanctum cookie/CSRF and device-named expiring/revocable token flows | Auth and cross-user/anonymous denial tests; no secrets in logs |
 | 6 | Implement journal identity, sources, assertions/reviews and published revision model | PostgreSQL migrations and missing/zero/conflict/identity tests |
 | 7 | Build approved synthetic/permitted seed import and source registry | Idempotent import, field citations and reviewable sample projection |
 | 8 | Validate source rights and implement the first approved provider adapter with staging/review | Recorded terms review; retries/quarantine/partial failure tests; no provider auto-publication |
 | 9 | Add targeted CI and sanitized operational metrics | API/contract checks and ingestion counters demonstrate foundation gate |
 
-Steps 1–5 establish technical foundation; steps 6–8 establish the first data slice. Vector similarity, Python deployment and private manuscript storage are not prerequisites to importing sourced metadata. Keep lightweight project and assistant implementation in the later V1 slices below; do not add those features during foundation.
+Technical parts of steps 1–5 are complete, with pilot/domain conventions still to validate; steps 6–8 are the recommended next data slice. Targeted checks are executable; CI wiring in step 9 remains pending. See [FOUNDATION-V1](FOUNDATION-V1.md) for actual verification. Vector similarity, Python deployment and private manuscript storage are not prerequisites to importing sourced metadata. Keep lightweight project and assistant implementation in the later V1 slices below; do not add those features during foundation.
 
 Before public catalog publication, approve provider rights, field authority, refresh windows and data-quality review. While those choices are pending, development can use reviewed synthetic/permitted fixtures.
 
@@ -49,6 +49,6 @@ Before public catalog publication, approve provider rights, field authority, ref
 
 ## Human validation queue
 
-See [DECISIONS](../architecture/DECISIONS.md) for IDs and owners. Highest-priority items are initial catalog scope, provider terms/authority, freshness/review workflow, package manager/OpenAPI tools and versioned authentication migration. Before V1 release, also resolve source-passage coverage/rights, deterministic versus optional LLM response strategy, project validation/reselection UX, assistant grounding thresholds, web/mobile delivery scope, project/question quotas and privacy/hosting/retention/recovery choices. Transient Q&A is the default; persistent history needs separate validation. Inclusion of projects/workspace/assistant in V1 is settled, not an open scope question. Commercial decisions do not block the technical foundation but do block billing commitments.
+See [DECISIONS](../architecture/DECISIONS.md) for IDs and owners. Highest-priority items are initial catalog scope, provider terms/authority, freshness/review workflow, the now-resolved package manager/OpenAPI/authentication choices (O-11/O-12). Before V1 release, also resolve source-passage coverage/rights, deterministic versus optional LLM response strategy, project validation/reselection UX, assistant grounding thresholds, web/mobile delivery scope, project/question quotas and privacy/hosting/retention/recovery choices. Transient Q&A is the default; persistent history needs separate validation. Inclusion of projects/workspace/assistant in V1 is settled, not an open scope question. Commercial decisions do not block the technical foundation but do block billing commitments.
 
 Foundation, catalog, discovery and comparison are intermediate deliveries; lightweight projects/workspace and contextual journal assistance must pass their gates before MVP V1 release. Do not convert unresolved options into implied promises. Update relevant docs and tests when a decision becomes concrete. Keep acceptance probability, fabricated metadata, automatic submission and full manuscript analysis outside MVP.

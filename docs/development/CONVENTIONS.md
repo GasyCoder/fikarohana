@@ -8,7 +8,7 @@ Read the relevant specifications and existing code before editing. Identify the 
 
 Work on `master` unless explicitly asked to create a branch. Do not commit automatically or rewrite history. Preserve unrelated user edits. Documentation-only tasks must not modify application code, manifests or lockfiles.
 
-No new framework/infrastructure dependency without documented purpose. Before dependency updates, classify advisories as direct/transitive, runtime/build, exploitable in this product or not, and compatible fix available or unavailable. Do not use force install/audit fixes or legacy peer bypass without explicit approval; do not downgrade Expo outside its compatibility matrix. Package-manager standardization is a foundation decision; respect existing manifest/lockfiles and do not generate competing lockfiles.
+No new framework/infrastructure dependency without documented purpose. Before dependency updates, classify advisories as direct/transitive, runtime/build, exploitable in this product or not, and compatible fix available or unavailable. Do not use force install/audit fixes or legacy peer bypass without explicit approval; do not downgrade Expo outside its compatibility matrix. npm workspaces and root package-lock.json are canonical (approved Foundation V1 decision); do not introduce Yarn/pnpm or competing lockfiles.
 
 ## Layer boundaries
 
