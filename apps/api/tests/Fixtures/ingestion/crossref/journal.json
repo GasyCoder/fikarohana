@@ -1,0 +1,18 @@
+{
+  "status": "ok",
+  "message-type": "journal",
+  "message-version": "1.0.0",
+  "message": {
+    "title": "Synthetic DOAJ Research Journal",
+    "publisher": "Synthetic Academic Publisher",
+    "ISSN": ["1234-5679", "2049-3630"],
+    "issn-type": [{"value": "1234-5679", "type": "print"}, {"value": "2049-3630", "type": "electronic"}],
+    "last-status-check-time": 1700000000000,
+    "counts": {"total-dois": 3},
+    "subjects": ["Unmapped bibliographic subject"],
+    "flags": {},
+    "coverage": {},
+    "coverage-type": {},
+    "breakdowns": {}
+  }
+}
