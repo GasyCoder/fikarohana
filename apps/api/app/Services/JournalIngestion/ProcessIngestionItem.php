@@ -51,8 +51,10 @@ class ProcessIngestionItem
             try {
                 $proposal = $provider->normalize($item->payload);
                 $this->validator->validate($proposal);
-            } catch (ValidationException|DomainException|InvalidArgumentException) {
-                $item->update(['status' => 'quarantined', 'errors' => ['invalid_proposal']]);
+            } catch (ValidationException|DomainException|InvalidArgumentException $exception) {
+                $code = $exception instanceof DomainException && $exception->getMessage() === 'crossref_identifier_conflict'
+                    ? 'crossref_identifier_conflict' : 'invalid_proposal';
+                $item->update(['status' => 'quarantined', 'errors' => [$code]]);
 
                 return $item->fresh();
             }
