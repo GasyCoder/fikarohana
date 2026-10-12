@@ -1,6 +1,12 @@
 <?php
 
 return [
+    'openalex' => [
+        'base_url' => env('OPENALEX_API_BASE_URL', 'https://api.openalex.org'),
+        'api_key' => env('OPENALEX_API_KEY', ''),
+        'timeout' => env('OPENALEX_API_TIMEOUT', 20),
+        'connect_timeout' => env('OPENALEX_API_CONNECT_TIMEOUT', 5),
+    ],
     'crossref' => [
         'base_url' => env('CROSSREF_API_BASE_URL', 'https://api.crossref.org'),
         'mailto' => env('CROSSREF_API_MAILTO', ''),
