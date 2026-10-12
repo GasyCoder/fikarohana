@@ -1,0 +1,26 @@
+{
+  "id": "https://openalex.org/S123456789",
+  "display_name": "Synthetic DOAJ Research Journal",
+  "issn_l": "1234-5679",
+  "issn": ["1234-5679", "2049-3630"],
+  "type": "journal",
+  "host_organization": "https://openalex.org/P123456789",
+  "host_organization_name": "Synthetic Academic Publisher",
+  "topics": [
+    {
+      "id": "https://openalex.org/T12345",
+      "display_name": "Synthetic topic",
+      "count": 10,
+      "subfield": {"id": "https://openalex.org/subfields/1702", "display_name": "Synthetic subfield"},
+      "field": {"id": "https://openalex.org/fields/17", "display_name": "Synthetic field"},
+      "domain": {"id": "https://openalex.org/domains/3", "display_name": "Synthetic domain"}
+    }
+  ],
+  "works_count": 20,
+  "cited_by_count": 30,
+  "created_date": "2025-01-01",
+  "updated_date": "2026-10-01T00:00:00Z",
+  "works_api_url": "http://127.0.0.1/private",
+  "apc_usd": 999,
+  "x_concepts": [{"id": "https://openalex.org/C123", "display_name": "Unmapped legacy concept"}]
+}
