@@ -122,7 +122,9 @@ class JournalAssertion extends CatalogModel
             JournalField::Requirement => $this->requirement?->requirement_type->value,
             JournalField::Template => $this->template?->format->value,
             JournalField::Identifier => $this->identifier?->normalized_value,
-            JournalField::Subject => $this->subjectLink?->subject_id,
+            JournalField::Subject => $this->subjectLink?->subject?->provider === null
+                ? $this->subjectLink?->subject_id
+                : $this->subjectLink->subject->provider.'|'.$this->subjectLink->subject->external_id,
             JournalField::Language => $this->languageLink?->language_id,
             JournalField::ArticleType => $this->articleTypeLink?->article_type_id,
             JournalField::Indexation => $this->indexation?->indexation_service_id,
