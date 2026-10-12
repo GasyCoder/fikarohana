@@ -6,15 +6,18 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['journal_source_id', 'external_id', 'revision_fingerprint', 'source_url', 'retrieved_at', 'content_hash', 'raw_metadata_reference', 'status'])]
+#[Fillable(['journal_source_id', 'external_id', 'revision_fingerprint', 'source_url', 'retrieved_at', 'content_hash', 'raw_metadata_reference', 'status', 'raw_content', 'snapshot_metadata'])]
 class SourceRecord extends CatalogModel
 {
+    protected $hidden = ['raw_content', 'snapshot_metadata'];
+
     public $timestamps = false;
 
     protected function casts(): array
     {
         return [
             'retrieved_at' => 'immutable_datetime',
+            'snapshot_metadata' => 'array',
         ];
     }
 
