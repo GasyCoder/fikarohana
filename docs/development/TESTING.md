@@ -1,6 +1,6 @@
 # Verification strategy
 
-Status: Foundation V1, Phase 2 journal/provenance and Phase 3A local ingestion verification are implemented; Phase 3B DOAJ and Phase 3C Crossref transport/mapping tests are offline; other-provider and later domain gates remain planned. Test the affected layer and meaningful behavior; avoid tests that merely repeat an implementation.
+Status: Foundation V1, Phase 2 journal/provenance and Phase 3A local ingestion verification are implemented; Phase 3B DOAJ, Phase 3C Crossref and Phase 3D OpenAlex transport/mapping tests are offline; other-provider and later domain gates remain planned. Test the affected layer and meaningful behavior; avoid tests that merely repeat an implementation.
 
 ## Current versus planned checks
 
@@ -8,7 +8,7 @@ Run commands from the indicated directory after the existing dependencies/enviro
 
 | Layer | Current commands | Additional foundation/release work |
 | --- | --- | --- |
-| Laravel, `apps/api` | `php artisan test` (PHPUnit through Laravel); `vendor/bin/pint --test` for formatting | Isolated PostgreSQL Foundation, catalog and local ingestion tests implemented; DOAJ/Crossref mapping/transport tests are offline; OpenAlex/official-source/client tests remain future |
+| Laravel, `apps/api` | `php artisan test` (PHPUnit through Laravel); `vendor/bin/pint --test` for formatting | Isolated PostgreSQL Foundation, catalog and local ingestion tests implemented; DOAJ/Crossref/OpenAlex mapping/transport tests are offline; official-source/client tests remain future |
 | Next.js, `apps/web` | `npm run lint`; `npx --no-install tsc --noEmit`; `npm run build` | Add justified journey/component test tools when tests are introduced |
 | Expo, `apps/mobile` | `npx --no-install tsc --noEmit`; declared lint script needs tooling availability checked | On dependency changes, `npx expo-doctor` and `npx expo install --check`; pin/provision required validation tools deliberately |
 | Python, `services/ai` | None: metadata/app/tests are empty placeholders | Add `pytest` and typed service checks when a real Python feature is introduced |
@@ -85,3 +85,7 @@ Final metadata-URL regressions cover query, fragment, both, percent encoding/pat
 ## Phase 3C Crossref verification
 
 `php artisan test --filter=CrossrefProviderTest` uses isolated PostgreSQL, synthetic fixtures, Http::fake/preventStrayRequests and fake sleeps. Tests exercise canonical/staged candidates, print/electronic/both exact lookup, declared/missing types, original observations, title/publisher conflicts, owned-identifier collisions including untyped incoming values, no title merge/bootstrap, pending review/publication and rollback, replay/changed input/first retrieval/provider namespaces, NUL/incompatible JSON, malformed optional/required data, size bounds, dry-run all-table counts, CLI limits/preflight, 404, bounded 429/5xx/timeout retries, origin/TLS/MIME/schema restrictions and no metadata-URL fetching. Network partial failure persists no batch; semantic partial failure retains valid results/counters. Full framework tests continue to cover real partial-write rollback and concurrent PostgreSQL locks. No live provider is required for deterministic tests. Exact final counts, quality gates and the separately reported single-ISSN probe appear in [Crossref report](CROSSREF-ADAPTER-V1.md).
+
+## Phase 3D OpenAlex verification
+
+`php artisan test --filter=OpenAlexProviderTest` uses PostgreSQL/RefreshDatabase, synthetic Source fixtures, Http::fake/preventStrayRequests and fake sleeps. Covers exact print/electronic/both lookup and bounded CLI, existing/staged candidates, all provider corroboration, source ID/type/publisher semantics, raw descriptive metrics, hierarchy/duplicate IDs/missing parents, invalid taxonomy/unknown levels, immutable versions/idempotency/history/conflicts, direct SQL qualification/parent/uniqueness guards, empty/populated rollback and reapplication, all-table dry-run/preview conflicts, malformed JSON/UTF-8/NUL/MIME/shape, size/aggregate bounds, 404/retries/auth/TLS/fixed origin/no URL fetching, partial-write rollback/retry and sealed publication receipts. No live credential/network is required. Final counts, encountered failures and separate small live probe are in [OpenAlex report](OPENALEX-ADAPTER-V1.md).
