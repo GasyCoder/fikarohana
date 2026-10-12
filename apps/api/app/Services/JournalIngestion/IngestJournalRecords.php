@@ -147,8 +147,8 @@ class IngestJournalRecords
             $this->validator->validate($result['normalized']);
         } catch (ValidationException|DomainException|InvalidArgumentException $exception) {
             // Fixed provider identity codes preserve actionable conflicts without leaking input.
-            $result['errors'] = [$exception instanceof DomainException && $exception->getMessage() === 'crossref_identifier_conflict'
-                ? 'crossref_identifier_conflict' : 'invalid_proposal'];
+            $result['errors'] = [$exception instanceof DomainException && in_array($exception->getMessage(), ['crossref_identifier_conflict', 'openalex_identifier_conflict', 'openalex_taxonomy_conflict'], true)
+                ? $exception->getMessage() : 'invalid_proposal'];
         }
 
         return $result;

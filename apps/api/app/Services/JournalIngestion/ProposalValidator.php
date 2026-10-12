@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\Validator;
 
 class ProposalValidator
 {
-    public function validateShape(array $payload): void
+    public function validateShape(array $payload, bool $allowTaxonomy = false): void
     {
         PostgresText::validate($payload);
         Validator::make(['payload' => $payload], [
-            'payload' => 'required|array:title,identifiers,scope,country,website,submission_url,fees,publisher,publisher_country,languages,subjects',
+            'payload' => 'required|array:title,identifiers,scope,country,website,submission_url,fees,publisher,publisher_country,languages,subjects'.($allowTaxonomy ? ',taxonomy' : ''),
             'payload.title' => 'required|string|max:255',
             'payload.identifiers' => 'required|array|min:1|max:2',
             'payload.identifiers.*' => 'required|array:type,value',
@@ -36,6 +36,14 @@ class ProposalValidator
             'payload.languages.*' => 'required|string|distinct|regex:/^[a-z]{2,3}$/D',
             'payload.subjects' => 'sometimes|array|max:30',
             'payload.subjects.*' => 'required|string|distinct|max:255',
+            'payload.taxonomy' => 'sometimes|array|list|max:120',
+            'payload.taxonomy.*' => 'required|array:provider,external_id,level,name,parent_external_id,locator',
+            'payload.taxonomy.*.provider' => 'required|in:openalex',
+            'payload.taxonomy.*.external_id' => 'required|string|distinct|max:128',
+            'payload.taxonomy.*.level' => 'required|in:domain,field,subfield,topic',
+            'payload.taxonomy.*.name' => 'required|string|max:255',
+            'payload.taxonomy.*.parent_external_id' => 'present|nullable|string|max:128',
+            'payload.taxonomy.*.locator' => ['required', 'string', 'regex:/^topics[.][0-9]+([.](domain|field|subfield))?[.]display_name$/D'],
         ])->validate();
     }
 
@@ -50,7 +58,7 @@ class ProposalValidator
             }
             unset($identifier);
         }
-        $this->validateShape($raw);
+        $this->validateShape($raw, true);
         if (trim($proposal['title']) === '') {
             throw new DomainException('empty_title');
         }
@@ -61,6 +69,17 @@ class ProposalValidator
         }
         if (isset($proposal['publisher_country']) && ! isset($proposal['publisher'])) {
             throw new DomainException('publisher_country_without_publisher');
+        }
+        $parents = [];
+        foreach ($proposal['taxonomy'] ?? [] as $node) {
+            $parent = $node['parent_external_id'];
+            $expected = match ($node['level']) {
+                'topic' => 'subfield', 'subfield' => 'field', 'field' => 'domain', default => null
+            };
+            if (trim($node['name']) === '' || ($parent !== null && ($expected === null || ($parents[$parent] ?? null) !== $expected))) {
+                throw new DomainException('invalid_taxonomy_parent');
+            }
+            $parents[$node['external_id']] = $node['level'];
         }
         $seen = [];
         foreach ($proposal['identifiers'] as $identifier) {

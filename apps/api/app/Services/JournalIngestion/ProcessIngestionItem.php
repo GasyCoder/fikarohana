@@ -52,8 +52,8 @@ class ProcessIngestionItem
                 $proposal = $provider->normalize($item->payload);
                 $this->validator->validate($proposal);
             } catch (ValidationException|DomainException|InvalidArgumentException $exception) {
-                $code = $exception instanceof DomainException && $exception->getMessage() === 'crossref_identifier_conflict'
-                    ? 'crossref_identifier_conflict' : 'invalid_proposal';
+                $code = $exception instanceof DomainException && in_array($exception->getMessage(), ['crossref_identifier_conflict', 'openalex_identifier_conflict', 'openalex_taxonomy_conflict'], true)
+                    ? $exception->getMessage() : 'invalid_proposal';
                 $item->update(['status' => 'quarantined', 'errors' => [$code]]);
 
                 return $item->fresh();
@@ -97,9 +97,20 @@ class ProcessIngestionItem
                 $conflicts = array_merge($conflicts, $this->conflicts($claim));
             }
             foreach ($proposal['subjects'] ?? [] as $name) {
-                $subject = Subject::firstOrCreate(['parent_id' => null, 'normalized_name' => CatalogNormalizer::name($name)], ['name' => $name]);
+                $subject = Subject::firstOrCreate(['provider' => null, 'parent_id' => null, 'normalized_name' => CatalogNormalizer::name($name)], ['name' => $name]);
                 $claim = $this->claim($item, JournalField::Subject, ['subject_id' => $subject->id], $provider->sourceLocator('subjects', $item->payload));
                 JournalSubject::firstOrCreate(['assertion_id' => $claim->id], ['journal_id' => $journal->id, 'subject_id' => $subject->id]);
+            }
+            $taxonomy = [];
+            foreach ($proposal['taxonomy'] ?? [] as $node) {
+                $parent = $node['parent_external_id'] === null ? null : $taxonomy[$node['parent_external_id']];
+                $fingerprint = CanonicalJson::hash([$node['provider'], $node['external_id'], $node['level'], $node['name'], $parent?->revision_fingerprint]);
+                $subject = Subject::firstOrCreate(['provider' => $node['provider'], 'external_id' => $node['external_id'], 'revision_fingerprint' => $fingerprint],
+                    ['name' => $node['name'], 'taxonomy_level' => $node['level'], 'parent_id' => $parent?->id]);
+                $taxonomy[$node['external_id']] = $subject;
+                $claim = $this->claim($item, JournalField::Subject, ['subject_id' => $subject->id], $node['locator']);
+                JournalSubject::firstOrCreate(['assertion_id' => $claim->id], ['journal_id' => $journal->id, 'subject_id' => $subject->id]);
+                $conflicts = array_merge($conflicts, $this->conflicts($claim));
             }
             foreach (['title' => JournalField::Title, 'scope' => JournalField::Scope, 'country' => JournalField::Country,
                 'website' => JournalField::Website, 'submission_url' => JournalField::SubmissionUrl] as $key => $field) {

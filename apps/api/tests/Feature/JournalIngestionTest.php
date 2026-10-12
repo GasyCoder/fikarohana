@@ -450,7 +450,7 @@ class JournalIngestionTest extends TestCase
     public function test_provider_registry_excludes_later_providers_and_source_type_mismatch_is_denied(): void
     {
         $this->assertSame('doaj', app(ProviderRegistry::class)->get('doaj')->key());
-        foreach (['openalex', 'official'] as $name) {
+        foreach (['official'] as $name) {
             try {
                 app(ProviderRegistry::class)->get($name);
                 $this->fail('Real providers must not be registered.');

@@ -54,6 +54,15 @@ class DetectJournalConflicts
             }
         }
 
+        $fingerprints = [];
+        foreach ($proposal['taxonomy'] ?? [] as $node) {
+            $fingerprint = CanonicalJson::hash([$node['provider'], $node['external_id'], $node['level'], $node['name'],
+                $node['parent_external_id'] === null ? null : $fingerprints[$node['parent_external_id']]]);
+            $fingerprints[$node['external_id']] = $fingerprint;
+            $ids = array_merge($ids, $this->compare($journalId, JournalField::Subject,
+                'subject:'.$node['provider'].'|'.$node['external_id'].'::', CanonicalJson::encode(['known', null, null, $fingerprint])));
+        }
+
         return array_values(array_unique($ids));
     }
 
@@ -80,6 +89,10 @@ class DetectJournalConflicts
         if (in_array($claim->field, [JournalField::Publisher, JournalField::Language], true)) {
             $value[] = $claim->publisher?->only(['normalized_name', 'country_code']);
             $value[] = $claim->languageLink?->only(['language_id', 'supported']);
+        }
+
+        if ($claim->field === JournalField::Subject && $claim->subjectLink?->subject?->provider !== null) {
+            $value[] = $claim->subjectLink->subject->revision_fingerprint;
         }
 
         return CanonicalJson::encode($value);

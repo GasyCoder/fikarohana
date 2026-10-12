@@ -7,15 +7,17 @@ use App\Models\IngestionItem;
 use App\Models\IngestionRun;
 use App\Models\JournalAssertion;
 use App\Models\JournalSource;
+use App\Services\JournalIngestion\ExistingJournalCandidates;
 use App\Services\JournalIngestion\IngestJournalRecords;
 use App\Services\JournalIngestion\ProcessIngestionRun;
 use App\Services\JournalIngestion\ProviderRegistry;
-use App\Services\JournalIngestion\Providers\Crossref\CrossrefCandidates;
 use App\Services\JournalIngestion\Providers\Crossref\CrossrefClient;
 use App\Services\JournalIngestion\Providers\Crossref\CrossrefProvider;
 use App\Services\JournalIngestion\Providers\Doaj\DoajClient;
 use App\Services\JournalIngestion\Providers\Doaj\DoajCsvClient;
 use App\Services\JournalIngestion\Providers\Doaj\DoajProvider;
+use App\Services\JournalIngestion\Providers\OpenAlex\OpenAlexClient;
+use App\Services\JournalIngestion\Providers\OpenAlex\OpenAlexProvider;
 use App\Services\JournalIngestion\PublishIngestionItem;
 use App\Services\JournalIngestion\ReviewIngestionAssertion;
 use DomainException;
@@ -30,7 +32,7 @@ class JournalIngestion extends Command
         {--issn=*} {--transport=} {--provider=synthetic} {--source=} {--file=} {--key=} {--dry-run}
         {--status=} {--actor=} {--method=} {--reason=} {--assertions=} {--limit=} {--query=_exists_:bibjson.title}';
 
-    protected $description = 'Controlled journal ingestion: synthetic fixtures, DOAJ retrieval or explicit Crossref identity enrichment';
+    protected $description = 'Controlled journal ingestion: synthetic fixtures, DOAJ retrieval or explicit Crossref/OpenAlex enrichment';
 
     public function handle(ProviderRegistry $providers): int
     {
@@ -52,8 +54,8 @@ class JournalIngestion extends Command
             if ($this->option('transport') !== null && ($this->argument('action') !== 'stage' || $this->option('provider') !== 'doaj' || ! in_array($this->option('transport'), ['api', 'csv'], true))) {
                 throw new DomainException('invalid_transport');
             }
-            if ($this->option('issn') !== [] && ($this->argument('action') !== 'stage' || $this->option('provider') !== 'crossref')) {
-                throw new DomainException('crossref_issn_requires_stage');
+            if ($this->option('issn') !== [] && ($this->argument('action') !== 'stage' || ! in_array($this->option('provider'), ['crossref', 'openalex'], true))) {
+                throw new DomainException('issn_requires_enrichment_stage');
             }
             $result = match ($this->argument('action')) {
                 'source' => $this->source(),
@@ -80,8 +82,8 @@ class JournalIngestion extends Command
         if ($this->option('provider') === 'doaj') {
             return ['source_id' => $this->doajSource()->id];
         }
-        if ($this->option('provider') === 'crossref') {
-            return ['source_id' => $this->crossrefSource()->id];
+        if (in_array($this->option('provider'), ['crossref', 'openalex'], true)) {
+            return ['source_id' => $this->enrichmentSource((string) $this->option('provider'))->id];
         }
         $name = (string) $this->argument('id');
         if (! preg_match('/^[a-z0-9][a-z0-9_.-]{0,63}$/D', $name) || $this->option('provider') !== 'synthetic') {
@@ -99,8 +101,8 @@ class JournalIngestion extends Command
     private function stage(ProviderRegistry $providers): array
     {
         $provider = $providers->get((string) $this->option('provider'));
-        if ($provider instanceof CrossrefProvider) {
-            return $this->stageCrossref($provider);
+        if ($provider instanceof CrossrefProvider || $provider instanceof OpenAlexProvider) {
+            return $this->stageEnrichment($provider);
         }
         if ($provider instanceof DoajProvider) {
             if ($this->option('file') !== null) {
@@ -153,43 +155,46 @@ class JournalIngestion extends Command
         );
     }
 
-    private function stageCrossref(CrossrefProvider $provider): array
+    private function stageEnrichment(CrossrefProvider|OpenAlexProvider $provider): array
     {
+        $providerKey = $provider->key();
+        $name = $providerKey === 'crossref' ? 'Crossref' : 'OpenAlex';
+        $client = $providerKey === 'crossref' ? app(CrossrefClient::class) : app(OpenAlexClient::class);
         if ($this->option('file') !== null || $this->option('query') !== '_exists_:bibjson.title') {
-            throw new DomainException('crossref_identifier_lookup_only');
+            throw new DomainException($providerKey.'_identifier_lookup_only');
         }
         $key = (string) $this->option('key');
         $limit = $this->option('limit') === null ? IngestJournalRecords::MAX_RECORDS : (int) $this->option('limit');
         $identifiers = $this->option('issn');
         if (! preg_match('/^[A-Za-z0-9_.:-]{1,128}$/D', $key) || $identifiers === [] || count($identifiers) > $limit) {
-            throw new DomainException('crossref_invalid_request');
+            throw new DomainException($providerKey.'_invalid_request');
         }
         // Existing canonical/staged identity only; finish preflight before any HTTP or writes.
         foreach ($identifiers as $identifier) {
-            app(CrossrefCandidates::class)->identifiers($identifier);
+            app(ExistingJournalCandidates::class)->identifiers($identifier, $providerKey);
         }
         $source = $this->option('source') !== null ? JournalSource::findOrFail($this->option('source'))
-            : JournalSource::where('type', 'crossref')->where('name', 'Crossref')->first();
+            : JournalSource::where('type', $providerKey)->where('name', $name)->first();
         if ($source !== null && ! $provider->accepts($source)) {
             throw new DomainException('provider_source_mismatch');
         }
-        $lookup = app(CrossrefClient::class)->lookup($identifiers, $limit);
+        $lookup = $client->lookup($identifiers, $limit);
         $dryRun = (bool) $this->option('dry-run');
         $diagnostics = ['lookups' => $lookup['lookups'], 'records_observed' => count($lookup['records']), 'not_found' => $lookup['not_found']];
         if ($lookup['records'] === []) {
             return ['dry_run' => $dryRun, ...$diagnostics, 'items' => []];
         }
-        $source ??= $dryRun ? new JournalSource(['type' => 'crossref', 'name' => 'Crossref', 'base_url' => CrossrefClient::BASE]) : $this->crossrefSource();
+        $source ??= $dryRun ? new JournalSource(['type' => $providerKey, 'name' => $name, 'base_url' => $client::BASE]) : $this->enrichmentSource($providerKey);
 
         return [...app(IngestJournalRecords::class)->ingest($provider, $source, $key, $provider->envelopes($lookup['records']), $dryRun), ...$diagnostics];
     }
 
-    private function crossrefSource(): JournalSource
+    private function enrichmentSource(string $provider): JournalSource
     {
-        return DB::transaction(function (): JournalSource {
+        return DB::transaction(function () use ($provider): JournalSource {
             DB::select('SELECT pg_advisory_xact_lock(170003)');
 
-            return JournalSource::firstOrCreate(['type' => 'crossref', 'name' => 'Crossref'], ['base_url' => CrossrefClient::BASE]);
+            return JournalSource::firstOrCreate(['type' => $provider, 'name' => $provider === 'crossref' ? 'Crossref' : 'OpenAlex'], ['base_url' => $provider === 'crossref' ? CrossrefClient::BASE : OpenAlexClient::BASE]);
         });
     }
 
