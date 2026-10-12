@@ -77,10 +77,14 @@ Fee amount is nullable `numeric(14,4)` plus nullable three-letter uppercase curr
 
 Requirements have controlled kinds: word_count, abstract_words, keyword_count, figure_count, table_count, reference_style, figure_guidance, table_guidance, file_formats, structure and declaration. Count kinds use nonnegative integer plus min/max/exact; prose kinds use text; file_formats uses a non-empty JSONB string list. Numeric values cannot be replaced with text or arbitrary JSON. Source wording and locator remain on the assertion. New kinds require a migration/enum change, not an unrestricted catch-all blob.
 
-Accepted-language/article-type/indexation links require explicit supported=true/false and field evidence; missing links do not imply false or support. Templates require official HTTP(S) links and official journal/publisher source identity, with their assertion/review timestamps. An official label still requires review of ownership/applicability; the system does not independently fetch or validate a site.
+Accepted-language/article-type/indexation links require explicit supported=true/false and field evidence; missing links do not imply false or support. Templates require official HTTP(S) links and official journal/publisher source identity, with their assertion/review timestamps. An official label still requires review of ownership/applicability; Phase 3E-A can acquire a separately registered/approved page, but retrieval does not verify an interpreted rule or template.
 
 Stored availability is known/unknown/not_applicable. A future public availability=conflicted envelope is derived from competing reviews, not a fourth stored value. Source observations and assertions are immutable; verification reviews are append-only. Published selections retain exact assertion/review IDs; current usability checks latest reviews/competing facts/effective dates. No automatic freshness window, discovery eligibility or public JSON projection endpoint exists yet.
 
 ## OpenAlex discovery classification (Phase 3D)
 
 [Provider-qualified Subject versions](../development/OPENALEX-ADAPTER-V1.md) preserve external topic/subfield/field/domain IDs, display names, explicit adjacent parent edges and content fingerprints. They coexist with native/DOAJ subjects without implied taxonomy equivalence. Every journal classification link retains an assertion/source record, retrieval and review state. Provider-derived topics are discovery signals, not authoritative journal scope or submission acceptance. Changes append conflicting versions for review; counts/quality metrics remain raw and never represent acceptance probability.
+
+## Official page evidence (Phase 3E-A)
+
+Registered journal-bound official source roles and immutable raw snapshots support later requirements/APC/template assertions. A snapshot is an observation, not a field value or verified requirement. No automatic rule extraction, template downloading or public copied-page rendering exists; unchanged/304 checks do not renew verification. See [Official sources V1](../development/OFFICIAL-SOURCES-V1.md).

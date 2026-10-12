@@ -58,3 +58,17 @@ Release checks include authorization/isolation, web CSRF/mobile revocation, sani
 PostgreSQL dev/test databases are separate localhost-only containers with non-production credentials. The test harness refuses unsafe DB configurations before migration. Vector extension rollback preserves the shared extension. No private-file or AI-provider processing exists yet; the broader controls above remain future feature/release requirements. See [Foundation verification](../development/FOUNDATION-V1.md) for test results, existing dependency advisories and unverified production controls.
 
 Foundation password controls keep bcrypt: registration minimum 12 characters, maximum 72 UTF-8 bytes for all credential endpoints, exact confirmation and rejection of null bytes. Missing-account mobile checks use a precomputed cost-12 dummy hash through Laravel hashing; both failure paths perform verification and return generic 401 errors. Reassess the dummy work factor if bcrypt cost changes; no micro-timing equality is claimed. Production release requires the HTTPS/cookie/origin/domain checks in [AUTHENTICATION](../api/AUTHENTICATION.md); local Secure=false is never a production setting.
+
+## Implemented Phase 3E-A fetch controls
+
+The operator-only approved official-page client validates HTTPS/domain/443 and every DNS/redirect destination, denies internal/special-use addresses, pins cURL to a validated IP with hostname TLS checks, explicitly disables proxy/auth/cookies; netrc is not enabled and retains the libcurl default and uses fresh non-reused connections. Native DNS, connect/request, redirect and retained-body limits are enforced. No arbitrary URL endpoint, JS/browser/forms/assets or recursion. Raw UTF-8 HTML/plain snapshots remain hidden internal evidence, never rendered or automatically converted into claims. Dry-run writes nothing; revocation rechecked before atomic persistence.
+
+See [explicit implementation security review](../development/OFFICIAL-SOURCES-V1.md) for tests and constraints. Approval requires ownership/applicability/access/robots/retention review; robots is not legal permission. Deployment egress policy, audited operator privileges, retention/purge and origin-wide pacing remain production gates; this is not an independent security audit.
+
+## Phase 3E-A final security corrections
+
+Approval state/metadata cannot be generically mass-assigned; registration and approve/deactivate use explicit internal assignments. Registered journal/URL/origin identity remains immutable, requiring a new candidate and approval for a new URL. Before every GET, including redirects, wait then reload authoritative approval before DNS/IP pinning; revoked or disappeared sources stop, and persistence rechecks under lock.
+
+Rollback locks journal_sources and source_records in deterministic ACCESS EXCLUSIVE order inside the migration transaction before checking emptiness or DDL. A real concurrent PostgreSQL writer regression proves no insert can commit between those steps. Native loopback transfer tests exercise actual size-abort callbacks without Internet/TLS relaxation; CRLF/entity/proxy/pinning regressions cover the added boundaries.
+
+Cadence is per request/source operation, with same-source fetch serialization; different sources on the same origin need operator coordination. No global per-origin/distributed limiter or explicit netrc option is claimed. No new live editorial HTML verification; see [correction report](../development/OFFICIAL-SOURCES-V1.md).

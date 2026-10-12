@@ -47,3 +47,9 @@ Prefer aggregate counters for query success, empty-result causes and catalog cov
 Support access to confidential content requires a documented authorized workflow, least privilege and an audit trail. Use permitted/synthetic fixtures for debugging; private data must not be copied into issues or developer machines by default.
 
 Maintain an incident process with privacy/security contacts, impact assessment and notification rules appropriate to the chosen jurisdiction. Production is blocked on unresolved privacy controls, not on selecting an arbitrary jurisdiction in documentation. See [DECISIONS](../architecture/DECISIONS.md) for the validation owners.
+
+## Official-page evidence (Phase 3E-A)
+
+Explicitly approved public unauthenticated pages may be retained only as bounded restricted internal verification evidence, under reviewed rights. Bodies may contain incidental public page markup/volatile tokens; do not log/render/index them publicly or treat them as authentication. No cookies, arbitrary response headers, private research, signed/query URLs, JS execution or linked resources. Default model serialization hides raw snapshots.
+
+Registry approval/check metadata records non-sensitive operator references and operational times, not researcher activity. Dry-run retains no diagnostics/content. Official content is not presumed CC0; source-specific retention, takedown/purge, backup expiry and redistribution need legal/operations review before production. Future large artifacts use private object storage only after approved lifecycle design. See [official-source policy](../development/OFFICIAL-SOURCES-V1.md).
