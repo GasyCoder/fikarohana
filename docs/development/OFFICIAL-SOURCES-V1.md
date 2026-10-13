@@ -229,3 +229,7 @@ docs/security/SECURITY.md
 ```
 
 Final correction verdict: **PASS**. No required review blocker remains. Operational rights/retention/purge, per-origin coordination, egress controls and real editorial HTML live coverage remain documented production/coverage limitations; cancellation of an already dispatched request is not claimed.
+
+## Phase 3E-B extension (current behavior)
+
+The Phase 3E-A acquisition-only statements and inventories above record that delivery. Stored approved observations now support [deterministic editorial extraction](EDITORIAL-EXTRACTION-V1.md) through journals:sources extract --record=SNAPSHOT_UUID [--dry-run]. Fetch itself still generates no assertion/review/publication. Extraction performs no DNS, HTTP or resource acquisition, creates only pending/conflicting proposals, and does not renew observation or verification dates. Historical robots verification is not editorial extraction verification; no real retained editorial HTML is claimed.

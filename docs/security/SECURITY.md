@@ -72,3 +72,7 @@ Approval state/metadata cannot be generically mass-assigned; registration and ap
 Rollback locks journal_sources and source_records in deterministic ACCESS EXCLUSIVE order inside the migration transaction before checking emptiness or DDL. A real concurrent PostgreSQL writer regression proves no insert can commit between those steps. Native loopback transfer tests exercise actual size-abort callbacks without Internet/TLS relaxation; CRLF/entity/proxy/pinning regressions cover the added boundaries.
 
 Cadence is per request/source operation, with same-source fetch serialization; different sources on the same origin need operator coordination. No global per-origin/distributed limiter or explicit netrc option is claimed. No new live editorial HTML verification; see [correction report](../development/OFFICIAL-SOURCES-V1.md).
+
+## Phase 3E-B inert extraction
+
+Extraction accepts a persisted snapshot ID, reloads original evidence and approved journal ownership, then prepares bounded inert HTML/plain text. No HTTP/DNS/shell/browser/linked-resource capability is used. Scripts/styles/explicitly hidden content are ignored; no DTD/entity expansion. Fixed rules run over complete bounded units; excessive inputs fail or yield no rule match, never truncate away qualifiers. Source approval is rechecked under lock before atomic assertion writes. Metadata cannot turn pending evidence into verification; reviews reload the persisted claim before eligibility checks. See [limits and tests](../development/EDITORIAL-EXTRACTION-V1.md).

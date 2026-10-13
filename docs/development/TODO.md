@@ -24,7 +24,7 @@ Before public catalog publication, approve provider rights, field authority, ref
 
 ## Phase 3 — ordered ingestion slices
 
-3A and bounded 3B are implemented; live DOAJ mapping/recorded fixture remain unverified. 3C existing-candidate Crossref enrichment is implemented; 3D OpenAlex enrichment is implemented; 3E-A approved official-page acquisition is implemented; semantic extraction remains planned. See [JOURNAL-INGESTION-PLAN](JOURNAL-INGESTION-PLAN.md) for boundaries and exit gates.
+3A and bounded 3B are implemented; live DOAJ mapping/recorded fixture remain unverified. 3C existing-candidate Crossref enrichment is implemented; 3D OpenAlex enrichment is implemented; 3E-A approved official-page acquisition is implemented; bounded deterministic extraction is implemented in 3E-B; wider interpretation remains planned. See [JOURNAL-INGESTION-PLAN](JOURNAL-INGESTION-PLAN.md) for boundaries and exit gates.
 
 - [x] **3A — Framework:** provider adapter boundary, durable staging, idempotency, validation/quarantine, explicit review/publication and provenance; synthetic fixtures, recursive incompatible-text quarantine, bounded `--limit`, unique-item counters, sanitized interruption/resume, provider/source binding and real PostgreSQL partial-write rollback tests; no external calls.
 - [x] **3B — DOAJ adapter:** official-source-checked v4 API and official CSV transports/shared mapping into 3A, bounded acquisition, synthetic fixtures and offline PostgreSQL tests; see [DOAJ-ADAPTER-V1](DOAJ-ADAPTER-V1.md).
@@ -37,7 +37,8 @@ Before public catalog publication, approve provider rights, field authority, ref
 - [ ] Approve OpenAlex production retention/freshness/review, quota coordination, publisher-ID disambiguation and taxonomy reconciliation; broaden permitted real-record coverage.
 - [x] **3E-A — Final security correction:** guarded approval mass assignment, fresh approval before every GET, lock-before-check rollback with real PostgreSQL writer, native local transfer/CRLF/entity/proxy/pin regressions; no new live request.
 - [x] **3E-A — Official source foundation:** explicit registration/approval, DNS/IP pinning, bounded snapshots, freshness/change detection and PostgreSQL security tests; see [OFFICIAL-SOURCES-V1](OFFICIAL-SOURCES-V1.md).
-- [ ] **3E later:** controlled proposed editorial assertions, applicability/conflict review and approved requirements/APC/template publication; licensed retention/purge, origin-wide operations and freshness policies.
+- [x] **3E-B — Deterministic editorial proposals:** stored snapshots, bounded inert parsing, rule/version/locator evidence, idempotent typed assertions and PostgreSQL tests; see [EDITORIAL-EXTRACTION-V1](EDITORIAL-EXTRACTION-V1.md).
+- [ ] **3E later:** pilot applicability/conflict review and approved requirements/APC/template publication; licensed retention/purge, origin-wide operations and freshness policies.
 
 Each provider reuses 3A and Phase 2 evidence/revision primitives. New provider observations never erase prior evidence or silently merge identities. Fetching, normalization and validation do not verify facts.
 
@@ -72,4 +73,6 @@ See [DECISIONS](../architecture/DECISIONS.md) for IDs and owners. Highest-priori
 
 Foundation, catalog, discovery and comparison are intermediate deliveries; lightweight projects/workspace and contextual journal assistance must pass their gates before MVP V1 release. Do not convert unresolved options into implied promises. Update relevant docs and tests when a decision becomes concrete. Keep acceptance probability, fabricated metadata, automatic submission and full manuscript analysis outside MVP.
 
-Phase 2 schema/results and remaining ingestion work are recorded in [JOURNAL-DATA-MODEL-V1](JOURNAL-DATA-MODEL-V1.md). Phase 3A now supports controlled local synthetic batches through Artisan; see [JOURNAL-INGESTION-V1](JOURNAL-INGESTION-V1.md). DOAJ retrieval now feeds the same framework; the failed live probe persisted no seed catalog. No public journal API exists. Journal-site fetching is confined to explicitly approved Phase 3E-A sources, with no automatic extraction/publication.
+Phase 2 schema/results and remaining ingestion work are recorded in [JOURNAL-DATA-MODEL-V1](JOURNAL-DATA-MODEL-V1.md). Phase 3A now supports controlled local synthetic batches through Artisan; see [JOURNAL-INGESTION-V1](JOURNAL-INGESTION-V1.md). DOAJ retrieval now feeds the same framework; the failed live probe persisted no seed catalog. No public journal API exists. Journal-site fetching is confined to explicitly approved Phase 3E-A sources, with a separate stored-snapshot proposal extractor and no automatic verification/publication.
+
+- [x] **3E-B semantic correction:** contextual qualifier abstention, explicit maximum/article scope, deleted markup exclusion, negative APC conflict gates, fragment-only link rejection and versioned bounded context provenance. See [correction report](EDITORIAL-EXTRACTION-V1.md).

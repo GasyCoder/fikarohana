@@ -87,4 +87,10 @@ Stored availability is known/unknown/not_applicable. A future public availabilit
 
 ## Official page evidence (Phase 3E-A)
 
-Registered journal-bound official source roles and immutable raw snapshots support later requirements/APC/template assertions. A snapshot is an observation, not a field value or verified requirement. No automatic rule extraction, template downloading or public copied-page rendering exists; unchanged/304 checks do not renew verification. See [Official sources V1](../development/OFFICIAL-SOURCES-V1.md).
+Registered journal-bound official source roles and immutable raw snapshots support later requirements/APC/template assertions. A snapshot is an observation, not a field value or verified requirement. Phase 3E-B now supports bounded deterministic proposed rule extraction; no template downloading or public copied-page rendering exists; unchanged/304 checks do not renew verification. See [Official sources V1](../development/OFFICIAL-SOURCES-V1.md).
+
+## Proposed editorial facts (Phase 3E-B)
+
+Deterministic stored-snapshot rules now propose explicit labeled fees, accepted languages/types, scoped maximum word limits, named reference styles and template/submission links. These typed rows remain pending or conflicting evidence, never a verified public projection. Generic publication fees use other, not an inferred APC; explicit no APC uses official_reported_no_apc with null amount/currency and unknown scalar availability, distinct from missing price, zero or waiver. No peer-review schema exists; no model is forced into unrelated requirement kinds. See [supported grammar and provenance](../development/EDITORIAL-EXTRACTION-V1.md).
+
+Word maxima now require explicit maximum semantics and retain section/article type through reliable structural ancestry. Unsupported conditional/minimum/exact/range contexts abstain. Explicit no-APC conflicts block a contrary price from uncontested usability/publication until review resolution, while missing monetary information does not. Absence still cannot publish as known money without a future fee-presence model.
