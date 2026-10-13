@@ -1,5 +1,7 @@
 # Phase 4B — Web Journal Discovery UI V1
 
+This records the historical Phase 4B behavior. [Phase 4C](RESEARCH-PROJECT-WORKSPACE-V1.md) adds optional authenticated private project persistence and transient research preservation during sign-in; anonymous discovery remains available.
+
 Baseline: `5a8622f` on master. Public Next.js/TypeScript interface in `apps/web`; all Phase 4A Laravel/catalogue/scoring/publication code and contracts remain unchanged. No authentication, mobile, manuscript upload, projects, assistant, LLM, billing, branch, commit or push.
 
 Editorial-v5 independent holdout validation remains pending. Editorial implementation, fingerprints, protocol, holdout and historical artifacts are unchanged; Phase 4B displays only the canonical Phase 4A responses, never raw assertions or extraction proposals.
