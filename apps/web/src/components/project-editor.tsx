@@ -1,0 +1,19 @@
+"use client";
+import { useState } from "react";
+import type { ProjectInput } from "../lib/projects";
+import { projectInput } from "../lib/projects";
+import type { ResearchForm } from "../lib/discovery";
+import { useDiscovery } from "./discovery-context";
+import { CatalogueSelect, useCatalogueOptions } from "./catalogue-options";
+export function ProjectEditor({ initial, onSave, label = "Create private project" }: { initial: ResearchForm; onSave: (payload: ProjectInput) => Promise<void>; label?: string }) {
+  const { options } = useDiscovery();
+  const metadata = useCatalogueOptions();
+  const [form, setForm] = useState(initial), [pending, setPending] = useState(false), [error, setError] = useState<string | null>(null);
+  async function submit(e: React.FormEvent) {
+    e.preventDefault(); const mapped = projectInput(form);
+    if (!mapped.payload) { setError(Object.values(mapped.errors).join(" ")); return; }
+    setPending(true); setError(null);
+    try { await onSave(mapped.payload); } catch { setError("Could not save the project. Check your session, fields and connection, then retry."); } finally { setPending(false); }
+  }
+  return <form onSubmit={submit} className="research-form"><fieldset disabled={pending}><div className="field"><label htmlFor="project-title">Research title</label><input id="project-title" required maxLength={500} value={form.title} onChange={e => setForm({ ...form, title: e.target.value })}/></div><div className="field"><label htmlFor="project-abstract">Abstract (optional)</label><textarea id="project-abstract" maxLength={10000} rows={6} value={form.abstract} onChange={e => setForm({ ...form, abstract: e.target.value })}/></div><div className="field"><label htmlFor="project-keywords">Keywords (comma separated)</label><input id="project-keywords" value={form.keywords} onChange={e => setForm({ ...form, keywords: e.target.value })}/></div><div className="form-grid"><CatalogueSelect id="project-language" label="Language" value={form.language} onChange={language => setForm({ ...form, language })} loading={metadata.loading} options={[...options.languages.map(v => ({ value: v.code, label: v.name })), ...(form.language && !options.languages.some(v => v.code === form.language) ? [{ value: form.language, label: `Current language (${form.language})` }] : [])]}/><CatalogueSelect id="project-article-type" label="Article type" value={form.articleType} onChange={articleType => setForm({ ...form, articleType })} loading={metadata.loading} options={[...options.articleTypes.map(v => ({ value: v.code, label: v.name })), ...(form.articleType && !options.articleTypes.some(v => v.code === form.articleType) ? [{ value: form.articleType, label: `Current article type (${form.articleType})` }] : [])]}/></div><label className="check"><input type="checkbox" checked={form.noApc} onChange={e => setForm({ ...form, noApc: e.target.checked })}/>Prefer explicit no-APC information</label><fieldset><legend>Required indexation services</legend>{[...options.indexations, ...form.indexations.filter(code => !options.indexations.some(v => v.code === code)).map(code => ({ code, name: `Current service (${code})` }))].map(v => <label className="check" key={v.code}><input type="checkbox" checked={form.indexations.includes(v.code)} onChange={e => setForm({ ...form, indexations: e.target.checked ? [...form.indexations, v.code] : form.indexations.filter(c => c !== v.code) })}/>{v.name}</label>)}</fieldset><p className="small">Subject selections are retained from your research session. Missing catalogue options do not imply incompatibility.</p>{error && <p role="alert">{error}</p>}<button className="button" disabled={pending}>{pending ? "Saving…" : label}</button></fieldset><p className="small">Stored privately in your account. Recommendation scores and result lists are not saved.</p></form>;
+}

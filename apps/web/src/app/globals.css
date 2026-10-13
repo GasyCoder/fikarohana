@@ -973,3 +973,10 @@ input[aria-invalid=true],textarea[aria-invalid=true] {
     transition:none!important
   }
 }
+
+/* Private research workspace, continuing the discovery visual language. */
+.project-list { list-style: none; padding: 0; }
+.project-list > li { padding: 1.5rem 0; border-bottom: 1px solid var(--line, #d9e2db); }
+.workspace-nav { display: flex; flex-wrap: wrap; gap: 1.5rem; padding: 1rem 0; border-bottom: 1px solid var(--line, #d9e2db); }
+.research-summary { white-space: pre-wrap; overflow-wrap: anywhere; }
+.auth-form { max-width: 36rem; }

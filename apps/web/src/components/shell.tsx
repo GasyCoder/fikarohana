@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useDiscovery } from "./discovery-context";
 function NavigationLinks({ path = "" }: { path?: string }) {
   const { selected } = useDiscovery();
-  return <nav aria-label="Main navigation"><Link href="/journals" aria-current={path.startsWith("/journals") ? "page" : undefined}>Browse journals</Link><Link href="/research" aria-current={path === "/research" || path === "/recommendations" ? "page" : undefined}>Describe research</Link><Link href="/compare" aria-current={path === "/compare" ? "page" : undefined}>Compare <span className="count">{selected.length}</span></Link></nav>;
+  return <nav aria-label="Main navigation"><Link href="/journals" aria-current={path.startsWith("/journals") ? "page" : undefined}>Browse journals</Link><Link href="/research" aria-current={path === "/research" || path === "/recommendations" ? "page" : undefined}>Describe research</Link><Link href="/projects" aria-current={path.startsWith("/projects") ? "page" : undefined}>Projects</Link><Link href="/compare" aria-current={path === "/compare" ? "page" : undefined}>Compare <span className="count">{selected.length}</span></Link></nav>;
 }
 function Navigation() { return <NavigationLinks path={usePathname()}/>; }
 function CompareTray() {

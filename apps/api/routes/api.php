@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\HealthController;
 use App\Http\Controllers\Api\V1\JournalDiscoveryController;
+use App\Http\Controllers\Api\V1\ResearchProjectController;
 use App\Http\Middleware\RequireSpaSession;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
@@ -21,3 +22,9 @@ Route::post('/auth/logout', [AuthController::class, 'logout'])->middleware(Requi
 Route::post('/auth/tokens', [AuthController::class, 'token'])->middleware('throttle:tokens');
 Route::delete('/auth/tokens/current', [AuthController::class, 'revoke'])->middleware('auth:sanctum');
 Route::get('/me', fn (Request $request) => new UserResource($request->user()))->middleware('auth:sanctum');
+
+Route::middleware('auth:sanctum')->group(function (): void {
+    Route::apiResource('projects', ResearchProjectController::class)->only(['index', 'store', 'show', 'destroy']);
+    Route::patch('/projects/{project}', [ResearchProjectController::class, 'update']);
+    Route::put('/projects/{project}/journal', [ResearchProjectController::class, 'selectJournal']);
+});

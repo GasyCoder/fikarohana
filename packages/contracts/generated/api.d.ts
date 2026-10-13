@@ -221,6 +221,78 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/projects": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List own research projects
+         * @description Private owner-only research project. Sanctum session or bearer authentication; SPA writes require CSRF. Journal facts use only currently usable published selections.
+         */
+        get: operations["listProjects"];
+        put?: never;
+        /**
+         * Create a private research project
+         * @description Private owner-only research project. Sanctum session or bearer authentication; SPA writes require CSRF. Journal facts use only currently usable published selections.
+         */
+        post: operations["createProject"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/projects/{project}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * View own research workspace
+         * @description Private owner-only research project. Sanctum session or bearer authentication; SPA writes require CSRF. Journal facts use only currently usable published selections.
+         */
+        get: operations["showProject"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete project-owned data
+         * @description Private owner-only research project. Sanctum session or bearer authentication; SPA writes require CSRF. Journal facts use only currently usable published selections.
+         */
+        delete: operations["deleteProject"];
+        options?: never;
+        head?: never;
+        /**
+         * Update own research project
+         * @description Private owner-only research project. Sanctum session or bearer authentication; SPA writes require CSRF. Journal facts use only currently usable published selections.
+         */
+        patch: operations["updateProject"];
+        trace?: never;
+    };
+    "/api/v1/projects/{project}/journal": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Select or replace a currently published journal
+         * @description Private owner-only research project. Sanctum session or bearer authentication; SPA writes require CSRF. Journal facts use only currently usable published selections.
+         */
+        put: operations["selectProjectJournal"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -484,6 +556,116 @@ export interface components {
                 retrieval_mode: "deterministic_metadata";
                 /** @constant */
                 score_semantics: "metadata_relevance_only";
+            };
+        };
+        ProjectInput: {
+            title: string;
+            abstract?: string | null;
+            keywords?: string[];
+            subject_ids?: string[];
+            language?: string | null;
+            article_type?: string | null;
+            /** @description Researcher preference; not a claim about the selected journal. */
+            no_apc_only?: boolean;
+            /** @description Validated canonical service codes requested by the researcher. */
+            indexation_services?: string[];
+        };
+        ProjectUpdate: {
+            title?: string;
+            abstract?: string | null;
+            keywords?: string[];
+            subject_ids?: string[];
+            language?: string | null;
+            article_type?: string | null;
+            /** @description Researcher preference; not a claim about the selected journal. */
+            no_apc_only?: boolean;
+            /** @description Validated canonical service codes requested by the researcher. */
+            indexation_services?: string[];
+        };
+        ProjectJournalInput: {
+            /** Format: uuid */
+            journal_id: string;
+        };
+        WorkspaceProvenance: {
+            field: string;
+            source_url: string | null;
+            /** Format: date-time */
+            retrieved_at: string | null;
+            /** Format: date-time */
+            verified_at: string | null;
+        };
+        WorkspaceRequirement: {
+            type: string;
+            availability: string;
+            operator: string | null;
+            value_number: number | null;
+            value_text: string | null;
+            value_items: string[] | null;
+            notes: string | null;
+            article_type: string | null;
+            language: string | null;
+        };
+        WorkspaceTemplate: {
+            format: string;
+            label: string | null;
+            official_url: string | null;
+            article_type: string | null;
+            language: string | null;
+        };
+        WorkspaceJournal: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            revision_id: string;
+            title: string;
+            publisher: {
+                /** Format: uuid */
+                id: string;
+                name: string;
+            } | null;
+            identifiers: components["schemas"]["DiscoveryIdentifier"][];
+            subjects: components["schemas"]["DiscoverySubject"][];
+            languages: components["schemas"]["DiscoveryVocabulary"][];
+            article_types: components["schemas"]["DiscoveryVocabulary"][];
+            indexations: components["schemas"]["DiscoveryVocabulary"][];
+            apc: components["schemas"]["DiscoveryApc"];
+            fees: components["schemas"]["DiscoveryFee"][];
+            provenance: components["schemas"]["WorkspaceProvenance"][];
+            requirements: components["schemas"]["WorkspaceRequirement"][];
+            templates: components["schemas"]["WorkspaceTemplate"][];
+        };
+        ResearchProject: {
+            /** Format: uuid */
+            id: string;
+            title: string;
+            abstract: string | null;
+            keywords: string[];
+            subject_ids: string[];
+            language: string | null;
+            article_type: string | null;
+            /** Format: uuid */
+            selected_journal_id: string | null;
+            /** Format: date-time */
+            journal_selected_at: string | null;
+            /** Format: date-time */
+            created_at: string;
+            /** Format: date-time */
+            updated_at: string;
+            journal: components["schemas"]["WorkspaceJournal"] | null;
+            /** @description Researcher preference; not a claim about the selected journal. */
+            no_apc_only: boolean;
+            /** @description Validated canonical service codes requested by the researcher. */
+            indexation_services: string[];
+        };
+        ProjectResponse: {
+            data: components["schemas"]["ResearchProject"];
+        };
+        ProjectList: {
+            data: components["schemas"]["ResearchProject"][];
+            meta: {
+                current_page: number;
+                last_page: number;
+                total: number;
             };
         };
     };
@@ -1004,6 +1186,237 @@ export interface operations {
             405: components["responses"]["MethodNotAllowed"];
             422: components["responses"]["ValidationError"];
             429: components["responses"]["RateLimited"];
+            500: components["responses"]["ServerError"];
+        };
+    };
+    listProjects: {
+        parameters: {
+            query?: {
+                page?: number;
+                per_page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List own research projects */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProjectList"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            405: components["responses"]["MethodNotAllowed"];
+            419: components["responses"]["CsrfMismatch"];
+            422: components["responses"]["ValidationError"];
+            500: components["responses"]["ServerError"];
+        };
+    };
+    createProject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProjectInput"];
+            };
+        };
+        responses: {
+            /** @description Create a private research project */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProjectResponse"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            405: components["responses"]["MethodNotAllowed"];
+            419: components["responses"]["CsrfMismatch"];
+            422: components["responses"]["ValidationError"];
+            500: components["responses"]["ServerError"];
+        };
+    };
+    showProject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                project: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description View own research workspace */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProjectResponse"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            405: components["responses"]["MethodNotAllowed"];
+            419: components["responses"]["CsrfMismatch"];
+            422: components["responses"]["ValidationError"];
+            500: components["responses"]["ServerError"];
+        };
+    };
+    deleteProject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                project: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Delete project-owned data */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            405: components["responses"]["MethodNotAllowed"];
+            419: components["responses"]["CsrfMismatch"];
+            422: components["responses"]["ValidationError"];
+            500: components["responses"]["ServerError"];
+        };
+    };
+    updateProject: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                project: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProjectUpdate"];
+            };
+        };
+        responses: {
+            /** @description Update own research project */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProjectResponse"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            405: components["responses"]["MethodNotAllowed"];
+            419: components["responses"]["CsrfMismatch"];
+            422: components["responses"]["ValidationError"];
+            500: components["responses"]["ServerError"];
+        };
+    };
+    selectProjectJournal: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                project: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProjectJournalInput"];
+            };
+        };
+        responses: {
+            /** @description Select or replace a currently published journal */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProjectResponse"];
+                };
+            };
+            401: components["responses"]["Unauthenticated"];
+            403: components["responses"]["Forbidden"];
+            /** @description Resource not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            405: components["responses"]["MethodNotAllowed"];
+            419: components["responses"]["CsrfMismatch"];
+            422: components["responses"]["ValidationError"];
             500: components["responses"]["ServerError"];
         };
     };

@@ -13,6 +13,8 @@ tags:
   description: Account, SPA session and mobile token operations.
 - name: Journal discovery
   description: Anonymous published journal metadata and deterministic relevance.
+- name: Research projects
+  description: Private owner-only research workspaces.
 paths:
   /api/v1/health:
     get:
@@ -499,6 +501,274 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/JournalRecommendationRequest'
+  /api/v1/projects:
+    get:
+      operationId: listProjects
+      summary: List own research projects
+      description: Private owner-only research project. Sanctum session or bearer authentication;
+        SPA writes require CSRF. Journal facts use only currently usable published selections.
+      tags:
+      - Research projects
+      security:
+      - sessionCookie: []
+      - bearerAuth: []
+      responses:
+        '200':
+          description: List own research projects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectList'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '419':
+          $ref: '#/components/responses/CsrfMismatch'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+      parameters:
+      - name: page
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+      - name: per_page
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 50
+          default: 20
+    post:
+      operationId: createProject
+      summary: Create a private research project
+      description: Private owner-only research project. Sanctum session or bearer authentication;
+        SPA writes require CSRF. Journal facts use only currently usable published selections.
+      tags:
+      - Research projects
+      security:
+      - sessionCookie: []
+      - bearerAuth: []
+      responses:
+        '201':
+          description: Create a private research project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '419':
+          $ref: '#/components/responses/CsrfMismatch'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectInput'
+  /api/v1/projects/{project}:
+    get:
+      operationId: showProject
+      summary: View own research workspace
+      description: Private owner-only research project. Sanctum session or bearer authentication;
+        SPA writes require CSRF. Journal facts use only currently usable published selections.
+      tags:
+      - Research projects
+      security:
+      - sessionCookie: []
+      - bearerAuth: []
+      responses:
+        '200':
+          description: View own research workspace
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '419':
+          $ref: '#/components/responses/CsrfMismatch'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+      parameters:
+      - name: project
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    patch:
+      operationId: updateProject
+      summary: Update own research project
+      description: Private owner-only research project. Sanctum session or bearer authentication;
+        SPA writes require CSRF. Journal facts use only currently usable published selections.
+      tags:
+      - Research projects
+      security:
+      - sessionCookie: []
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Update own research project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '419':
+          $ref: '#/components/responses/CsrfMismatch'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectUpdate'
+      parameters:
+      - name: project
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    delete:
+      operationId: deleteProject
+      summary: Delete project-owned data
+      description: Private owner-only research project. Sanctum session or bearer authentication;
+        SPA writes require CSRF. Journal facts use only currently usable published selections.
+      tags:
+      - Research projects
+      security:
+      - sessionCookie: []
+      - bearerAuth: []
+      responses:
+        '204':
+          description: Delete project-owned data
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '419':
+          $ref: '#/components/responses/CsrfMismatch'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+      parameters:
+      - name: project
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+  /api/v1/projects/{project}/journal:
+    put:
+      operationId: selectProjectJournal
+      summary: Select or replace a currently published journal
+      description: Private owner-only research project. Sanctum session or bearer authentication;
+        SPA writes require CSRF. Journal facts use only currently usable published selections.
+      tags:
+      - Research projects
+      security:
+      - sessionCookie: []
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Select or replace a currently published journal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+        '401':
+          $ref: '#/components/responses/Unauthenticated'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '419':
+          $ref: '#/components/responses/CsrfMismatch'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectJournalInput'
+      parameters:
+      - name: project
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
 components:
   securitySchemes:
     sessionCookie:
@@ -1234,6 +1504,407 @@ components:
             score_semantics:
               type: string
               const: metadata_relevance_only
+    ProjectInput:
+      type: object
+      additionalProperties: false
+      required:
+      - title
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 500
+        abstract:
+          type:
+          - string
+          - 'null'
+          maxLength: 10000
+        keywords:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 100
+          maxItems: 20
+          uniqueItems: true
+        subject_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          maxItems: 10
+          uniqueItems: true
+        language:
+          type:
+          - string
+          - 'null'
+        article_type:
+          type:
+          - string
+          - 'null'
+        no_apc_only:
+          type: boolean
+          description: Researcher preference; not a claim about the selected journal.
+        indexation_services:
+          type: array
+          maxItems: 10
+          uniqueItems: true
+          items:
+            type: string
+          description: Validated canonical service codes requested by the researcher.
+    ProjectUpdate:
+      type: object
+      additionalProperties: false
+      required: []
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 500
+        abstract:
+          type:
+          - string
+          - 'null'
+          maxLength: 10000
+        keywords:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 100
+          maxItems: 20
+          uniqueItems: true
+        subject_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          maxItems: 10
+          uniqueItems: true
+        language:
+          type:
+          - string
+          - 'null'
+        article_type:
+          type:
+          - string
+          - 'null'
+        no_apc_only:
+          type: boolean
+          description: Researcher preference; not a claim about the selected journal.
+        indexation_services:
+          type: array
+          maxItems: 10
+          uniqueItems: true
+          items:
+            type: string
+          description: Validated canonical service codes requested by the researcher.
+    ProjectJournalInput:
+      type: object
+      additionalProperties: false
+      required:
+      - journal_id
+      properties:
+        journal_id:
+          type: string
+          format: uuid
+    WorkspaceProvenance:
+      type: object
+      additionalProperties: false
+      required:
+      - field
+      - source_url
+      - retrieved_at
+      - verified_at
+      properties:
+        field:
+          type: string
+        source_url:
+          type:
+          - string
+          - 'null'
+        retrieved_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        verified_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+    WorkspaceRequirement:
+      type: object
+      additionalProperties: false
+      required:
+      - type
+      - availability
+      - operator
+      - value_number
+      - value_text
+      - value_items
+      - notes
+      - article_type
+      - language
+      properties:
+        type:
+          type: string
+        availability:
+          type: string
+        operator:
+          type:
+          - string
+          - 'null'
+        value_number:
+          type:
+          - integer
+          - 'null'
+        value_text:
+          type:
+          - string
+          - 'null'
+        value_items:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+        notes:
+          type:
+          - string
+          - 'null'
+        article_type:
+          type:
+          - string
+          - 'null'
+        language:
+          type:
+          - string
+          - 'null'
+    WorkspaceTemplate:
+      type: object
+      additionalProperties: false
+      required:
+      - format
+      - label
+      - official_url
+      - article_type
+      - language
+      properties:
+        format:
+          type: string
+        label:
+          type:
+          - string
+          - 'null'
+        official_url:
+          type:
+          - string
+          - 'null'
+        article_type:
+          type:
+          - string
+          - 'null'
+        language:
+          type:
+          - string
+          - 'null'
+    WorkspaceJournal:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - revision_id
+      - title
+      - publisher
+      - identifiers
+      - subjects
+      - languages
+      - article_types
+      - indexations
+      - apc
+      - fees
+      - provenance
+      - requirements
+      - templates
+      properties:
+        id:
+          type: string
+          format: uuid
+        revision_id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        publisher:
+          anyOf:
+          - type: object
+            additionalProperties: false
+            required:
+            - id
+            - name
+            properties:
+              id:
+                type: string
+                format: uuid
+              name:
+                type: string
+          - type: 'null'
+        identifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryIdentifier'
+        subjects:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoverySubject'
+        languages:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryVocabulary'
+        article_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryVocabulary'
+        indexations:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryVocabulary'
+        apc:
+          $ref: '#/components/schemas/DiscoveryApc'
+        fees:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryFee'
+        provenance:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceProvenance'
+        requirements:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceRequirement'
+        templates:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceTemplate'
+    ResearchProject:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - title
+      - abstract
+      - keywords
+      - subject_ids
+      - language
+      - article_type
+      - selected_journal_id
+      - journal_selected_at
+      - created_at
+      - updated_at
+      - journal
+      - no_apc_only
+      - indexation_services
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          minLength: 1
+          maxLength: 500
+        abstract:
+          type:
+          - string
+          - 'null'
+          maxLength: 10000
+        keywords:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 100
+          maxItems: 20
+          uniqueItems: true
+        subject_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          maxItems: 10
+          uniqueItems: true
+        language:
+          type:
+          - string
+          - 'null'
+        article_type:
+          type:
+          - string
+          - 'null'
+        selected_journal_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        journal_selected_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        journal:
+          anyOf:
+          - $ref: '#/components/schemas/WorkspaceJournal'
+          - type: 'null'
+        no_apc_only:
+          type: boolean
+          description: Researcher preference; not a claim about the selected journal.
+        indexation_services:
+          type: array
+          maxItems: 10
+          uniqueItems: true
+          items:
+            type: string
+          description: Validated canonical service codes requested by the researcher.
+    ProjectResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - data
+      properties:
+        data:
+          $ref: '#/components/schemas/ResearchProject'
+    ProjectList:
+      type: object
+      additionalProperties: false
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResearchProject'
+        meta:
+          type: object
+          additionalProperties: false
+          required:
+          - current_page
+          - last_page
+          - total
+          properties:
+            current_page:
+              type: integer
+            last_page:
+              type: integer
+            total:
+              type: integer
   responses:
     BadRequest:
       description: SPA origin/session required.

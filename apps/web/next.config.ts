@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     if (!["http:", "https:"].includes(target.protocol) || target.username || target.password || target.pathname !== "/" || target.search || target.hash) {
       throw new Error("FIKAROHANA_API_ORIGIN must be a Laravel HTTP(S) origin.");
     }
-    return [{ source: "/api/v1/:path*", destination: `${target.origin}/api/v1/:path*` }];
+    return [{ source: "/api/v1/:path*", destination: `${target.origin}/api/v1/:path*` }, { source: "/sanctum/csrf-cookie", destination: `${target.origin}/sanctum/csrf-cookie` }];
   },
   cacheComponents: true,
   partialPrefetching: true,
