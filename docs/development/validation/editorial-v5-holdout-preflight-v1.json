@@ -1,0 +1,701 @@
+{
+  "schema_version": 1,
+  "phase": "3E-C5",
+  "status": "DISCOVERY_COMPLETE_AWAITING_EXACT_URL_HUMAN_APPROVAL",
+  "research_date": "2026-10-13",
+  "research_timezone": "Indian/Antananarivo",
+  "registry_version": "editorial-v5",
+  "document_version": "editorial-dom-v5",
+  "freeze_reference": "editorial-v5-holdout-candidates-v1.json",
+  "file_sha256": {
+    "apps/api/app/Services/EditorialExtraction/PreparedDocument.php": "a5de80e0e570824eb5b40cf872b079d16efb333fd75b6b88032c394d1754961e",
+    "apps/api/app/Services/EditorialExtraction/EvidenceUnit.php": "d0f41ebe7aceeec27850116df24d510141a26ac6368639d76b1c68af510b9e31",
+    "apps/api/app/Services/EditorialExtraction/WordLimitRule.php": "fcfb0b18245412fd18af764769e59f8c0c82a61b237408e89b77b1e623943360",
+    "apps/api/app/Services/EditorialExtraction/EditorialVocabulary.php": "681e79cd27a4e7adbce0aeb6279d1e236512638d4d33353dd3fe1a7c93a76054",
+    "apps/api/app/Services/EditorialExtraction/RuleContext.php": "1e41adaac89ae57b8eb33def0e7b089de5ab726fdba8d215292e60f23fd77107",
+    "apps/api/app/Services/EditorialExtraction/LinkRule.php": "ddda40369c6702ec194cafb81936d0be52e35c8628769c97a520ed984aab6633",
+    "apps/api/app/Services/EditorialExtraction/ExtractEditorialSnapshot.php": "9641ceaf6cb7f29d64594daa8d3aa5ed1721c7f7e5f10476c300011a6f346201",
+    "apps/api/app/Services/EditorialExtraction/EditorialRule.php": "47d5c2e2f8dd4bf73afe383cb78b826da34df86dc5fe770669dc5899f5252e39",
+    "apps/api/app/Services/EditorialExtraction/RuleRegistry.php": "73218635280cb01e7a9995be5e88a7f6c880ff5d5831f5176bbd64dc02fc7c99",
+    "apps/api/app/Services/EditorialExtraction/ReferenceStyleRule.php": "3ae10de767f20d1cd9ce13e597b378b67a7f38184dfa5492d72cc54b5f05d221",
+    "apps/api/app/Services/EditorialExtraction/LanguageRule.php": "9a6b677647812880b7fbbf7db9f7c3c707e1410e12f5e7785992bba95c2364c5",
+    "apps/api/app/Services/EditorialExtraction/PrepareDocument.php": "fd10afcf817e668d90a2de91dc432a6a0aea4ca3f8bdbad22d3b5bbba74e53c7",
+    "apps/api/app/Services/EditorialExtraction/ArticleTypeRule.php": "db8132724c7d0f8f183c409b39e69fa2248f7ff1e9114983960acf996179a966",
+    "apps/api/app/Services/EditorialExtraction/FeeRule.php": "b95520bb8eed596cf724ec684ee987c588025985463e94cf185526d23ba934a4"
+  },
+  "candidate_only": true,
+  "discovery_method": {
+    "mode": "Bounded public web search and selected official-page reader opens/clicks/finds; operator/development discovery only.",
+    "search_queries_executed": 24,
+    "explicit_page_operations_executed": 48,
+    "budget": {
+      "maximum_search_queries": 24,
+      "maximum_explicit_page_operations": 50
+    },
+    "query_families": [
+      "University/OJS HTML submission instructions",
+      "Centre Mersenne journal instructions",
+      "Journal-owned lightweight sites",
+      "Independent nonprofit publisher instructions"
+    ],
+    "selection_basis": [
+      "official-source confidence",
+      "apparent static accessibility",
+      "platform/publisher diversity",
+      "editorial information richness"
+    ],
+    "no_extractor_success_ranking": true,
+    "no_3ea_registration_approval_fetch": true,
+    "no_scripts_assets_templates_or_pdf_downloads": true,
+    "no_automated_crawl_or_replacements": true,
+    "no_copied_editorial_passages": true,
+    "independence_check_basis": "Prior validation JSON journal identities and local docs/code/fixtures, broader than requested exclusions.",
+    "web_reader_limitation": "Cached/indexed or transformed reader content is discovery evidence only; it does not prove static raw HTML, response bytes, DNS, TLS, robots, permitted automation or successful 3E-A acquisition.",
+    "search_text_flag": "true means editorial text appeared in discovery search output; null means not established in the bounded search, even if direct reader text was available."
+  },
+  "excluded_journals": [
+    "PLOS ONE",
+    "Journal of Open Source Software",
+    "Journal of Machine Learning Research",
+    "Confluentes Mathematici",
+    "eLife",
+    "PeerJ",
+    "Journal of Statistical Software",
+    "Biology Open",
+    "Systematic Biology",
+    "Discrete Analysis",
+    "Frontiers in Psychology",
+    "IUCrJ",
+    "BMC Medicine",
+    "Scientific Reports",
+    "Sensors"
+  ],
+  "other_prior_discovery_not_retried": [
+    "Acta Acustica — previous reader 403"
+  ],
+  "candidate_pool_size": 11,
+  "candidates": [
+    {
+      "id": "mat",
+      "journal_title": "Medicine Anthropology Theory",
+      "publisher_institution_society": "University of Edinburgh / Edinburgh Diamond; MAT Editorial Collective",
+      "exact_url": "https://www.medanthrotheory.org/mat/about/submissions",
+      "official_journal_homepage": "https://www.medanthrotheory.org/mat",
+      "domain": "www.medanthrotheory.org",
+      "page_role": "author_guidelines_and_submissions",
+      "platform_family": "OJS/PKP",
+      "apparent_rendering": "APPARENT_SERVER_RENDERED",
+      "rendering_assessment_basis": "Public web reader returned text/html with editorial text; static/server rendering is an inference, not a raw 3E-A observation.",
+      "discovery_reader_lines": 114,
+      "raw_html_bytes": null,
+      "search_results_expose_editorial_text": true,
+      "potential_fact_categories": [
+        "manuscript_language",
+        "abstract_maximum_words",
+        "article_type",
+        "no_apc",
+        "reference_style",
+        "submission_url"
+      ],
+      "usefulness_note": "Broad manuscript preparation, type-specific sections, fees and citations; submission-stage and production-stage requirements coexist.",
+      "officiality_evidence": [
+        {
+          "url": "https://www.medanthrotheory.org/mat",
+          "relationship": "Journal masthead and footer identify University of Edinburgh / Edinburgh Diamond; homepage links submission workflow."
+        },
+        {
+          "url": "https://www.medanthrotheory.org/mat/about/submissions",
+          "relationship": "Journal-specific guidelines and same publisher footer on own journal domain."
+        },
+        {
+          "url": "https://journals.ed.ac.uk/",
+          "relationship": "University journal directory lists MAT and publisher relationship."
+        }
+      ],
+      "acquisition_suitability": "HIGH",
+      "acquisition_rationale": "Public editorial text on university-published OJS; strong identity evidence and varied sections without an observed challenge.",
+      "discovered_warnings": [
+        "Edinburgh-hosted discovery alias contains links to the own journal domain; propose the directly inspected own-domain URL, not a later cross-origin workaround.",
+        "Login is for manuscript submission; guidelines are visible without signing in.",
+        "Homepage and guidelines need later applicability/date review; do not merge their article categories."
+      ],
+      "robots_review_status": "NOT_REVIEWED",
+      "automated_access_policy_status": "NOT_REVIEWED",
+      "approval_status": "PENDING_HUMAN_APPROVAL",
+      "acquisition_status": "NOT_ATTEMPTED",
+      "independence_review": "No occurrence in prior real validation journal identities; excluded journals and broader local prior-design references checked. Discovery content must not influence V5.",
+      "recommended_for_approval_batch": true,
+      "approval_batch_order": 1
+    },
+    {
+      "id": "sigma",
+      "journal_title": "SIGMA (Symmetry, Integrability and Geometry: Methods and Applications)",
+      "publisher_institution_society": "SIGMA editorial team; founded at Institute of Mathematics, NAS of Ukraine",
+      "exact_url": "https://sigma-journal.com/about.html",
+      "official_journal_homepage": "https://sigma-journal.com/",
+      "domain": "sigma-journal.com",
+      "page_role": "combined_about_author_instructions_and_policies",
+      "platform_family": "LIGHTWEIGHT_STATIC_HTML",
+      "apparent_rendering": "APPARENT_STATIC_HTML",
+      "rendering_assessment_basis": "Public web reader returned text/html with editorial text; static/server rendering is an inference, not a raw 3E-A observation.",
+      "discovery_reader_lines": 142,
+      "raw_html_bytes": null,
+      "search_results_expose_editorial_text": true,
+      "potential_fact_categories": [
+        "article_type",
+        "no_apc"
+      ],
+      "usefulness_note": "Combined submission, article categories, fees and overlay workflow; email/arXiv instructions introduce editorial diversity.",
+      "officiality_evidence": [
+        {
+          "url": "https://sigma-journal.com/",
+          "relationship": "Journal homepage links How to Submit an Article to this exact combined page."
+        },
+        {
+          "url": "https://sigma-journal.com/about.html",
+          "relationship": "Journal identity, founding institution and current managing team are named on the page."
+        }
+      ],
+      "acquisition_suitability": "HIGH",
+      "acquisition_rationale": "Compact conventional HTML on the journal own domain, readable editorial sections and direct official navigation.",
+      "discovered_warnings": [
+        "Combined page includes editorial board and bibliographic material; only applicable editorial sections can later support gold.",
+        "arXiv and email workflow must not be assumed to be an ordinary journal submission URL; external links are not acquisition targets."
+      ],
+      "robots_review_status": "NOT_REVIEWED",
+      "automated_access_policy_status": "NOT_REVIEWED",
+      "approval_status": "PENDING_HUMAN_APPROVAL",
+      "acquisition_status": "NOT_ATTEMPTED",
+      "independence_review": "No occurrence in prior real validation journal identities; excluded journals and broader local prior-design references checked. Discovery content must not influence V5.",
+      "recommended_for_approval_batch": true,
+      "approval_batch_order": 2
+    },
+    {
+      "id": "volcanica",
+      "journal_title": "Volcanica",
+      "publisher_institution_society": "Volcanica editorial team (self-published); institutional backing from Presses universitaires de Strasbourg",
+      "exact_url": "https://www.jvolcanica.org/ojs/index.php/volcanica/about/submissions",
+      "official_journal_homepage": "https://www.jvolcanica.org/ojs/index.php/volcanica",
+      "domain": "www.jvolcanica.org",
+      "page_role": "author_guidelines_and_submission_checklist",
+      "platform_family": "OJS/PKP",
+      "apparent_rendering": "APPARENT_SERVER_RENDERED",
+      "rendering_assessment_basis": "Public web reader returned text/html with editorial text; static/server rendering is an inference, not a raw 3E-A observation.",
+      "discovery_reader_lines": 82,
+      "raw_html_bytes": null,
+      "search_results_expose_editorial_text": true,
+      "potential_fact_categories": [
+        "abstract_maximum_words",
+        "article_type",
+        "submission_url"
+      ],
+      "usefulness_note": "Multiple article formats, review proposals, abstract instructions and submission versus acceptance stages.",
+      "officiality_evidence": [
+        {
+          "url": "https://www.jvolcanica.org/ojs/index.php/volcanica",
+          "relationship": "Journal homepage links Submission instructions and names Open Journal Systems."
+        },
+        {
+          "url": "https://www.jvolcanica.org/ojs/index.php/volcanica/about",
+          "relationship": "About page describes self-publishing and Strasbourg institutional support."
+        }
+      ],
+      "acquisition_suitability": "HIGH",
+      "acquisition_rationale": "Public OJS editorial body with direct journal navigation, earth-science diversity and moderate reader length.",
+      "discovered_warnings": [
+        "Linked templates, Overleaf and publication-ethics PDF remain unapproved metadata.",
+        "Review proposals and special formats have conditions; no unconditional membership inferred.",
+        "Login/register governs submission, not viewing these instructions."
+      ],
+      "robots_review_status": "NOT_REVIEWED",
+      "automated_access_policy_status": "NOT_REVIEWED",
+      "approval_status": "PENDING_HUMAN_APPROVAL",
+      "acquisition_status": "NOT_ATTEMPTED",
+      "independence_review": "No occurrence in prior real validation journal identities; excluded journals and broader local prior-design references checked. Discovery content must not influence V5.",
+      "recommended_for_approval_batch": true,
+      "approval_batch_order": 4
+    },
+    {
+      "id": "bjoc",
+      "journal_title": "Beilstein Journal of Organic Chemistry",
+      "publisher_institution_society": "Beilstein-Institut, nonprofit foundation",
+      "exact_url": "https://www.beilstein-journals.org/bjoc/authorInstructions",
+      "official_journal_homepage": "https://www.beilstein-journals.org/bjoc/",
+      "domain": "www.beilstein-journals.org",
+      "page_role": "author_instructions",
+      "platform_family": "CUSTOM_PUBLISHER_HTML",
+      "apparent_rendering": "APPARENT_SERVER_RENDERED_WITH_JS_UI",
+      "rendering_assessment_basis": "Public web reader returned text/html with editorial text; static/server rendering is an inference, not a raw 3E-A observation.",
+      "discovery_reader_lines": 408,
+      "raw_html_bytes": null,
+      "search_results_expose_editorial_text": null,
+      "potential_fact_categories": [
+        "manuscript_language",
+        "article_type",
+        "no_apc",
+        "reference_style",
+        "submission_url"
+      ],
+      "usefulness_note": "Chemistry-specific article structures, language, publication-fee wording, named reference guidance and production requirements.",
+      "officiality_evidence": [
+        {
+          "url": "https://www.beilstein-journals.org/bjoc/theJournal",
+          "relationship": "Journal-specific publisher page identifies Beilstein-Institut and links the official submission area."
+        },
+        {
+          "url": "https://www.beilstein-journals.org/bjoc/authorInstructions",
+          "relationship": "Journal-named author instructions share the publisher masthead and navigation."
+        }
+      ],
+      "acquisition_suitability": "MEDIUM",
+      "acquisition_rationale": "Strong publisher attribution and substantive public HTML add a non-OJS structure; longer page and JavaScript/cookie notice require caution.",
+      "discovered_warnings": [
+        "Generic JavaScript/cookie-enablement notice is visible despite readable editorial text; static availability is unproven.",
+        "Long instructions (408 reader lines); raw size may exceed 256 KiB.",
+        "Search surfaced the exact instructions mainly via PDF/citation references; HTML was confirmed directly. No PDF downloaded."
+      ],
+      "robots_review_status": "NOT_REVIEWED",
+      "automated_access_policy_status": "NOT_REVIEWED",
+      "approval_status": "PENDING_HUMAN_APPROVAL",
+      "acquisition_status": "NOT_ATTEMPTED",
+      "independence_review": "No occurrence in prior real validation journal identities; excluded journals and broader local prior-design references checked. Discovery content must not influence V5.",
+      "recommended_for_approval_batch": true,
+      "approval_batch_order": 3
+    },
+    {
+      "id": "alco",
+      "journal_title": "Algebraic Combinatorics",
+      "publisher_institution_society": "Editorial Board and Editors-in-Chief; Centre Mersenne technical publishing platform",
+      "exact_url": "https://alco.centre-mersenne.org/page/instructions-for-authors/",
+      "official_journal_homepage": "https://alco.centre-mersenne.org/",
+      "domain": "alco.centre-mersenne.org",
+      "page_role": "author_instructions",
+      "platform_family": "CENTRE_MERSENNE",
+      "apparent_rendering": "APPARENT_SERVER_RENDERED",
+      "rendering_assessment_basis": "Public web reader returned text/html with editorial text; static/server rendering is an inference, not a raw 3E-A observation.",
+      "discovery_reader_lines": 93,
+      "raw_html_bytes": null,
+      "search_results_expose_editorial_text": true,
+      "potential_fact_categories": [
+        "submission_url",
+        "template_url"
+      ],
+      "usefulness_note": "Submission and post-acceptance instructions, special-issue conditions and template/action links; no fee or language category inferred from platform membership.",
+      "officiality_evidence": [
+        {
+          "url": "https://alco.centre-mersenne.org/",
+          "relationship": "Homepage explicitly states editorial-board ownership and links this exact Instructions for authors page."
+        },
+        {
+          "url": "https://alco.centre-mersenne.org/page/journal-policy_en/",
+          "relationship": "Journal policy identifies Centre Mersenne as service provider."
+        }
+      ],
+      "acquisition_suitability": "HIGH",
+      "acquisition_rationale": "Direct official navigation, short editorial page and a Centre Mersenne structure distinct from the selected OJS installations.",
+      "discovered_warnings": [
+        "Detailed instructions and LaTeX/class/archive files are linked separately and must not be acquired.",
+        "Limited coverage of the preferred fact categories on this page; selected for acquisition and structural diversity, not parsing simplicity.",
+        "Centre Mersenne also hosts excluded Confluentes; ALCO is a different journal, but shared platform dependence is disclosed."
+      ],
+      "robots_review_status": "NOT_REVIEWED",
+      "automated_access_policy_status": "NOT_REVIEWED",
+      "approval_status": "PENDING_HUMAN_APPROVAL",
+      "acquisition_status": "NOT_ATTEMPTED",
+      "independence_review": "No occurrence in prior real validation journal identities; excluded journals and broader local prior-design references checked. Discovery content must not influence V5.",
+      "recommended_for_approval_batch": true,
+      "approval_batch_order": 6
+    },
+    {
+      "id": "jair",
+      "journal_title": "Journal of Artificial Intelligence Research",
+      "publisher_institution_society": "AI Access Foundation; community-run editorial team",
+      "exact_url": "https://www.jair.org/index.php/jair/about/submissions",
+      "official_journal_homepage": "https://www.jair.org/index.php/jair",
+      "domain": "www.jair.org",
+      "page_role": "author_guidelines_and_submission_requirements",
+      "platform_family": "OJS/PKP",
+      "apparent_rendering": "APPARENT_SERVER_RENDERED",
+      "rendering_assessment_basis": "Public web reader returned text/html with editorial text; static/server rendering is an inference, not a raw 3E-A observation.",
+      "discovery_reader_lines": 123,
+      "raw_html_bytes": null,
+      "search_results_expose_editorial_text": null,
+      "potential_fact_categories": [
+        "article_type",
+        "no_apc",
+        "submission_url"
+      ],
+      "usefulness_note": "Full articles, notes, surveys and special tracks; fees, resubmission and extended conference-work requirements.",
+      "officiality_evidence": [
+        {
+          "url": "https://www.jair.org/index.php/jair/about",
+          "relationship": "Official About page names AI Access Foundation as publisher and uses the same journal navigation."
+        },
+        {
+          "url": "https://www.jair.org/index.php/jair",
+          "relationship": "Journal homepage links Submissions on the same domain."
+        }
+      ],
+      "acquisition_suitability": "HIGH",
+      "acquisition_rationale": "Public moderately sized OJS page with foundation attribution and computer-science editorial diversity.",
+      "discovered_warnings": [
+        "Several links use bare jair.org whereas the proposed URL uses www; any cross-origin redirect must fail closed, not be manually substituted.",
+        "Login is required to submit, not to read guidelines.",
+        "Bounded exact search did not return a reliable editorial snippet for this page; its body was observed directly."
+      ],
+      "robots_review_status": "NOT_REVIEWED",
+      "automated_access_policy_status": "NOT_REVIEWED",
+      "approval_status": "PENDING_HUMAN_APPROVAL",
+      "acquisition_status": "NOT_ATTEMPTED",
+      "independence_review": "No occurrence in prior real validation journal identities; excluded journals and broader local prior-design references checked. Discovery content must not influence V5.",
+      "recommended_for_approval_batch": true,
+      "approval_batch_order": 7
+    },
+    {
+      "id": "quantum",
+      "journal_title": "Quantum",
+      "publisher_institution_society": "Quantum community-run nonprofit journal; publisher identity documented in Impressum",
+      "exact_url": "https://quantum-journal.org/instructions/authors/",
+      "official_journal_homepage": "https://quantum-journal.org/",
+      "domain": "quantum-journal.org",
+      "page_role": "author_guidelines_and_editorial_workflow",
+      "platform_family": "WORDPRESS_STYLE_JOURNAL_SITE",
+      "apparent_rendering": "APPARENT_SERVER_RENDERED",
+      "rendering_assessment_basis": "Public web reader returned text/html with editorial text; static/server rendering is an inference, not a raw 3E-A observation.",
+      "discovery_reader_lines": 103,
+      "raw_html_bytes": null,
+      "search_results_expose_editorial_text": true,
+      "potential_fact_categories": [
+        "article_type",
+        "submission_url",
+        "apc_policy"
+      ],
+      "usefulness_note": "Overlay submission, research/review/software categories, voluntary-charge policy and staged editorial workflow.",
+      "officiality_evidence": [
+        {
+          "url": "https://quantum-journal.org/about/",
+          "relationship": "Same-domain About page identifies the community journal and links Constitution and Impressum."
+        },
+        {
+          "url": "https://quantum-journal.org/impressum/",
+          "relationship": "Same-domain publisher/legal identity page linked from About."
+        },
+        {
+          "url": "https://quantum-journal.org/instructions/authors/",
+          "relationship": "Journal-branded instructions describe its own editorial workflow and peer-review platform."
+        }
+      ],
+      "acquisition_suitability": "HIGH",
+      "acquisition_rationale": "Readable public instructions on the journal domain, moderate reader length and a non-OJS presentation structure.",
+      "discovered_warnings": [
+        "Scholastica login is downstream manuscript submission; no permission to acquire its URLs.",
+        "arXiv, template, payment and appeal destinations are not approved.",
+        "Voluntary-charge policy must retain its qualifier; no fee amount or mandatory APC inferred from a linked payment page.",
+        "WordPress-style rendering is inferred from presentation; no raw architecture inspection performed."
+      ],
+      "robots_review_status": "NOT_REVIEWED",
+      "automated_access_policy_status": "NOT_REVIEWED",
+      "approval_status": "PENDING_HUMAN_APPROVAL",
+      "acquisition_status": "NOT_ATTEMPTED",
+      "independence_review": "No occurrence in prior real validation journal identities; excluded journals and broader local prior-design references checked. Discovery content must not influence V5.",
+      "recommended_for_approval_batch": true,
+      "approval_batch_order": 5
+    },
+    {
+      "id": "jpe",
+      "journal_title": "Journal of Pollination Ecology",
+      "publisher_institution_society": "Independent nonprofit journal editorial team; scholarly pollination community",
+      "exact_url": "https://www.pollinationecology.org/index.php/jpe/about/submissions",
+      "official_journal_homepage": "https://www.pollinationecology.org/index.php/jpe",
+      "domain": "www.pollinationecology.org",
+      "page_role": "author_guidelines_and_submission_checklist",
+      "platform_family": "OJS/PKP",
+      "apparent_rendering": "APPARENT_SERVER_RENDERED",
+      "rendering_assessment_basis": "Public web reader returned text/html with editorial text; static/server rendering is an inference, not a raw 3E-A observation.",
+      "discovery_reader_lines": 97,
+      "raw_html_bytes": null,
+      "search_results_expose_editorial_text": true,
+      "potential_fact_categories": [
+        "article_type",
+        "no_apc",
+        "apc_policy",
+        "submission_url"
+      ],
+      "usefulness_note": "Several manuscript formats, fee-policy wording, reviewer/cover-letter requirements and supplementary lay-summary stage.",
+      "officiality_evidence": [
+        {
+          "url": "https://www.pollinationecology.org/index.php/jpe",
+          "relationship": "Journal homepage and navigation link Submissions and About on this domain."
+        },
+        {
+          "url": "https://www.pollinationecology.org/index.php/jpe/about",
+          "relationship": "Official About page identifies the nonprofit journal and its editorial process."
+        }
+      ],
+      "acquisition_suitability": "HIGH",
+      "acquisition_rationale": "Public compact OJS page with journal identity and ecological editorial diversity; qualified fees add information richness.",
+      "discovered_warnings": [
+        "Voluntary contribution must not be normalized as a mandatory APC; no fee label assigned in discovery.",
+        "Full formatting instructions are a separate linked page, outside this proposed exact URL.",
+        "www and bare-host links coexist; actual origin-constrained redirects must be checked later.",
+        "Login is for submitting manuscripts, not viewing the guidelines."
+      ],
+      "robots_review_status": "NOT_REVIEWED",
+      "automated_access_policy_status": "NOT_REVIEWED",
+      "approval_status": "PENDING_HUMAN_APPROVAL",
+      "acquisition_status": "NOT_ATTEMPTED",
+      "independence_review": "No occurrence in prior real validation journal identities; excluded journals and broader local prior-design references checked. Discovery content must not influence V5.",
+      "recommended_for_approval_batch": true,
+      "approval_batch_order": 8
+    },
+    {
+      "id": "ejt",
+      "journal_title": "European Journal of Taxonomy",
+      "publisher_institution_society": "Consortium of European natural-history institutions",
+      "exact_url": "https://europeanjournaloftaxonomy.eu/index.php/ejt/about/submissions",
+      "official_journal_homepage": "https://europeanjournaloftaxonomy.eu/index.php/ejt",
+      "domain": "europeanjournaloftaxonomy.eu",
+      "page_role": "author_guidelines",
+      "platform_family": "OJS/PKP",
+      "apparent_rendering": "APPARENT_SERVER_RENDERED",
+      "rendering_assessment_basis": "Public web reader returned text/html with editorial text; static/server rendering is an inference, not a raw 3E-A observation.",
+      "discovery_reader_lines": 528,
+      "raw_html_bytes": null,
+      "search_results_expose_editorial_text": true,
+      "potential_fact_categories": [
+        "manuscript_language",
+        "article_type",
+        "no_apc",
+        "reference_style",
+        "submission_url"
+      ],
+      "usefulness_note": "Extensive taxonomic instructions, manuscript categories, language, fees, citations and nomenclature-specific requirements.",
+      "officiality_evidence": [
+        {
+          "url": "https://europeanjournaloftaxonomy.eu/index.php/ejt",
+          "relationship": "Journal homepage has journal-specific Submissions and Author Guidelines navigation."
+        },
+        {
+          "url": "https://europeanjournaloftaxonomy.eu/index.php/ejt/about/submissions",
+          "relationship": "VISION section names the funding/publishing natural-history consortium."
+        }
+      ],
+      "acquisition_suitability": "MEDIUM",
+      "acquisition_rationale": "Strong officiality and rich institutional editorial structure; kept in reserve because long page and OJS representation already substantial.",
+      "discovered_warnings": [
+        "528 reader lines; raw HTML size is unknown and may exceed 256 KiB.",
+        "Material-citation guides and PDFs are separate resources, not acquired.",
+        "Taxonomic scope and article-category exclusions need later human review."
+      ],
+      "robots_review_status": "NOT_REVIEWED",
+      "automated_access_policy_status": "NOT_REVIEWED",
+      "approval_status": "PENDING_HUMAN_APPROVAL",
+      "acquisition_status": "NOT_ATTEMPTED",
+      "independence_review": "No occurrence in prior real validation journal identities; excluded journals and broader local prior-design references checked. Discovery content must not influence V5.",
+      "recommended_for_approval_batch": false,
+      "approval_batch_order": null
+    },
+    {
+      "id": "esjs",
+      "journal_title": "Edinburgh Student Journal of Science",
+      "publisher_institution_society": "University of Edinburgh / Edinburgh Diamond; student editorial team",
+      "exact_url": "https://journals.ed.ac.uk/esjs/about/submissions",
+      "official_journal_homepage": "https://journals.ed.ac.uk/index.php/esjs/index",
+      "domain": "journals.ed.ac.uk",
+      "page_role": "author_guidelines_and_eligibility",
+      "platform_family": "OJS/PKP",
+      "apparent_rendering": "APPARENT_SERVER_RENDERED",
+      "rendering_assessment_basis": "Public web reader returned text/html with editorial text; static/server rendering is an inference, not a raw 3E-A observation.",
+      "discovery_reader_lines": 90,
+      "raw_html_bytes": null,
+      "search_results_expose_editorial_text": true,
+      "potential_fact_categories": [
+        "abstract_maximum_words",
+        "article_type",
+        "no_apc",
+        "reference_style",
+        "submission_url"
+      ],
+      "usefulness_note": "Manuscript formats, abstract and reference instructions plus student/supervisor eligibility requirements.",
+      "officiality_evidence": [
+        {
+          "url": "https://journals.ed.ac.uk/",
+          "relationship": "University library publishing directory lists this journal."
+        },
+        {
+          "url": "https://journals.ed.ac.uk/esjs/about/submissions",
+          "relationship": "Journal-specific page links Home and supplies public writing/eligibility guidance on the university domain."
+        }
+      ],
+      "acquisition_suitability": "MEDIUM",
+      "acquisition_rationale": "Readable university OJS guidance; reserve because Edinburgh/OJS already represented and audience is restricted.",
+      "discovered_warnings": [
+        "Student eligibility and supervisor conditions restrict applicability; do not infer unrestricted journal support.",
+        "Linked manuscript templates and signed submission form are not acquisition targets.",
+        "Another Edinburgh-hosted candidate is selected; this reserve does not add independent publisher coverage."
+      ],
+      "robots_review_status": "NOT_REVIEWED",
+      "automated_access_policy_status": "NOT_REVIEWED",
+      "approval_status": "PENDING_HUMAN_APPROVAL",
+      "acquisition_status": "NOT_ATTEMPTED",
+      "independence_review": "No occurrence in prior real validation journal identities; excluded journals and broader local prior-design references checked. Discovery content must not influence V5.",
+      "recommended_for_approval_batch": false,
+      "approval_batch_order": null
+    },
+    {
+      "id": "jemr-archive",
+      "journal_title": "Journal of Eye Movement Research — former Bern site",
+      "publisher_institution_society": "Former Bern Open Publishing / University of Bern host; transferred to MDPI",
+      "exact_url": "https://bop.unibe.ch/JEMR/about/submissions",
+      "official_journal_homepage": "https://bop.unibe.ch/JEMR",
+      "domain": "bop.unibe.ch",
+      "page_role": "legacy_author_guidelines",
+      "platform_family": "OJS/PKP_ARCHIVE",
+      "apparent_rendering": "APPARENT_SERVER_RENDERED",
+      "rendering_assessment_basis": "Public web reader returned text/html with editorial text; static/server rendering is an inference, not a raw 3E-A observation.",
+      "discovery_reader_lines": 72,
+      "raw_html_bytes": null,
+      "search_results_expose_editorial_text": true,
+      "potential_fact_categories": [
+        "reference_style",
+        "apc_policy"
+      ],
+      "usefulness_note": "Legacy formatting and fee guidance remains readable but present applicability is doubtful.",
+      "officiality_evidence": [
+        {
+          "url": "https://bop.unibe.ch/JEMR",
+          "relationship": "Official former university-hosted journal homepage links these guidelines and explicitly announces the MDPI transfer."
+        },
+        {
+          "url": "https://www.jemr.org/",
+          "relationship": "Legacy own-domain homepage points to MDPI; no MDPI page opened or proposed."
+        }
+      ],
+      "acquisition_suitability": "LOW",
+      "acquisition_rationale": "Historical officiality established, but an editor transfer and closed submissions make this unsuitable for the recommended current batch.",
+      "discovered_warnings": [
+        "Bern homepage announces transfer effective 2025-01-01.",
+        "Guidelines state that the journal is not accepting submissions.",
+        "Retained only to document a low-priority discovery outcome; not an approved replacement and not current authoritative guidance."
+      ],
+      "robots_review_status": "NOT_REVIEWED",
+      "automated_access_policy_status": "NOT_REVIEWED",
+      "approval_status": "PENDING_HUMAN_APPROVAL",
+      "acquisition_status": "NOT_ATTEMPTED",
+      "independence_review": "No occurrence in prior real validation journal identities; excluded journals and broader local prior-design references checked. Discovery content must not influence V5.",
+      "recommended_for_approval_batch": false,
+      "approval_batch_order": null
+    }
+  ],
+  "recommended_approval_batch": [
+    {
+      "order": 1,
+      "candidate_id": "mat",
+      "exact_url": "https://www.medanthrotheory.org/mat/about/submissions"
+    },
+    {
+      "order": 2,
+      "candidate_id": "sigma",
+      "exact_url": "https://sigma-journal.com/about.html"
+    },
+    {
+      "order": 3,
+      "candidate_id": "bjoc",
+      "exact_url": "https://www.beilstein-journals.org/bjoc/authorInstructions"
+    },
+    {
+      "order": 4,
+      "candidate_id": "volcanica",
+      "exact_url": "https://www.jvolcanica.org/ojs/index.php/volcanica/about/submissions"
+    },
+    {
+      "order": 5,
+      "candidate_id": "quantum",
+      "exact_url": "https://quantum-journal.org/instructions/authors/"
+    },
+    {
+      "order": 6,
+      "candidate_id": "alco",
+      "exact_url": "https://alco.centre-mersenne.org/page/instructions-for-authors/"
+    },
+    {
+      "order": 7,
+      "candidate_id": "jair",
+      "exact_url": "https://www.jair.org/index.php/jair/about/submissions"
+    },
+    {
+      "order": 8,
+      "candidate_id": "jpe",
+      "exact_url": "https://www.pollinationecology.org/index.php/jpe/about/submissions"
+    }
+  ],
+  "batch_summary": {
+    "exact_url_count": 8,
+    "distinct_journals": 8,
+    "distinct_domains": 8,
+    "maximum_urls_per_journal": 1,
+    "apparent_platform_counts": {
+      "OJS/PKP": 4,
+      "CENTRE_MERSENNE": 1,
+      "LIGHTWEIGHT_STATIC_HTML": 1,
+      "WORDPRESS_STYLE_JOURNAL_SITE": 1,
+      "CUSTOM_PUBLISHER_HTML": 1
+    },
+    "diversity_limitations": [
+      "Half of the batch is OJS; separate publishers and instances still share platform dependence.",
+      "ALCO shares Centre Mersenne with excluded Confluentes; journal independence is not platform independence.",
+      "No society ownership is asserted merely from scholarly-community affiliation."
+    ]
+  },
+  "potential_coverage_only": {
+    "target_positive_facts_after_acquisition_and_human_review": [
+      6,
+      10
+    ],
+    "target_minimum_categories": 3,
+    "preferred_categories_potentially_present": [
+      "manuscript_language",
+      "abstract_maximum_words",
+      "article_type",
+      "no_apc",
+      "reference_style",
+      "submission_url"
+    ],
+    "fee_policy_opportunities": [
+      "jpe",
+      "quantum"
+    ],
+    "explicit_mandatory_apc_amount_coverage": "NOT_ESTABLISHED; voluntary-charge wording is not mandatory APC evidence; linked fee pages are outside the batch.",
+    "adequacy": "Discovery opportunity only. No positive facts counted, labels assigned, normalized values extracted or guarantees of representability/accessibility."
+  },
+  "later_acquisition_plan": {
+    "authorization": "Human approval for these exact eight editorial URLs is required; prior C4 authorization does not extend to this batch.",
+    "sequence": "Later authorized exact batch in recorded order: ownership/applicability/robots/access/internal retention review, then unchanged 3E-A register -> approve -> fetch for eligible URLs only.",
+    "stop_when": "At least three distinct journals have usable static editorial snapshots AND at least six candidate positive facts plausibly exist for whole-corpus human review; otherwise exhaust all human-approved URLs.",
+    "gold_gate": "After acquisition stops, prepare the complete acquired-corpus human gold packet; freeze all human labels before a single unchanged V5 whole-corpus run. Never a page -> benchmark -> correction cycle.",
+    "on_failure": "Record ACQUISITION_BLOCKED or DO_NOT_APPROVE with cause; no bypass, automatic retry, new candidate discovery or replacement.",
+    "scope": "Only individually approved exact URLs; reserves, officiality references and secondary destinations are not implicitly approved.",
+    "security_unchanged": [
+      "HTTPS only",
+      "all DNS A/AAAA public-address policy",
+      "private/link-local rejection",
+      "TLS validation",
+      "SSRF/IP pinning",
+      "approved-origin redirect restrictions",
+      "256 KiB bound",
+      "robots/access policy",
+      "existing cadence and timeouts"
+    ],
+    "pending_for_every_url": [
+      "Current officiality/applicability",
+      "Public unauthenticated raw content",
+      "Applicable robots and automated-access terms",
+      "Internal retention basis",
+      "All DNS answers and TLS/SSRF checks",
+      "Actual redirects/final URL",
+      "Raw body size and static editorial usability"
+    ]
+  },
+  "human_approval_reference": null,
+  "phase_4_readiness": "NOT_READY"
+}

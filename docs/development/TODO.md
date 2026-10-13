@@ -76,3 +76,45 @@ Foundation, catalog, discovery and comparison are intermediate deliveries; light
 Phase 2 schema/results and remaining ingestion work are recorded in [JOURNAL-DATA-MODEL-V1](JOURNAL-DATA-MODEL-V1.md). Phase 3A now supports controlled local synthetic batches through Artisan; see [JOURNAL-INGESTION-V1](JOURNAL-INGESTION-V1.md). DOAJ retrieval now feeds the same framework; the failed live probe persisted no seed catalog. No public journal API exists. Journal-site fetching is confined to explicitly approved Phase 3E-A sources, with a separate stored-snapshot proposal extractor and no automatic verification/publication.
 
 - [x] **3E-B semantic correction:** contextual qualifier abstention, explicit maximum/article scope, deleted markup exclusion, negative APC conflict gates, fragment-only link rejection and versioned bounded context provenance. See [correction report](EDITORIAL-EXTRACTION-V1.md).
+
+
+- [x] **3E-C frozen validation:** human-approved six positive facts; V2 baseline preserved (0 TP/0 FP/6 FN), no scope generalization or hidden acquisition failures.
+- [x] **3E-C2 deterministic remediation:** V3 candidate budgets, bounded link channel, general no-APC/style/abstract grammar; same-snapshot 6 TP/0 FP/0 FN, PostgreSQL regressions and separate post-fix report.
+- [ ] **Independent holdout before Phase 4 exposure:** operator approval of exact new official URLs, safe bounded acquisition, human gold freeze, then unchanged V3 evaluation. Current development-set success does not resolve NOT_READY. See [holdout approval gate](EDITORIAL-REAL-WORLD-VALIDATION-V1.md#independent-holdout-approval-gate).
+
+
+- [x] Freeze human JMLR gold and evaluate unchanged editorial-v3 offline: 0 TP / 0 FP / 2 FN, 3 OOS; generic publication-fee absence never converted to APC. See [JMLR holdout](EDITORIAL-REAL-WORLD-VALIDATION-V1.md#jmlr-independent-holdout--frozen-human-gold-and-unchanged-v3-benchmark).
+- [ ] Resolve independent coverage before Phase 4: JMLR recall remains 0%; BMC policy hold means fewer than two usable journals and fewer than three-to-five validated positives. Further remediation/versioning or acquisitions require a separate task; retain frozen holdout results and NOT_READY.
+
+
+- [x] Phase 3E-C3: V4 general abstract/link grammar, PostgreSQL provenance compatibility and synthetic regressions; previous development result remains 6 TP / 0 FP / 0 FN.
+- [ ] JMLR context coverage remains unresolved (V4: 0 TP / 0 FP / 2 FN). Retain conservative unknown/oversize qualifier rejection; any future context change needs explicit design and negative regressions.
+- [ ] New V4 independent holdout: [exact candidates](validation/editorial-v4-new-holdout-candidates.json) need human approval → unchanged 3E-A acquisition → candidate gold → human validation → V4 evaluation. Two static usable journals and 4–6 supported positives are targets, not verified facts. JMLR is now development/remediation data; BMC stays DO_NOT_APPROVE. Phase 4 NOT_READY.
+
+
+- [x] C3 independent holdout operator authorization received (`florent-3ec3-holdout-2026-10-13`); existing 3E-A acquired Confluentes only. JSS DNS link-local answer blocks acquisition without bypass.
+- [ ] [Independent V4 candidate gold](validation/editorial-v4-independent-holdout-v1.json): seven observations awaiting human scope/disposition/coverage validation, no extraction or metrics. Only one acquired journal; two-journal / 4–6-positive target remains unmet. V4 strictly frozen, Phase 4 NOT_READY.
+
+
+- [x] Human Confluentes gold frozen and unchanged V4 independent benchmark recorded: **0 TP / 0 FP / 1 FN / 6 OOS**; no retuning. [Preserved result](EDITORIAL-REAL-WORLD-VALIDATION-V1.md#confluentes-independent-v4-holdout--human-gold-frozen-and-benchmark-complete).
+- [ ] Broader independent validation still needed: only one acquired/evaluated journal, one positive, recall 0%; JSS acquisition blocked. New URLs require separate operator approval and gold review. Phase 4 remains NOT_READY; do not alter V4 before presenting the frozen result.
+
+
+- [x] Phase 3E-C4 V5 neutral-versus-unsafe context remediation, scoped example boundaries, action-link qualification and bounded French unconditional-English extraction; complete PostgreSQL suites pass.
+- [x] Six-page development replay: PLOS 4 / JOSS 2 / JMLR 2 / Confluentes 1 TP, zero FP/FN; all prior V2–V4 history/gold retained. JMLR/Confluentes now development data, not independent V5 evidence.
+- [x] First V5 independent acquisition attempt: [four exact pages / three journals](validation/editorial-v5-holdout-candidates-v1.json) conditionally authorized and outcomes recorded below. Discovery opportunities did not produce usable gold; no independent V5 benchmark executed. Original manifest retained unchanged.
+
+
+- [x] Operator V5 holdout authorization recorded (`florent-3ec4-v5-holdout-2026-10-13`). Actual 3E-A attempts: both Biology Open pages blocked HTTP 403; Oxford guidelines DO_NOT_APPROVE under automated-access terms; Discrete acquired only as empty static app shell.
+- [ ] [V5 independent acquisition packet](validation/editorial-v5-independent-holdout-v1.json) has no usable editorial candidates, no frozen gold and no extraction/metrics. Await whole-corpus human review before any benchmark/replacement. Do not use search snippets, browser fallback or scripts to invent annotations. V5 unchanged; Phase 4 NOT_READY.
+
+### Phase 3E-C5 — independent holdout acquisition preflight
+
+**Independent editorial-v5 holdout validation pending.** Phase 4 production exposure of editorial extraction is not fully validated. C5 discovery is stopped; the proposed eight URLs have not been acquired.
+
+- [x] Bounded public discovery produced an [11-page / 11-journal candidate pool](validation/editorial-v5-holdout-preflight-v1.json), with exactly **eight URLs / eight journals** proposed for human approval. Selection ranks acquisition suitability only; no gold, predictions, extractor invocation or 3E-A registration/approval/fetch.
+- [x] V5 development success remains **9/9** (PLOS ONE 4, JOSS 2, JMLR 2, Confluentes 1; zero development FP/FN). These are development journals, not independent V5 evidence. First independent attempt is an **acquisition/corpus failure**, not an extractor benchmark result.
+- [x] All fourteen recorded `editorial-v5` / `editorial-dom-v5` source hashes match the original freeze. Prior validation artifacts and 3E-A security remain unchanged. Scientific Reports and Sensors are also excluded because prior development records contain them.
+- [ ] Human operator must approve the exact new eight-URL batch and applicable officiality/access/robots/internal-retention basis. Previous C4 authorization does not cover C5 URLs or reserves. DNS/TLS/SSRF, same-origin redirects, 256 KiB and raw static usability remain unverified; reader visibility is not 3E-A eligibility.
+- [ ] Later authorized acquisition: proceed in the proposed order until **three distinct journals with usable static snapshots AND at least six plausible candidate positive facts** exist, or all approved URLs are exhausted. Record every attempted outcome; no automatic retry, crawling, secondary resources or replacement URLs.
+- [ ] After acquisition stops, prepare and human-freeze gold for the complete acquired corpus before one unchanged V5 whole-corpus evaluation. No page-by-page benchmark/remediation. **Phase 4 NOT_READY.**
