@@ -1,0 +1,1340 @@
+{
+  "schema_version": 1,
+  "status": "FROZEN_V4_DEVELOPMENT_REGRESSION",
+  "budget": {
+    "max_journals": 10,
+    "max_editorial_pages_per_journal": 3,
+    "planned_editorial_pages": 8,
+    "no_recursive_acquisition": true,
+    "no_template_download": true
+  },
+  "catalog_inspection": {
+    "database": "existing isolated fikarohana_test",
+    "journals": 0,
+    "identifiers": 0,
+    "production_database_inspected": false
+  },
+  "journals": [
+    {
+      "id": "plos-one",
+      "title": "PLOS ONE",
+      "eissn": "1932-6203",
+      "publisher": "PLOS",
+      "canonical_journal_id": null,
+      "official_journal_url": "https://journals.plos.org/plosone/",
+      "identity_source_url": "https://journals.plos.org/plosone/",
+      "rationale": "Non-profit OA; long multi-topic guidelines, language and external submission evidence.",
+      "split": "development-regression",
+      "selection_status": "HUMAN_CONDITIONALLY_AUTHORIZED",
+      "validation_journal_id": "01a133a8-ab8d-706e-a6b7-159c14d65cb2"
+    },
+    {
+      "id": "scientific-reports",
+      "title": "Scientific Reports",
+      "eissn": "2045-2322",
+      "publisher": "Springer Nature",
+      "canonical_journal_id": null,
+      "official_journal_url": "https://www.nature.com/srep/",
+      "identity_source_url": "https://www.nature.com/srep/author-instructions/ready-to-submit",
+      "rationale": "Large commercial publisher; structured guidelines, templates and word scopes.",
+      "split": "development-regression",
+      "selection_status": "PROPOSED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "id": "sensors",
+      "title": "Sensors",
+      "eissn": "1424-8220",
+      "publisher": "MDPI",
+      "canonical_journal_id": null,
+      "official_journal_url": "https://www.mdpi.com/journal/sensors",
+      "identity_source_url": "https://www.mdpi.com/journal/sensors/about",
+      "rationale": "OA publisher with detailed author guidance; source URL requires operator confirmation.",
+      "split": "development-regression",
+      "selection_status": "PROPOSED_PENDING_HUMAN_REVIEW"
+    },
+    {
+      "id": "frontiers-psychology",
+      "title": "Frontiers in Psychology",
+      "eissn": "1664-1078",
+      "publisher": "Frontiers",
+      "canonical_journal_id": null,
+      "official_journal_url": "https://www.frontiersin.org/journals/psychology",
+      "identity_source_url": "https://www.frontiersin.org/journals/psychology/about",
+      "rationale": "Article-specific requirements and unsupported article labels; heterogeneous site structure.",
+      "split": "development-regression",
+      "selection_status": "HUMAN_CONDITIONALLY_AUTHORIZED",
+      "validation_journal_id": "01a133a9-261b-7299-a100-32ed2f775034"
+    },
+    {
+      "id": "joss",
+      "title": "Journal of Open Source Software",
+      "eissn": "2475-9066",
+      "publisher": "Open Journals",
+      "canonical_journal_id": null,
+      "official_journal_url": "https://joss.theoj.org/",
+      "identity_source_url": "https://joss.theoj.org/about",
+      "rationale": "Community software journal; candidate for explicit no-fee evidence without assuming it.",
+      "split": "development-regression",
+      "selection_status": "HUMAN_CONDITIONALLY_AUTHORIZED",
+      "validation_journal_id": "01a133a9-a2c3-72a1-80e2-db19c7341d21"
+    },
+    {
+      "id": "iucrj",
+      "title": "IUCrJ",
+      "eissn": "2052-2525",
+      "publisher": "International Union of Crystallography",
+      "canonical_journal_id": null,
+      "official_journal_url": "https://journals.iucr.org/m/",
+      "identity_source_url": "https://journals.iucr.org/m/",
+      "rationale": "Society journal; numbered headings, approximate versus maximum limits, waiver prose.",
+      "split": "development-regression",
+      "selection_status": "HUMAN_CONDITIONALLY_AUTHORIZED",
+      "validation_journal_id": "01a133aa-2041-7370-b5dc-cbc6e78eb827"
+    },
+    {
+      "id": "peerj",
+      "title": "PeerJ",
+      "eissn": "2167-8359",
+      "publisher": "PeerJ",
+      "canonical_journal_id": null,
+      "official_journal_url": "https://peerj.com/",
+      "identity_source_url": "https://publishers.issn.org/resource/ISSN/2167-8359",
+      "rationale": "Additional publisher structure; candidate instructions URL requires operator confirmation.",
+      "split": "development-regression",
+      "selection_status": "HUMAN_CONDITIONALLY_AUTHORIZED",
+      "validation_journal_id": "01a133aa-9691-73ca-87e7-0ae2f18cf317"
+    },
+    {
+      "id": "elife",
+      "title": "eLife",
+      "eissn": "2050-084X",
+      "publisher": "eLife Sciences Publications",
+      "canonical_journal_id": null,
+      "official_journal_url": "https://elifesciences.org/",
+      "identity_source_url": "https://elifesciences.org/about/aims-scope",
+      "rationale": "Non-profit publishing model; less structured prose and unsupported peer-review observations.",
+      "split": "development-regression",
+      "selection_status": "HUMAN_CONDITIONALLY_AUTHORIZED",
+      "validation_journal_id": "01a133ab-88db-7173-89d7-8a8e6397c695"
+    }
+  ],
+  "pages": [
+    {
+      "id": "plos-one-01",
+      "journal_id": "plos-one",
+      "role": "guidelines",
+      "requested_url": "https://journals.plos.org/plosone/s/submission-guidelines",
+      "source_id": "01a133a8-ab9d-7320-84e1-055e72542f8b",
+      "source_record_id": "01a133a9-2611-7302-a1a5-7b27b4698bcf",
+      "approval_status": "APPROVED",
+      "ownership_review": "Exact selected journal/publisher official domain from operator-approved manifest.",
+      "access_robots_review": {
+        "policy_url": "https://journals.plos.org/robots.txt",
+        "decision": "eligible",
+        "summary": "Robots 200; wildcard excludes search/metrics/user, not selected guidelines; Crawl-delay 30.",
+        "reviewed_at": "2026-10-13T05:07:34+00:00"
+      },
+      "retention_review": "Human conditional authorization: restricted local validation evidence; no public redistribution or template/linked-resource acquisition.",
+      "acquisition_status": "ACQUIRED",
+      "final_url": "https://journals.plos.org/plosone/s/submission-guidelines",
+      "http_status": 200,
+      "mime": "text/html",
+      "retrieved_at": "2026-10-13T05:08:05+00:00",
+      "fingerprint": "7cb27c75ee3bbcf72c00a34e1b6dcf24313a4eb24e6013e02b85ef6b0a240ec0",
+      "content_sha256": "25efa87c3e9303f16ee8e73e69c70d9557b78d3d5427907ac641d21788b0dc66",
+      "bytes": 188788
+    },
+    {
+      "id": "scientific-reports-01",
+      "journal_id": "scientific-reports",
+      "role": "guidelines",
+      "requested_url": "https://www.nature.com/srep/author-instructions/submission-guidelines",
+      "source_id": null,
+      "source_record_id": null,
+      "approval_status": "DO_NOT_APPROVE",
+      "ownership_review": "Exact selected journal/publisher official domain from operator-approved manifest.",
+      "access_robots_review": {
+        "policy_url": "https://www.nature.com/robots.txt",
+        "decision": "DO_NOT_APPROVE",
+        "summary": "Robots prohibits named AI agents; applicability uncertain; no editorial request.",
+        "reviewed_at": "2026-10-13T05:08:05+00:00"
+      },
+      "retention_review": "Human conditional authorization: restricted local validation evidence; no public redistribution or template/linked-resource acquisition.",
+      "acquisition_status": "NOT_ATTEMPTED_POLICY_HOLD",
+      "final_url": null,
+      "http_status": null,
+      "mime": null,
+      "retrieved_at": null,
+      "fingerprint": null
+    },
+    {
+      "id": "sensors-01",
+      "journal_id": "sensors",
+      "role": "guidelines",
+      "requested_url": "https://www.mdpi.com/journal/sensors/instructions",
+      "source_id": null,
+      "source_record_id": null,
+      "approval_status": "DO_NOT_APPROVE",
+      "ownership_review": "Exact selected journal/publisher official domain from operator-approved manifest.",
+      "access_robots_review": {
+        "policy_url": "https://www.mdpi.com/robots.txt",
+        "decision": "DO_NOT_APPROVE",
+        "summary": "Robots check returned 429; access uncertain; no retry or editorial request.",
+        "reviewed_at": "2026-10-13T05:08:05+00:00"
+      },
+      "retention_review": "Human conditional authorization: restricted local validation evidence; no public redistribution or template/linked-resource acquisition.",
+      "acquisition_status": "NOT_ATTEMPTED_POLICY_HOLD",
+      "final_url": null,
+      "http_status": null,
+      "mime": null,
+      "retrieved_at": null,
+      "fingerprint": null
+    },
+    {
+      "id": "frontiers-psychology-01",
+      "journal_id": "frontiers-psychology",
+      "role": "article_types",
+      "requested_url": "https://www.frontiersin.org/journals/psychology/for-authors/article-types",
+      "source_id": "01a133a9-261d-71bf-a2a7-ca3f937a3592",
+      "source_record_id": null,
+      "approval_status": "APPROVED",
+      "ownership_review": "Exact selected journal/publisher official domain from operator-approved manifest.",
+      "access_robots_review": {
+        "policy_url": "https://www.frontiersin.org/robots.txt",
+        "decision": "eligible",
+        "summary": "Official robots allows wildcard path; selected article-types path not disallowed.",
+        "reviewed_at": "2026-10-13T05:08:05+00:00"
+      },
+      "retention_review": "Human conditional authorization: restricted local validation evidence; no public redistribution or template/linked-resource acquisition.",
+      "acquisition_status": "ACQUISITION_BLOCKED",
+      "final_url": null,
+      "http_status": null,
+      "mime": null,
+      "retrieved_at": null,
+      "fingerprint": null,
+      "failure_code": "official_response_too_large"
+    },
+    {
+      "id": "joss-01",
+      "journal_id": "joss",
+      "role": "editorial",
+      "requested_url": "https://joss.theoj.org/about",
+      "source_id": "01a133a9-a2c9-73d8-ad56-be454016774c",
+      "source_record_id": "01a133aa-2038-73ec-9502-04c4d4372d2b",
+      "approval_status": "APPROVED",
+      "ownership_review": "Exact selected journal/publisher official domain from operator-approved manifest.",
+      "access_robots_review": {
+        "policy_url": "https://joss.theoj.org/robots.txt",
+        "decision": "eligible",
+        "summary": "Robots 200 with documentation comment only; no prohibitions.",
+        "reviewed_at": "2026-10-13T05:08:37+00:00"
+      },
+      "retention_review": "Human conditional authorization: restricted local validation evidence; no public redistribution or template/linked-resource acquisition.",
+      "acquisition_status": "ACQUIRED",
+      "final_url": "https://joss.theoj.org/about",
+      "http_status": 200,
+      "mime": "text/html",
+      "retrieved_at": "2026-10-13T05:09:09+00:00",
+      "fingerprint": "52e08c3f4463f3d70b7d6546ae287a579ccf63b6ed39ee7e6fa3d5b56c233e25",
+      "content_sha256": "c9dfd47428317f5ceeaf13c38e98b7cc90acb1dade9805f8b48935c8051be8ce",
+      "bytes": 153129
+    },
+    {
+      "id": "iucrj-01",
+      "journal_id": "iucrj",
+      "role": "guidelines",
+      "requested_url": "https://journals.iucr.org/m/services/notesforauthors.html",
+      "source_id": "01a133aa-2046-73a3-9e07-8be28812eb69",
+      "source_record_id": null,
+      "approval_status": "INACTIVE_ACCESS_REFUSAL",
+      "ownership_review": "Exact selected journal/publisher official domain from operator-approved manifest.",
+      "access_robots_review": {
+        "policy_url": "https://journals.iucr.org/robots.txt",
+        "decision": "eligible",
+        "summary": "Robots 200; selected notesforauthors HTML path not in excluded assets/cgi/temp paths.",
+        "reviewed_at": "2026-10-13T05:09:09+00:00"
+      },
+      "retention_review": "Human conditional authorization: restricted local validation evidence; no public redistribution or template/linked-resource acquisition.",
+      "acquisition_status": "ACQUISITION_BLOCKED",
+      "final_url": null,
+      "http_status": 403,
+      "mime": null,
+      "retrieved_at": null,
+      "fingerprint": null,
+      "failure_code": "official_forbidden",
+      "future_fetch_decision": "DO_NOT_APPROVE"
+    },
+    {
+      "id": "peerj-01",
+      "journal_id": "peerj",
+      "role": "guidelines",
+      "requested_url": "https://peerj.com/about/author-instructions/",
+      "source_id": "01a133aa-969a-7345-9acb-bb0563ff898b",
+      "source_record_id": "01a133ab-88d3-7391-9d66-82717b8fc4e0",
+      "approval_status": "APPROVED",
+      "ownership_review": "Exact selected journal/publisher official domain from operator-approved manifest.",
+      "access_robots_review": {
+        "policy_url": "https://peerj.com/robots.txt",
+        "decision": "eligible",
+        "summary": "Robots 200; author-instructions path not disallowed; wildcard Crawl-delay 2.",
+        "reviewed_at": "2026-10-13T05:09:40+00:00"
+      },
+      "retention_review": "Human conditional authorization: restricted local validation evidence; no public redistribution or template/linked-resource acquisition.",
+      "acquisition_status": "ACQUIRED",
+      "final_url": "https://peerj.com/journals/peerj/author-instructions/",
+      "http_status": 200,
+      "mime": "text/html",
+      "retrieved_at": "2026-10-13T05:10:42+00:00",
+      "fingerprint": "bc10d7308a53c11e4e6faf05b3084d1df8b6ac83ec067372b309cafd06a4403d",
+      "content_sha256": "12d3e9a1078116d9d144018e2a9f132589ab7f3a08313047c6c3a6d6e6464eef",
+      "bytes": 40135
+    },
+    {
+      "id": "elife-01",
+      "journal_id": "elife",
+      "role": "editorial",
+      "requested_url": "https://elifesciences.org/about/aims-scope",
+      "source_id": "01a133ab-88df-7334-9731-d5d43598ae8c",
+      "source_record_id": "01a133ac-062c-7152-930d-119647199623",
+      "approval_status": "APPROVED",
+      "ownership_review": "Exact selected journal/publisher official domain from operator-approved manifest.",
+      "access_robots_review": {
+        "policy_url": "https://elifesciences.org/robots.txt",
+        "decision": "eligible",
+        "summary": "Robots 200; aims-scope path not disallowed; wildcard Crawl-delay 10.",
+        "reviewed_at": "2026-10-13T05:10:42+00:00"
+      },
+      "retention_review": "Human conditional authorization: restricted local validation evidence; no public redistribution or template/linked-resource acquisition.",
+      "acquisition_status": "ACQUIRED",
+      "final_url": "https://elifesciences.org/about/aims-scope",
+      "http_status": 200,
+      "mime": "text/html",
+      "retrieved_at": "2026-10-13T05:11:14+00:00",
+      "fingerprint": "9450c292057140833aa1d4d4a0ba31865566159406ce8305fba338dca4cec68f",
+      "content_sha256": "47099e38b890f827e19fad48977c76c6cf07a3de966d919f70a5f1745088f57a",
+      "bytes": 147085
+    }
+  ],
+  "annotation_policy": {
+    "annotator_kind": "human_required",
+    "annotator_reference": "florent-3ec-validation-2026-10-13",
+    "completed_at": "2026-10-13T05:32:12.429013+00:00",
+    "maximum_evidence_words_per_page": 25,
+    "labels_frozen_before_extraction": true,
+    "page_coverage_attested": true,
+    "human_validation": "User explicitly approved six safe positives, eLife domain-sensitive OOS handling, exclusions and four-snapshot coverage before baseline.",
+    "counting_policy": "Six positives; four grouped ambiguous observations eligible for CA; nine annotated OOS observations excluded from FN and CA. PeerJ empty-body limitation is a page condition, not an invented fact or extra CA/OOS. Duplicate corroborations/navigation links do not multiply counts."
+  },
+  "annotations": [
+    {
+      "id": "plos-one-gold-1",
+      "page_id": "plos-one-01",
+      "journal_id": "plos-one",
+      "snapshot_id": "01a133a9-2611-7302-a1a5-7b27b4698bcf",
+      "snapshot_fingerprint": "7cb27c75ee3bbcf72c00a34e1b6dcf24313a4eb24e6013e02b85ef6b0a240ec0",
+      "fact_type": "language",
+      "source_locator": "/html/body/main/div/article/div[3]/table/tbody/tr[8]/td[2]/p[1]",
+      "evidence_fragment": "Manuscripts must be submitted in English.",
+      "context_note": "Whole-manuscript language; supporting translations do not replace manuscript eligibility.",
+      "disposition": "positive",
+      "confidence": "explicit",
+      "value": {
+        "code": "en",
+        "supported": true
+      },
+      "scope": {
+        "article_code": null,
+        "section": "manuscript"
+      },
+      "human_review_reference": "florent-3ec-validation-2026-10-13"
+    },
+    {
+      "id": "plos-one-gold-2",
+      "page_id": "plos-one-01",
+      "journal_id": "plos-one",
+      "snapshot_id": "01a133a9-2611-7302-a1a5-7b27b4698bcf",
+      "snapshot_fingerprint": "7cb27c75ee3bbcf72c00a34e1b6dcf24313a4eb24e6013e02b85ef6b0a240ec0",
+      "fact_type": "requirement",
+      "source_locator": "/html/body/main/div/article/div[3]/table/tbody/tr[10]/td[2]/p[1]",
+      "evidence_fragment": "Vancouver",
+      "context_note": "Reference style; do not infer an edition.",
+      "disposition": "positive",
+      "confidence": "explicit",
+      "value": {
+        "requirement_type": "reference_style",
+        "operator": "text",
+        "value_text": "Vancouver"
+      },
+      "scope": {
+        "article_code": null,
+        "section": "references"
+      },
+      "human_review_reference": "florent-3ec-validation-2026-10-13"
+    },
+    {
+      "id": "plos-one-gold-3",
+      "page_id": "plos-one-01",
+      "journal_id": "plos-one",
+      "snapshot_id": "01a133a9-2611-7302-a1a5-7b27b4698bcf",
+      "snapshot_fingerprint": "7cb27c75ee3bbcf72c00a34e1b6dcf24313a4eb24e6013e02b85ef6b0a240ec0",
+      "fact_type": "requirement",
+      "source_locator": "/html/body/main/div/article/div[15]/ul[1]/li[4]",
+      "evidence_fragment": "Not exceed 300 words",
+      "context_note": "Read with preceding Abstract heading/list introduction in the original snapshot.",
+      "disposition": "positive",
+      "confidence": "explicit",
+      "value": {
+        "requirement_type": "abstract_words",
+        "operator": "max",
+        "value_number": 300
+      },
+      "scope": {
+        "article_code": null,
+        "section": "abstract"
+      },
+      "human_review_reference": "florent-3ec-validation-2026-10-13",
+      "context_locators": [
+        "/html/body/main/div/article/div[14]/h3",
+        "/html/body/main/div/article/div[15]/p[1]"
+      ]
+    },
+    {
+      "id": "joss-gold-4",
+      "page_id": "joss-01",
+      "journal_id": "joss",
+      "snapshot_id": "01a133aa-2038-73ec-9502-04c4d4372d2b",
+      "snapshot_fingerprint": "52e08c3f4463f3d70b7d6546ae287a579ccf63b6ed39ee7e6fa3d5b56c233e25",
+      "fact_type": "fee",
+      "source_locator": "/html/body/div[3]/div[1]/div[1]/div[8]/p[1]",
+      "evidence_fragment": "zero publication fees (article processing charges)",
+      "context_note": "Explicit APC absence; no invented currency or numeric zero amount.",
+      "disposition": "positive",
+      "confidence": "explicit",
+      "value": {
+        "availability": "unknown",
+        "fee_type": "apc",
+        "amount": null,
+        "currency": null,
+        "basis": "official_reported_no_apc"
+      },
+      "scope": {
+        "article_code": null,
+        "section": "unspecified"
+      },
+      "human_review_reference": "florent-3ec-validation-2026-10-13"
+    },
+    {
+      "id": "plos-one-gold-submission",
+      "page_id": "plos-one-01",
+      "journal_id": "plos-one",
+      "snapshot_id": "01a133a9-2611-7302-a1a5-7b27b4698bcf",
+      "snapshot_fingerprint": "7cb27c75ee3bbcf72c00a34e1b6dcf24313a4eb24e6013e02b85ef6b0a240ec0",
+      "fact_type": "submission_url",
+      "value": {
+        "text_value": "https://www.editorialmanager.com/pone"
+      },
+      "scope": {
+        "article_code": null,
+        "section": "unspecified"
+      },
+      "source_locator": "/html/body/main/div/article/div[1]/div/ul/li[2]/a",
+      "evidence_fragment": "Submission system",
+      "disposition": "positive",
+      "confidence": "explicit",
+      "human_review_reference": "florent-3ec-validation-2026-10-13",
+      "navigation_origin": false
+    },
+    {
+      "id": "joss-gold-submission",
+      "page_id": "joss-01",
+      "journal_id": "joss",
+      "snapshot_id": "01a133aa-2038-73ec-9502-04c4d4372d2b",
+      "snapshot_fingerprint": "52e08c3f4463f3d70b7d6546ae287a579ccf63b6ed39ee7e6fa3d5b56c233e25",
+      "fact_type": "submission_url",
+      "value": {
+        "text_value": "https://joss.theoj.org/papers/new"
+      },
+      "scope": {
+        "article_code": null,
+        "section": "unspecified"
+      },
+      "source_locator": "/html/body/header/nav/div/div[1]/a[5]",
+      "evidence_fragment": "Submit",
+      "disposition": "positive",
+      "confidence": "explicit",
+      "human_review_reference": "florent-3ec-validation-2026-10-13",
+      "navigation_origin": true
+    },
+    {
+      "id": "elife-gold-research_article",
+      "page_id": "elife-01",
+      "journal_id": "elife",
+      "snapshot_id": "01a133ac-062c-7152-930d-119647199623",
+      "snapshot_fingerprint": "9450c292057140833aa1d4d4a0ba31865566159406ce8305fba338dca4cec68f",
+      "fact_type": "article_type",
+      "source_locator": "/html/body/div/div/div[2]/div/div[2]/div/div/div/div/div/p",
+      "evidence_fragment": "Research Articles",
+      "context_note": "Explicit types welcomed in the subject areas of the journal; reviewer must confirm scope and representability.",
+      "disposition": "out_of_scope",
+      "confidence": "explicit",
+      "value": {
+        "code": "research_article",
+        "supported": true
+      },
+      "scope": {
+        "article_code": null,
+        "section": "journal",
+        "scientific_domain_restriction": "Only in the scientific subject areas listed in this stored page",
+        "domain_list_locator": "/html/body/div/div/div[2]/div/div[4]/div/div/div/div/div"
+      },
+      "reason": "V1 proposal/article membership cannot retain this scientific-domain applicability condition; never match as globally supported.",
+      "human_review_reference": "florent-3ec-validation-2026-10-13"
+    },
+    {
+      "id": "elife-gold-review_article",
+      "page_id": "elife-01",
+      "journal_id": "elife",
+      "snapshot_id": "01a133ac-062c-7152-930d-119647199623",
+      "snapshot_fingerprint": "9450c292057140833aa1d4d4a0ba31865566159406ce8305fba338dca4cec68f",
+      "fact_type": "article_type",
+      "source_locator": "/html/body/div/div/div[2]/div/div[2]/div/div/div/div/div/p",
+      "evidence_fragment": "Review Articles",
+      "context_note": "Explicit types welcomed in the subject areas of the journal; reviewer must confirm scope and representability.",
+      "disposition": "out_of_scope",
+      "confidence": "explicit",
+      "value": {
+        "code": "review_article",
+        "supported": true
+      },
+      "scope": {
+        "article_code": null,
+        "section": "journal",
+        "scientific_domain_restriction": "Only in the scientific subject areas listed in this stored page",
+        "domain_list_locator": "/html/body/div/div/div[2]/div/div[4]/div/div/div/div/div"
+      },
+      "reason": "V1 proposal/article membership cannot retain this scientific-domain applicability condition; never match as globally supported.",
+      "human_review_reference": "florent-3ec-validation-2026-10-13"
+    },
+    {
+      "id": "plos-one-gold-apc-assistance",
+      "page_id": "plos-one-01",
+      "journal_id": "plos-one",
+      "snapshot_id": "01a133a9-2611-7302-a1a5-7b27b4698bcf",
+      "snapshot_fingerprint": "7cb27c75ee3bbcf72c00a34e1b6dcf24313a4eb24e6013e02b85ef6b0a240ec0",
+      "fact_type": "fee",
+      "disposition": "ambiguous",
+      "confidence": "ambiguous",
+      "scope": {},
+      "value": {},
+      "source_locator": "/html/body/main/div/article/div[58]",
+      "evidence_fragment": "",
+      "reason": "Conditional institutional eligibility/waivers; not universal APC absence.",
+      "human_review_reference": "florent-3ec-validation-2026-10-13"
+    },
+    {
+      "id": "plos-one-gold-article-examples",
+      "page_id": "plos-one-01",
+      "journal_id": "plos-one",
+      "snapshot_id": "01a133a9-2611-7302-a1a5-7b27b4698bcf",
+      "snapshot_fingerprint": "7cb27c75ee3bbcf72c00a34e1b6dcf24313a4eb24e6013e02b85ef6b0a240ec0",
+      "fact_type": "article_type",
+      "disposition": "ambiguous",
+      "confidence": "ambiguous",
+      "scope": {},
+      "value": {},
+      "source_locator": "/html/body/main/div/article/div[12]/ul/li[3]",
+      "evidence_fragment": "",
+      "reason": "Examples in cover-letter instructions do not constitute a general accepted-type list.",
+      "human_review_reference": "florent-3ec-validation-2026-10-13"
+    },
+    {
+      "id": "plos-one-gold-sample-pdfs",
+      "page_id": "plos-one-01",
+      "journal_id": "plos-one",
+      "snapshot_id": "01a133a9-2611-7302-a1a5-7b27b4698bcf",
+      "snapshot_fingerprint": "7cb27c75ee3bbcf72c00a34e1b6dcf24313a4eb24e6013e02b85ef6b0a240ec0",
+      "fact_type": "template",
+      "disposition": "ambiguous",
+      "confidence": "ambiguous",
+      "scope": {},
+      "value": {},
+      "source_locator": "/html/body/main/div/article/div[6]",
+      "evidence_fragment": "",
+      "reason": "Example formatting PDFs are not automatically manuscript templates.",
+      "human_review_reference": "florent-3ec-validation-2026-10-13"
+    },
+    {
+      "id": "plos-one-gold-unlimited-length",
+      "page_id": "plos-one-01",
+      "journal_id": "plos-one",
+      "snapshot_id": "01a133a9-2611-7302-a1a5-7b27b4698bcf",
+      "snapshot_fingerprint": "7cb27c75ee3bbcf72c00a34e1b6dcf24313a4eb24e6013e02b85ef6b0a240ec0",
+      "fact_type": "requirement",
+      "disposition": "out_of_scope",
+      "confidence": "unsupported",
+      "scope": {},
+      "value": {},
+      "source_locator": "/html/body/main/div/article/div[3]/table/tbody/tr[2]",
+      "evidence_fragment": "",
+      "reason": "No maximum length stated; no numeric maximum can be assigned.",
+      "human_review_reference": "florent-3ec-validation-2026-10-13"
+    },
+    {
+      "id": "plos-one-gold-external-osf",
+      "page_id": "plos-one-01",
+      "journal_id": "plos-one",
+      "snapshot_id": "01a133a9-2611-7302-a1a5-7b27b4698bcf",
+      "snapshot_fingerprint": "7cb27c75ee3bbcf72c00a34e1b6dcf24313a4eb24e6013e02b85ef6b0a240ec0",
+      "fact_type": "template",
+      "disposition": "out_of_scope",
+      "confidence": "unsupported",
+      "scope": {},
+      "value": {},
+      "source_locator": "/html/body/main/div/article/div[38]/p[3]",
+      "evidence_fragment": "",
+      "reason": "External OSF templates excluded by V1 same-origin policy.",
+      "human_review_reference": "florent-3ec-validation-2026-10-13"
+    },
+    {
+      "id": "elife-gold-submission-pathway",
+      "page_id": "elife-01",
+      "journal_id": "elife",
+      "snapshot_id": "01a133ac-062c-7152-930d-119647199623",
+      "snapshot_fingerprint": "9450c292057140833aa1d4d4a0ba31865566159406ce8305fba338dca4cec68f",
+      "fact_type": "submission_url",
+      "disposition": "ambiguous",
+      "confidence": "ambiguous",
+      "scope": {},
+      "value": {},
+      "source_locator": "/html/body/div/div/div[1]/header/div[2]/nav[2]/ul/li[3]/a",
+      "evidence_fragment": "",
+      "reason": "Submission journey entry, insufficient evidence of a direct portal; duplicate navigation link is the same observation.",
+      "human_review_reference": "florent-3ec-validation-2026-10-13"
+    },
+    {
+      "id": "elife-gold-unmapped-short-reports",
+      "page_id": "elife-01",
+      "journal_id": "elife",
+      "snapshot_id": "01a133ac-062c-7152-930d-119647199623",
+      "snapshot_fingerprint": "9450c292057140833aa1d4d4a0ba31865566159406ce8305fba338dca4cec68f",
+      "fact_type": "article_type",
+      "disposition": "out_of_scope",
+      "confidence": "unsupported",
+      "value": {
+        "original_label": "Short Reports"
+      },
+      "scope": {
+        "scientific_domain_restriction": "Only in the scientific subject areas listed on this page"
+      },
+      "source_locator": "/html/body/div/div/div[2]/div/div[2]/div/div/div/div/div/p",
+      "evidence_fragment": "",
+      "reason": "No explicit V1 canonical vocabulary mapping; do not collapse into another article type.",
+      "human_review_reference": "florent-3ec-validation-2026-10-13"
+    },
+    {
+      "id": "elife-gold-unmapped-tools-and-resources-articles",
+      "page_id": "elife-01",
+      "journal_id": "elife",
+      "snapshot_id": "01a133ac-062c-7152-930d-119647199623",
+      "snapshot_fingerprint": "9450c292057140833aa1d4d4a0ba31865566159406ce8305fba338dca4cec68f",
+      "fact_type": "article_type",
+      "disposition": "out_of_scope",
+      "confidence": "unsupported",
+      "value": {
+        "original_label": "Tools and Resources articles"
+      },
+      "scope": {
+        "scientific_domain_restriction": "Only in the scientific subject areas listed on this page"
+      },
+      "source_locator": "/html/body/div/div/div[2]/div/div[2]/div/div/div/div/div/p",
+      "evidence_fragment": "",
+      "reason": "No explicit V1 canonical vocabulary mapping; do not collapse into another article type.",
+      "human_review_reference": "florent-3ec-validation-2026-10-13"
+    },
+    {
+      "id": "elife-gold-unmapped-research-advances",
+      "page_id": "elife-01",
+      "journal_id": "elife",
+      "snapshot_id": "01a133ac-062c-7152-930d-119647199623",
+      "snapshot_fingerprint": "9450c292057140833aa1d4d4a0ba31865566159406ce8305fba338dca4cec68f",
+      "fact_type": "article_type",
+      "disposition": "out_of_scope",
+      "confidence": "unsupported",
+      "value": {
+        "original_label": "Research Advances"
+      },
+      "scope": {
+        "scientific_domain_restriction": "Only in the scientific subject areas listed on this page"
+      },
+      "source_locator": "/html/body/div/div/div[2]/div/div[2]/div/div/div/div/div/p",
+      "evidence_fragment": "",
+      "reason": "No explicit V1 canonical vocabulary mapping; do not collapse into another article type.",
+      "human_review_reference": "florent-3ec-validation-2026-10-13"
+    },
+    {
+      "id": "elife-gold-unmapped-replication-studies",
+      "page_id": "elife-01",
+      "journal_id": "elife",
+      "snapshot_id": "01a133ac-062c-7152-930d-119647199623",
+      "snapshot_fingerprint": "9450c292057140833aa1d4d4a0ba31865566159406ce8305fba338dca4cec68f",
+      "fact_type": "article_type",
+      "disposition": "out_of_scope",
+      "confidence": "unsupported",
+      "value": {
+        "original_label": "Replication Studies"
+      },
+      "scope": {
+        "scientific_domain_restriction": "Only in the scientific subject areas listed on this page"
+      },
+      "source_locator": "/html/body/div/div/div[2]/div/div[2]/div/div/div/div/div/p",
+      "evidence_fragment": "",
+      "reason": "No explicit V1 canonical vocabulary mapping; do not collapse into another article type.",
+      "human_review_reference": "florent-3ec-validation-2026-10-13"
+    },
+    {
+      "id": "elife-gold-unmapped-scientific-correspondence",
+      "page_id": "elife-01",
+      "journal_id": "elife",
+      "snapshot_id": "01a133ac-062c-7152-930d-119647199623",
+      "snapshot_fingerprint": "9450c292057140833aa1d4d4a0ba31865566159406ce8305fba338dca4cec68f",
+      "fact_type": "article_type",
+      "disposition": "out_of_scope",
+      "confidence": "unsupported",
+      "value": {
+        "original_label": "Scientific Correspondence"
+      },
+      "scope": {
+        "scientific_domain_restriction": "Only in the scientific subject areas listed on this page"
+      },
+      "source_locator": "/html/body/div/div/div[2]/div/div[2]/div/div/div/div/div/p",
+      "evidence_fragment": "",
+      "reason": "No explicit V1 canonical vocabulary mapping; do not collapse into another article type.",
+      "human_review_reference": "florent-3ec-validation-2026-10-13"
+    }
+  ],
+  "extractions": [
+    {
+      "page_id": "plos-one-01",
+      "journal_id": "plos-one",
+      "snapshot_id": "01a133a9-2611-7302-a1a5-7b27b4698bcf",
+      "snapshot_fingerprint": "7cb27c75ee3bbcf72c00a34e1b6dcf24313a4eb24e6013e02b85ef6b0a240ec0",
+      "registry_version": "editorial-v4",
+      "document_version": "editorial-dom-v4",
+      "status": "completed",
+      "dry_run": true,
+      "proposals": [
+        {
+          "field": "language",
+          "value": {
+            "code": "en",
+            "label": "English",
+            "supported": true
+          },
+          "locator": "/html/body/main/div/article/div[3]/table/tbody/tr[8]/td[2]/p[1]",
+          "rule": "explicit_languages",
+          "deterministic_status": "deterministic_explicit"
+        },
+        {
+          "field": "requirement",
+          "value": {
+            "requirement_type": "abstract_words",
+            "operator": "max",
+            "value_number": 300,
+            "scope": "abstract",
+            "article_code": null,
+            "notes": "Words; inclusion of references/tables unspecified."
+          },
+          "locator": "/html/body/main/div/article/div[15]/ul[1]/li[4]",
+          "rule": "explicit_word_limit",
+          "deterministic_status": "deterministic_explicit"
+        },
+        {
+          "field": "requirement",
+          "value": {
+            "requirement_type": "reference_style",
+            "operator": "text",
+            "value_text": "Vancouver",
+            "scope": "references"
+          },
+          "locator": "/html/body/main/div/article/div[3]/table/tbody/tr[10]/td[2]/p[1]",
+          "rule": "explicit_reference_style",
+          "deterministic_status": "deterministic_explicit"
+        },
+        {
+          "field": "submission_url",
+          "value": {
+            "text_value": "https://www.editorialmanager.com/pone"
+          },
+          "locator": "/html/body/main/div/article/div[1]/div/ul/li[2]/a",
+          "rule": "explicit_submission_link",
+          "deterministic_status": "deterministic_explicit"
+        }
+      ]
+    },
+    {
+      "page_id": "joss-01",
+      "journal_id": "joss",
+      "snapshot_id": "01a133aa-2038-73ec-9502-04c4d4372d2b",
+      "snapshot_fingerprint": "52e08c3f4463f3d70b7d6546ae287a579ccf63b6ed39ee7e6fa3d5b56c233e25",
+      "registry_version": "editorial-v4",
+      "document_version": "editorial-dom-v4",
+      "status": "completed",
+      "dry_run": true,
+      "proposals": [
+        {
+          "field": "fee",
+          "value": {
+            "availability": "unknown",
+            "fee_type": "apc",
+            "amount": null,
+            "currency": null,
+            "basis": "official_reported_no_apc",
+            "applicability": "Explicit absence of APC; other charges and applicability require review."
+          },
+          "locator": "/html/body/div[3]/div[1]/div[1]/div[8]/p[1]",
+          "rule": "explicit_fee",
+          "deterministic_status": "deterministic_explicit"
+        },
+        {
+          "field": "submission_url",
+          "value": {
+            "text_value": "https://joss.theoj.org/papers/new"
+          },
+          "locator": "/html/body/header/nav/div/div[1]/a[5]",
+          "rule": "explicit_submission_link",
+          "deterministic_status": "deterministic_explicit"
+        }
+      ]
+    },
+    {
+      "page_id": "peerj-01",
+      "journal_id": "peerj",
+      "snapshot_id": "01a133ab-88d3-7391-9d66-82717b8fc4e0",
+      "snapshot_fingerprint": "bc10d7308a53c11e4e6faf05b3084d1df8b6ac83ec067372b309cafd06a4403d",
+      "registry_version": "editorial-v4",
+      "document_version": "editorial-dom-v4",
+      "status": "completed",
+      "dry_run": true,
+      "proposals": []
+    },
+    {
+      "page_id": "elife-01",
+      "journal_id": "elife",
+      "snapshot_id": "01a133ac-062c-7152-930d-119647199623",
+      "snapshot_fingerprint": "9450c292057140833aa1d4d4a0ba31865566159406ce8305fba338dca4cec68f",
+      "registry_version": "editorial-v4",
+      "document_version": "editorial-dom-v4",
+      "status": "completed",
+      "dry_run": true,
+      "proposals": []
+    }
+  ],
+  "metrics": {
+    "overall": {
+      "TP": 6,
+      "FP": 0,
+      "FN": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "fp_rate": 0.0,
+      "CA": 1,
+      "ambiguous_not_evaluated": 3,
+      "OOS": 9,
+      "AB": 2,
+      "policy_holds": 2,
+      "extraction_failures": 0,
+      "proposals": 6,
+      "expected_positives": 6
+    },
+    "by_fact_type": {
+      "article_type": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "fp_rate": null
+      },
+      "fee": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "fp_rate": 0.0
+      },
+      "language": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "fp_rate": 0.0
+      },
+      "requirement.abstract_words": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "fp_rate": 0.0
+      },
+      "requirement.reference_style": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "fp_rate": 0.0
+      },
+      "requirement.word_count": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "fp_rate": null
+      },
+      "submission_url": {
+        "TP": 2,
+        "FP": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "fp_rate": 0.0
+      },
+      "template": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "fp_rate": null
+      }
+    },
+    "by_journal": {
+      "plos-one": {
+        "TP": 4,
+        "FP": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "fp_rate": 0.0,
+        "acquired_pages": 1,
+        "CA": 0,
+        "OOS": 2
+      },
+      "scientific-reports": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "fp_rate": null,
+        "acquired_pages": 0,
+        "CA": 0,
+        "OOS": 0
+      },
+      "sensors": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "fp_rate": null,
+        "acquired_pages": 0,
+        "CA": 0,
+        "OOS": 0
+      },
+      "frontiers-psychology": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "fp_rate": null,
+        "acquired_pages": 0,
+        "CA": 0,
+        "OOS": 0
+      },
+      "joss": {
+        "TP": 2,
+        "FP": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "fp_rate": 0.0,
+        "acquired_pages": 1,
+        "CA": 0,
+        "OOS": 0
+      },
+      "iucrj": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "fp_rate": null,
+        "acquired_pages": 0,
+        "CA": 0,
+        "OOS": 0
+      },
+      "peerj": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "fp_rate": null,
+        "acquired_pages": 1,
+        "CA": 0,
+        "OOS": 0
+      },
+      "elife": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "fp_rate": null,
+        "acquired_pages": 1,
+        "CA": 1,
+        "OOS": 7
+      }
+    },
+    "details": [
+      {
+        "classification": "TP",
+        "page_id": "joss-01",
+        "fact_type": "fee",
+        "annotation_id": "joss-gold-4"
+      },
+      {
+        "classification": "TP",
+        "page_id": "joss-01",
+        "fact_type": "submission_url",
+        "annotation_id": "joss-gold-submission"
+      },
+      {
+        "classification": "TP",
+        "page_id": "plos-one-01",
+        "fact_type": "language",
+        "annotation_id": "plos-one-gold-1"
+      },
+      {
+        "classification": "TP",
+        "page_id": "plos-one-01",
+        "fact_type": "requirement.abstract_words",
+        "annotation_id": "plos-one-gold-3"
+      },
+      {
+        "classification": "TP",
+        "page_id": "plos-one-01",
+        "fact_type": "requirement.reference_style",
+        "annotation_id": "plos-one-gold-2"
+      },
+      {
+        "classification": "TP",
+        "page_id": "plos-one-01",
+        "fact_type": "submission_url",
+        "annotation_id": "plos-one-gold-submission"
+      }
+    ]
+  },
+  "operator_authorization": {
+    "reference": "florent-3ec-validation-2026-10-13",
+    "scope": "Eight manifest URLs only; public official access, existing safeguards, no applicable prohibition, internal evidence only; no secondary links/templates.",
+    "human_gold_reviewer": "user"
+  },
+  "validation_database": {
+    "name": "fikarohana_3ec_validation",
+    "server": "existing isolated PostgreSQL 17 test container",
+    "ephemeral_storage": true,
+    "separate_from_phpunit": true
+  },
+  "draft_observations": [
+    {
+      "id": "plos-one-draft-1",
+      "page_id": "plos-one-01",
+      "journal_id": "plos-one",
+      "snapshot_id": "01a133a9-2611-7302-a1a5-7b27b4698bcf",
+      "snapshot_fingerprint": "7cb27c75ee3bbcf72c00a34e1b6dcf24313a4eb24e6013e02b85ef6b0a240ec0",
+      "fact_type": "language",
+      "candidate_normalized_value": {
+        "code": "en",
+        "supported": true
+      },
+      "candidate_scope": {
+        "article_code": null,
+        "section": "manuscript"
+      },
+      "source_locator": "/html/body/main/div/article/div[3]/table/tbody/tr[8]/td[2]/p[1]",
+      "evidence_fragment": "Manuscripts must be submitted in English.",
+      "context_note": "Whole-manuscript language; supporting translations do not replace manuscript eligibility.",
+      "review_status": "PENDING_HUMAN",
+      "confidence": null,
+      "classification": null
+    },
+    {
+      "id": "plos-one-draft-2",
+      "page_id": "plos-one-01",
+      "journal_id": "plos-one",
+      "snapshot_id": "01a133a9-2611-7302-a1a5-7b27b4698bcf",
+      "snapshot_fingerprint": "7cb27c75ee3bbcf72c00a34e1b6dcf24313a4eb24e6013e02b85ef6b0a240ec0",
+      "fact_type": "requirement",
+      "candidate_normalized_value": {
+        "requirement_type": "reference_style",
+        "operator": "text",
+        "value_text": "Vancouver"
+      },
+      "candidate_scope": {
+        "article_code": null,
+        "section": "references"
+      },
+      "source_locator": "/html/body/main/div/article/div[3]/table/tbody/tr[10]/td[2]/p[1]",
+      "evidence_fragment": "Vancouver",
+      "context_note": "Reference style; do not infer an edition.",
+      "review_status": "PENDING_HUMAN",
+      "confidence": null,
+      "classification": null
+    },
+    {
+      "id": "plos-one-draft-3",
+      "page_id": "plos-one-01",
+      "journal_id": "plos-one",
+      "snapshot_id": "01a133a9-2611-7302-a1a5-7b27b4698bcf",
+      "snapshot_fingerprint": "7cb27c75ee3bbcf72c00a34e1b6dcf24313a4eb24e6013e02b85ef6b0a240ec0",
+      "fact_type": "requirement",
+      "candidate_normalized_value": {
+        "requirement_type": "abstract_words",
+        "operator": "max",
+        "value_number": 300
+      },
+      "candidate_scope": {
+        "article_code": null,
+        "section": "abstract"
+      },
+      "source_locator": "/html/body/main/div/article/div[15]/ul[1]/li[4]",
+      "evidence_fragment": "Not exceed 300 words",
+      "context_note": "Read with preceding Abstract heading/list introduction in the original snapshot.",
+      "review_status": "PENDING_HUMAN",
+      "confidence": null,
+      "classification": null
+    },
+    {
+      "id": "joss-draft-4",
+      "page_id": "joss-01",
+      "journal_id": "joss",
+      "snapshot_id": "01a133aa-2038-73ec-9502-04c4d4372d2b",
+      "snapshot_fingerprint": "52e08c3f4463f3d70b7d6546ae287a579ccf63b6ed39ee7e6fa3d5b56c233e25",
+      "fact_type": "fee",
+      "candidate_normalized_value": {
+        "availability": "unknown",
+        "fee_type": "apc",
+        "amount": null,
+        "currency": null,
+        "basis": "official_reported_no_apc"
+      },
+      "candidate_scope": {
+        "article_code": null,
+        "section": "unspecified"
+      },
+      "source_locator": "/html/body/div[3]/div[1]/div[1]/div[8]/p[1]",
+      "evidence_fragment": "zero publication fees (article processing charges)",
+      "context_note": "Explicit APC absence; no invented currency or numeric zero amount.",
+      "review_status": "PENDING_HUMAN",
+      "confidence": null,
+      "classification": null
+    },
+    {
+      "id": "elife-draft-research_article",
+      "page_id": "elife-01",
+      "journal_id": "elife",
+      "snapshot_id": "01a133ac-062c-7152-930d-119647199623",
+      "snapshot_fingerprint": "9450c292057140833aa1d4d4a0ba31865566159406ce8305fba338dca4cec68f",
+      "fact_type": "article_type",
+      "candidate_normalized_value": {
+        "code": "research_article",
+        "supported": true
+      },
+      "candidate_scope": {
+        "article_code": null,
+        "section": "journal"
+      },
+      "source_locator": "/html/body/div/div/div[2]/div/div[2]/div/div/div/div/div/p",
+      "evidence_fragment": "Research Articles",
+      "context_note": "Explicit types welcomed in the subject areas of the journal; reviewer must confirm scope and representability.",
+      "review_status": "PENDING_HUMAN",
+      "confidence": null,
+      "classification": null
+    },
+    {
+      "id": "elife-draft-review_article",
+      "page_id": "elife-01",
+      "journal_id": "elife",
+      "snapshot_id": "01a133ac-062c-7152-930d-119647199623",
+      "snapshot_fingerprint": "9450c292057140833aa1d4d4a0ba31865566159406ce8305fba338dca4cec68f",
+      "fact_type": "article_type",
+      "candidate_normalized_value": {
+        "code": "review_article",
+        "supported": true
+      },
+      "candidate_scope": {
+        "article_code": null,
+        "section": "journal"
+      },
+      "source_locator": "/html/body/div/div/div[2]/div/div[2]/div/div/div/div/div/p",
+      "evidence_fragment": "Review Articles",
+      "context_note": "Explicit types welcomed in the subject areas of the journal; reviewer must confirm scope and representability.",
+      "review_status": "PENDING_HUMAN",
+      "confidence": null,
+      "classification": null
+    }
+  ],
+  "draft_review_observations": [
+    {
+      "page_id": "peerj-01",
+      "snapshot_id": "01a133ab-88d3-7391-9d66-82717b8fc4e0",
+      "source_locator": "/html/body",
+      "observation": "No readable body text after scripts/styles/noscript removal during operator inspection; no browser or resources executed.",
+      "review_status": "PENDING_HUMAN",
+      "confidence": null,
+      "classification": null
+    }
+  ],
+  "acquisition_summary": {
+    "selected_journals": 8,
+    "approved_sources": 6,
+    "acquired_pages": 4,
+    "blocked_fetches": 2,
+    "policy_holds": 2,
+    "secondary_template_requests": 0,
+    "editorial_network_requests_bounds": {
+      "minimum": 7,
+      "maximum": 8,
+      "basis": "Six single source fetch operations; PeerJ changed final URL within same origin; client allows at most two redirects and does not expose hop count in its summary."
+    }
+  },
+  "gold_sha256": "b25dcecd06ec489e3845b0d768edca8e005306fa0ae083631da38c3befa796ac",
+  "historical_baseline_file": "editorial-real-world-v1-postfix.json",
+  "evaluation_split": "development-regression",
+  "registry_version": "editorial-v4",
+  "document_version": "editorial-dom-v4",
+  "file_sha256": {
+    "apps/api/app/Services/EditorialExtraction/PreparedDocument.php": "a5de80e0e570824eb5b40cf872b079d16efb333fd75b6b88032c394d1754961e",
+    "apps/api/app/Services/EditorialExtraction/EvidenceUnit.php": "d0f41ebe7aceeec27850116df24d510141a26ac6368639d76b1c68af510b9e31",
+    "apps/api/app/Services/EditorialExtraction/WordLimitRule.php": "2cc4008ff9646e181608744db53b6411b9196763a5a2b8388bfb6825f7001a6c",
+    "apps/api/app/Services/EditorialExtraction/EditorialVocabulary.php": "681e79cd27a4e7adbce0aeb6279d1e236512638d4d33353dd3fe1a7c93a76054",
+    "apps/api/app/Services/EditorialExtraction/RuleContext.php": "ef9bc5187ae49d78f8156f9d402530ea69efffecbf24700fd5d9c889ff32ece7",
+    "apps/api/app/Services/EditorialExtraction/LinkRule.php": "2af70addafe1defd0a0370eeb5c605e538601ae36c1985f94512627253a47d69",
+    "apps/api/app/Services/EditorialExtraction/ExtractEditorialSnapshot.php": "9641ceaf6cb7f29d64594daa8d3aa5ed1721c7f7e5f10476c300011a6f346201",
+    "apps/api/app/Services/EditorialExtraction/EditorialRule.php": "47d5c2e2f8dd4bf73afe383cb78b826da34df86dc5fe770669dc5899f5252e39",
+    "apps/api/app/Services/EditorialExtraction/RuleRegistry.php": "a3d14b1ffa84da45f25c129dd9e2f1d8018da3b6bf384d49cc7082bbda449f3c",
+    "apps/api/app/Services/EditorialExtraction/ReferenceStyleRule.php": "3ae10de767f20d1cd9ce13e597b378b67a7f38184dfa5492d72cc54b5f05d221",
+    "apps/api/app/Services/EditorialExtraction/LanguageRule.php": "9286669fb3fc9a10c06d1f0b9d26530050e9f37b8a8fd011f21a5b7fd02b503b",
+    "apps/api/app/Services/EditorialExtraction/PrepareDocument.php": "955abecc79ada7f187819e87690f2ea763339f43bcc1f6776c2706a102dcdfd3",
+    "apps/api/app/Services/EditorialExtraction/ArticleTypeRule.php": "db8132724c7d0f8f183c409b39e69fa2248f7ff1e9114983960acf996179a966",
+    "apps/api/app/Services/EditorialExtraction/FeeRule.php": "b95520bb8eed596cf724ec684ee987c588025985463e94cf185526d23ba934a4"
+  },
+  "benchmark_proof": {
+    "database": "fikarohana_3ec_validation",
+    "postgresql_transaction": "READ ONLY then rollback",
+    "http_policy": "Http::preventStrayRequests",
+    "completed_at": "2026-10-13T09:50:40+00:00",
+    "counts_before": {
+      "article_types": 0,
+      "assertion_reviews": 0,
+      "cache": 0,
+      "cache_locks": 0,
+      "catalog_revision_journals": 0,
+      "catalog_revisions": 0,
+      "failed_jobs": 0,
+      "indexation_services": 0,
+      "ingestion_claims": 0,
+      "ingestion_items": 0,
+      "ingestion_run_items": 0,
+      "ingestion_runs": 0,
+      "ingestion_source_providers": 0,
+      "job_batches": 0,
+      "jobs": 0,
+      "journal_article_types": 0,
+      "journal_assertions": 0,
+      "journal_fees": 0,
+      "journal_identifiers": 0,
+      "journal_indexations": 0,
+      "journal_languages": 0,
+      "journal_requirements": 0,
+      "journal_revision_assertions": 0,
+      "journal_revisions": 0,
+      "journal_sources": 7,
+      "journal_subjects": 0,
+      "journal_templates": 0,
+      "journals": 7,
+      "languages": 0,
+      "migrations": 10,
+      "password_reset_tokens": 0,
+      "personal_access_tokens": 0,
+      "publishers": 0,
+      "sessions": 0,
+      "source_records": 5,
+      "subjects": 0,
+      "users": 0
+    },
+    "counts_after": {
+      "article_types": 0,
+      "assertion_reviews": 0,
+      "cache": 0,
+      "cache_locks": 0,
+      "catalog_revision_journals": 0,
+      "catalog_revisions": 0,
+      "failed_jobs": 0,
+      "indexation_services": 0,
+      "ingestion_claims": 0,
+      "ingestion_items": 0,
+      "ingestion_run_items": 0,
+      "ingestion_runs": 0,
+      "ingestion_source_providers": 0,
+      "job_batches": 0,
+      "jobs": 0,
+      "journal_article_types": 0,
+      "journal_assertions": 0,
+      "journal_fees": 0,
+      "journal_identifiers": 0,
+      "journal_indexations": 0,
+      "journal_languages": 0,
+      "journal_requirements": 0,
+      "journal_revision_assertions": 0,
+      "journal_revisions": 0,
+      "journal_sources": 7,
+      "journal_subjects": 0,
+      "journal_templates": 0,
+      "journals": 7,
+      "languages": 0,
+      "migrations": 10,
+      "password_reset_tokens": 0,
+      "personal_access_tokens": 0,
+      "publishers": 0,
+      "sessions": 0,
+      "source_records": 5,
+      "subjects": 0,
+      "users": 0
+    }
+  }
+}

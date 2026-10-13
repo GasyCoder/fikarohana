@@ -1,0 +1,745 @@
+{
+    "schema_version": 1,
+    "status": "FROZEN_CONFLUENTES_INDEPENDENT_HOLDOUT_COMPLETE_V4_UNCHANGED",
+    "registry_version": "editorial-v4",
+    "document_version": "editorial-dom-v4",
+    "file_sha256": {
+        "apps/api/app/Services/EditorialExtraction/PreparedDocument.php": "a5de80e0e570824eb5b40cf872b079d16efb333fd75b6b88032c394d1754961e",
+        "apps/api/app/Services/EditorialExtraction/EvidenceUnit.php": "d0f41ebe7aceeec27850116df24d510141a26ac6368639d76b1c68af510b9e31",
+        "apps/api/app/Services/EditorialExtraction/WordLimitRule.php": "2cc4008ff9646e181608744db53b6411b9196763a5a2b8388bfb6825f7001a6c",
+        "apps/api/app/Services/EditorialExtraction/EditorialVocabulary.php": "681e79cd27a4e7adbce0aeb6279d1e236512638d4d33353dd3fe1a7c93a76054",
+        "apps/api/app/Services/EditorialExtraction/RuleContext.php": "ef9bc5187ae49d78f8156f9d402530ea69efffecbf24700fd5d9c889ff32ece7",
+        "apps/api/app/Services/EditorialExtraction/LinkRule.php": "2af70addafe1defd0a0370eeb5c605e538601ae36c1985f94512627253a47d69",
+        "apps/api/app/Services/EditorialExtraction/ExtractEditorialSnapshot.php": "9641ceaf6cb7f29d64594daa8d3aa5ed1721c7f7e5f10476c300011a6f346201",
+        "apps/api/app/Services/EditorialExtraction/EditorialRule.php": "47d5c2e2f8dd4bf73afe383cb78b826da34df86dc5fe770669dc5899f5252e39",
+        "apps/api/app/Services/EditorialExtraction/RuleRegistry.php": "a3d14b1ffa84da45f25c129dd9e2f1d8018da3b6bf384d49cc7082bbda449f3c",
+        "apps/api/app/Services/EditorialExtraction/ReferenceStyleRule.php": "3ae10de767f20d1cd9ce13e597b378b67a7f38184dfa5492d72cc54b5f05d221",
+        "apps/api/app/Services/EditorialExtraction/LanguageRule.php": "9286669fb3fc9a10c06d1f0b9d26530050e9f37b8a8fd011f21a5b7fd02b503b",
+        "apps/api/app/Services/EditorialExtraction/PrepareDocument.php": "955abecc79ada7f187819e87690f2ea763339f43bcc1f6776c2706a102dcdfd3",
+        "apps/api/app/Services/EditorialExtraction/ArticleTypeRule.php": "db8132724c7d0f8f183c409b39e69fa2248f7ff1e9114983960acf996179a966",
+        "apps/api/app/Services/EditorialExtraction/FeeRule.php": "b95520bb8eed596cf724ec684ee987c588025985463e94cf185526d23ba934a4"
+    },
+    "operator_authorization": {
+        "reference": "florent-3ec3-holdout-2026-10-13",
+        "justification": "Independent real-world V4 generalization validation only; two exact URLs; official public access and platform association; unchanged 3E-A checks; no bypass/secondary resources; internal HTML retention; stop before benchmark."
+    },
+    "validation_database": "fikarohana_3ec_validation",
+    "journals": [
+        {
+            "id": "jss",
+            "title": "Journal of Statistical Software",
+            "publisher": "Foundation for Open Access Statistics",
+            "split": "independent-holdout",
+            "canonical_journal_id": null
+        },
+        {
+            "id": "confluentes",
+            "title": "Confluentes Mathematici",
+            "publisher": "Centre Mersenne / Mathdoc platform",
+            "split": "independent-holdout",
+            "canonical_journal_id": null,
+            "official_journal_url": "https://cml.centre-mersenne.org/",
+            "ownership_evidence_urls": [
+                "https://cml.centre-mersenne.org/page/presentation_fr/",
+                "https://www.centre-mersenne.org/en/our-journals/"
+            ],
+            "ownership_review": "Official journal presentation names Centre Mersenne; platform directory lists journal. Search-index primary-source corroboration only, no secondary snapshot acquisition.",
+            "validation_journal_id": "01a134ba-24cf-7396-bf3e-33eaa3fc745d"
+        }
+    ],
+    "pages": [
+        {
+            "id": "jss-01",
+            "journal_id": "jss",
+            "requested_url": "https://www.jstatsoft.org/style",
+            "role": "guidelines",
+            "approval_status": "DO_NOT_APPROVE",
+            "acquisition_status": "ACQUISITION_BLOCKED",
+            "failure_code": "official_prohibited_address",
+            "failure_stage": "DNS preflight before robots/registration/approval/editorial fetch",
+            "reason": "All-answer DNS validation rejects advertised link-local AAAA fe80::21a:4aff:fe31:109c; no IPv4-only bypass.",
+            "robots_review": {
+                "status": "NOT_RETRIEVED_DNS_BLOCK"
+            },
+            "source_id": null,
+            "source_record_id": null
+        },
+        {
+            "id": "confluentes-01",
+            "journal_id": "confluentes",
+            "requested_url": "https://cml.centre-mersenne.org/page/instructions-latex_fr/",
+            "role": "guidelines",
+            "approval_status": "APPROVED",
+            "acquisition_status": "ACQUIRED",
+            "robots_review": {
+                "url": "https://cml.centre-mersenne.org/robots.txt",
+                "http_status": 200,
+                "decision": "ELIGIBLE",
+                "summary": "Wildcard exclusions /search /series /lectures do not cover exact authorized path; crawl-delay 2 <= existing 30 seconds."
+            },
+            "source_id": "01a134ba-24e2-72b6-8761-c9b1db3d9f0a",
+            "source_record_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+            "final_url": "https://cml.centre-mersenne.org/page/instructions-latex_fr/",
+            "http_status": 200,
+            "mime": "text/html",
+            "retrieved_at": "2026-10-13T10:06:48+00:00",
+            "fingerprint": "6b341f1b285f45d10a33822b2e725fec306382d34a1d2b5f5868d36a3c1217f3",
+            "content_sha256": "3649835b815965b824ec34c2ffed2e6250b34eb49fb15ce333fb4f05a60eff72",
+            "bytes": 21757
+        }
+    ],
+    "draft_observations": [
+        {
+            "id": "cml-english",
+            "journal_id": "confluentes",
+            "page_id": "confluentes-01",
+            "source_record_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+            "snapshot_fingerprint": "6b341f1b285f45d10a33822b2e725fec306382d34a1d2b5f5868d36a3c1217f3",
+            "fact_type": "language",
+            "candidate_normalized_value": {
+                "code": "en",
+                "supported": true
+            },
+            "candidate_scope": {
+                "section": "manuscript",
+                "article_code": null
+            },
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[2]",
+            "evidence_fragment": "en anglais",
+            "proposed_status": "EXPLICIT",
+            "context_note": "Paragraph explicitly lists accepted manuscript languages. English is unconditioned by the translation obligation applying to non-English articles; no inference from page language. Grammar-language limitations are not grounds for OOS.",
+            "review_status": "HUMAN_VALIDATED",
+            "human_confidence": "explicit",
+            "classification": null,
+            "human_resolution": "EXPLICIT_POSITIVE"
+        },
+        {
+            "id": "cml-french",
+            "journal_id": "confluentes",
+            "page_id": "confluentes-01",
+            "source_record_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+            "snapshot_fingerprint": "6b341f1b285f45d10a33822b2e725fec306382d34a1d2b5f5868d36a3c1217f3",
+            "fact_type": "language",
+            "candidate_normalized_value": {
+                "code": "fr",
+                "supported": true
+            },
+            "candidate_scope": {
+                "section": "manuscript",
+                "article_code": null,
+                "translation_requirement": "English translation of title and abstract mandatory for non-English articles"
+            },
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[2]",
+            "evidence_fragment": "français",
+            "proposed_status": "OUT_OF_SCOPE",
+            "context_note": "Explicit accepted language, but preserve translation requirement. Canonical boolean membership/V4 language proposal cannot encode this dependency; human may decide a richer faithful representation before gold freeze, never silently globalize it.",
+            "review_status": "HUMAN_VALIDATED",
+            "human_confidence": "explicit",
+            "classification": null,
+            "human_resolution": "OUT_OF_SCOPE"
+        },
+        {
+            "id": "cml-german",
+            "journal_id": "confluentes",
+            "page_id": "confluentes-01",
+            "source_record_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+            "snapshot_fingerprint": "6b341f1b285f45d10a33822b2e725fec306382d34a1d2b5f5868d36a3c1217f3",
+            "fact_type": "language",
+            "candidate_normalized_value": {
+                "code": "de",
+                "supported": true
+            },
+            "candidate_scope": {
+                "section": "manuscript",
+                "article_code": null,
+                "translation_requirement": "English translation of title and abstract mandatory for non-English articles"
+            },
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[2]",
+            "evidence_fragment": "allemand",
+            "proposed_status": "OUT_OF_SCOPE",
+            "context_note": "Same explicit conditional eligibility as French; not silently unqualified language support.",
+            "review_status": "HUMAN_VALIDATED",
+            "human_confidence": "explicit",
+            "classification": null,
+            "human_resolution": "OUT_OF_SCOPE"
+        },
+        {
+            "id": "cml-translation",
+            "journal_id": "confluentes",
+            "page_id": "confluentes-01",
+            "source_record_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+            "snapshot_fingerprint": "6b341f1b285f45d10a33822b2e725fec306382d34a1d2b5f5868d36a3c1217f3",
+            "fact_type": "requirement",
+            "candidate_normalized_value": {
+                "requirement_type": "structure",
+                "operator": "text",
+                "value_text": "English translation of title and abstract required"
+            },
+            "candidate_scope": {
+                "section": "title_and_abstract",
+                "article_code": null,
+                "manuscript_language_condition": "non-English"
+            },
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[2]",
+            "evidence_fragment": "une traduction anglaise du titre et du résumé",
+            "proposed_status": "OUT_OF_SCOPE",
+            "context_note": "Explicit dependency; no V4 evaluated rule/scope representation for language-conditioned mandatory translation. Generic canonical text notes alone do not certify supported typed V4 extraction.",
+            "review_status": "HUMAN_VALIDATED",
+            "human_confidence": "explicit",
+            "classification": null,
+            "human_resolution": "OUT_OF_SCOPE"
+        },
+        {
+            "id": "cml-bibliography",
+            "journal_id": "confluentes",
+            "page_id": "confluentes-01",
+            "source_record_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+            "snapshot_fingerprint": "6b341f1b285f45d10a33822b2e725fec306382d34a1d2b5f5868d36a3c1217f3",
+            "fact_type": "requirement",
+            "candidate_normalized_value": {
+                "requirement_type": "reference_style",
+                "operator": "text",
+                "value_text": "plain or plain-fr"
+            },
+            "candidate_scope": {
+                "section": "references",
+                "article_code": null,
+                "language_condition": "plain-fr alternative explicitly associated with French articles"
+            },
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[10]",
+            "evidence_fragment": "le style plain ou plain-fr",
+            "proposed_status": "OUT_OF_SCOPE",
+            "context_note": "Explicit BibTeX alternative styles. Do not collapse alternatives into one mandatory style or drop French applicability. V4 evaluated grammar and single style/scoping policy do not represent this qualified alternative safely; human review of representation remains required.",
+            "review_status": "HUMAN_VALIDATED",
+            "human_confidence": "explicit",
+            "classification": null,
+            "human_resolution": "OUT_OF_SCOPE"
+        },
+        {
+            "id": "cml-external-pack",
+            "journal_id": "confluentes",
+            "page_id": "confluentes-01",
+            "source_record_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+            "snapshot_fingerprint": "6b341f1b285f45d10a33822b2e725fec306382d34a1d2b5f5868d36a3c1217f3",
+            "fact_type": "template",
+            "candidate_normalized_value": {
+                "format": "latex",
+                "official_url": "https://www.centre-mersenne.org/media/texmf/pack_author-cml.zip"
+            },
+            "candidate_scope": {
+                "section": "manuscript",
+                "article_code": null,
+                "submission_stage": "after acceptance for documentclass cml"
+            },
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[1]/a[2]",
+            "evidence_fragment": "lien direct",
+            "proposed_status": "OUT_OF_SCOPE",
+            "context_note": "Parent explicitly describes class/configuration package after acceptance. Platform-owned but cross-origin www host, ZIP package and non-template generic label are outside V1 same-origin template policy; no download.",
+            "review_status": "HUMAN_VALIDATED",
+            "human_confidence": "explicit",
+            "classification": null,
+            "human_resolution": "OUT_OF_SCOPE"
+        },
+        {
+            "id": "cml-required-abstract",
+            "journal_id": "confluentes",
+            "page_id": "confluentes-01",
+            "source_record_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+            "snapshot_fingerprint": "6b341f1b285f45d10a33822b2e725fec306382d34a1d2b5f5868d36a3c1217f3",
+            "fact_type": "requirement",
+            "candidate_normalized_value": {
+                "requirement_type": "structure",
+                "operator": "text",
+                "value_text": "Abstract required"
+            },
+            "candidate_scope": {
+                "section": "abstract",
+                "article_code": null
+            },
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[9]",
+            "evidence_fragment": "Un résumé est obligatoire",
+            "proposed_status": "OUT_OF_SCOPE",
+            "context_note": "Explicit abstract presence/LaTeX layout instruction. No numeric maximum and no supported V4 presence rule; never manufacture abstract_words.",
+            "review_status": "HUMAN_VALIDATED",
+            "human_confidence": "explicit",
+            "classification": null,
+            "human_resolution": "OUT_OF_SCOPE"
+        }
+    ],
+    "annotations": [
+        {
+            "id": "cml-english",
+            "journal_id": "confluentes",
+            "page_id": "confluentes-01",
+            "fact_type": "language",
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[2]",
+            "evidence_fragment": "en anglais",
+            "context_note": "Paragraph explicitly lists accepted manuscript languages. English is unconditioned by the translation obligation applying to non-English articles; no inference from page language. Grammar-language limitations are not grounds for OOS.",
+            "snapshot_fingerprint": "6b341f1b285f45d10a33822b2e725fec306382d34a1d2b5f5868d36a3c1217f3",
+            "snapshot_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+            "value": {
+                "code": "en",
+                "supported": true
+            },
+            "scope": {
+                "section": "manuscript",
+                "article_code": null
+            },
+            "disposition": "positive",
+            "confidence": "explicit",
+            "human_review_reference": "florent-3ec3-holdout-2026-10-13"
+        },
+        {
+            "id": "cml-french",
+            "journal_id": "confluentes",
+            "page_id": "confluentes-01",
+            "fact_type": "language",
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[2]",
+            "evidence_fragment": "français",
+            "context_note": "Explicit accepted language, but preserve translation requirement. Canonical boolean membership/V4 language proposal cannot encode this dependency; human may decide a richer faithful representation before gold freeze, never silently globalize it.",
+            "snapshot_fingerprint": "6b341f1b285f45d10a33822b2e725fec306382d34a1d2b5f5868d36a3c1217f3",
+            "snapshot_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+            "value": {
+                "code": "fr",
+                "supported": true
+            },
+            "scope": {
+                "section": "manuscript",
+                "article_code": null,
+                "translation_requirement": "English translation of title and abstract mandatory for non-English articles"
+            },
+            "disposition": "out_of_scope",
+            "confidence": "explicit",
+            "human_review_reference": "florent-3ec3-holdout-2026-10-13",
+            "reason": "Human explicitly validates clear source observation as OOS: V4 cannot faithfully retain its conditional/alternative meaning or does not evaluate this requirement/template category."
+        },
+        {
+            "id": "cml-german",
+            "journal_id": "confluentes",
+            "page_id": "confluentes-01",
+            "fact_type": "language",
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[2]",
+            "evidence_fragment": "allemand",
+            "context_note": "Same explicit conditional eligibility as French; not silently unqualified language support.",
+            "snapshot_fingerprint": "6b341f1b285f45d10a33822b2e725fec306382d34a1d2b5f5868d36a3c1217f3",
+            "snapshot_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+            "value": {
+                "code": "de",
+                "supported": true
+            },
+            "scope": {
+                "section": "manuscript",
+                "article_code": null,
+                "translation_requirement": "English translation of title and abstract mandatory for non-English articles"
+            },
+            "disposition": "out_of_scope",
+            "confidence": "explicit",
+            "human_review_reference": "florent-3ec3-holdout-2026-10-13",
+            "reason": "Human explicitly validates clear source observation as OOS: V4 cannot faithfully retain its conditional/alternative meaning or does not evaluate this requirement/template category."
+        },
+        {
+            "id": "cml-translation",
+            "journal_id": "confluentes",
+            "page_id": "confluentes-01",
+            "fact_type": "requirement",
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[2]",
+            "evidence_fragment": "une traduction anglaise du titre et du résumé",
+            "context_note": "Explicit dependency; no V4 evaluated rule/scope representation for language-conditioned mandatory translation. Generic canonical text notes alone do not certify supported typed V4 extraction.",
+            "snapshot_fingerprint": "6b341f1b285f45d10a33822b2e725fec306382d34a1d2b5f5868d36a3c1217f3",
+            "snapshot_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+            "value": {
+                "requirement_type": "structure",
+                "operator": "text",
+                "value_text": "English translation of title and abstract required"
+            },
+            "scope": {
+                "section": "title_and_abstract",
+                "article_code": null,
+                "manuscript_language_condition": "non-English"
+            },
+            "disposition": "out_of_scope",
+            "confidence": "explicit",
+            "human_review_reference": "florent-3ec3-holdout-2026-10-13",
+            "reason": "Human explicitly validates clear source observation as OOS: V4 cannot faithfully retain its conditional/alternative meaning or does not evaluate this requirement/template category."
+        },
+        {
+            "id": "cml-bibliography",
+            "journal_id": "confluentes",
+            "page_id": "confluentes-01",
+            "fact_type": "requirement",
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[10]",
+            "evidence_fragment": "le style plain ou plain-fr",
+            "context_note": "Explicit BibTeX alternative styles. Do not collapse alternatives into one mandatory style or drop French applicability. V4 evaluated grammar and single style/scoping policy do not represent this qualified alternative safely; human review of representation remains required.",
+            "snapshot_fingerprint": "6b341f1b285f45d10a33822b2e725fec306382d34a1d2b5f5868d36a3c1217f3",
+            "snapshot_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+            "value": {
+                "requirement_type": "reference_style",
+                "operator": "text",
+                "value_text": "plain or plain-fr"
+            },
+            "scope": {
+                "section": "references",
+                "article_code": null,
+                "language_condition": "plain-fr alternative explicitly associated with French articles"
+            },
+            "disposition": "out_of_scope",
+            "confidence": "explicit",
+            "human_review_reference": "florent-3ec3-holdout-2026-10-13",
+            "reason": "Human explicitly validates clear source observation as OOS: V4 cannot faithfully retain its conditional/alternative meaning or does not evaluate this requirement/template category."
+        },
+        {
+            "id": "cml-external-pack",
+            "journal_id": "confluentes",
+            "page_id": "confluentes-01",
+            "fact_type": "template",
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[1]/a[2]",
+            "evidence_fragment": "lien direct",
+            "context_note": "Parent explicitly describes class/configuration package after acceptance. Platform-owned but cross-origin www host, ZIP package and non-template generic label are outside V1 same-origin template policy; no download.",
+            "snapshot_fingerprint": "6b341f1b285f45d10a33822b2e725fec306382d34a1d2b5f5868d36a3c1217f3",
+            "snapshot_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+            "value": {
+                "format": "latex",
+                "official_url": "https://www.centre-mersenne.org/media/texmf/pack_author-cml.zip"
+            },
+            "scope": {
+                "section": "manuscript",
+                "article_code": null,
+                "submission_stage": "after acceptance for documentclass cml"
+            },
+            "disposition": "out_of_scope",
+            "confidence": "explicit",
+            "human_review_reference": "florent-3ec3-holdout-2026-10-13",
+            "reason": "Human explicitly validates clear source observation as OOS: V4 cannot faithfully retain its conditional/alternative meaning or does not evaluate this requirement/template category."
+        },
+        {
+            "id": "cml-required-abstract",
+            "journal_id": "confluentes",
+            "page_id": "confluentes-01",
+            "fact_type": "requirement",
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[9]",
+            "evidence_fragment": "Un résumé est obligatoire",
+            "context_note": "Explicit abstract presence/LaTeX layout instruction. No numeric maximum and no supported V4 presence rule; never manufacture abstract_words.",
+            "snapshot_fingerprint": "6b341f1b285f45d10a33822b2e725fec306382d34a1d2b5f5868d36a3c1217f3",
+            "snapshot_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+            "value": {
+                "requirement_type": "structure",
+                "operator": "text",
+                "value_text": "Abstract required"
+            },
+            "scope": {
+                "section": "abstract",
+                "article_code": null
+            },
+            "disposition": "out_of_scope",
+            "confidence": "explicit",
+            "human_review_reference": "florent-3ec3-holdout-2026-10-13",
+            "reason": "Human explicitly validates clear source observation as OOS: V4 cannot faithfully retain its conditional/alternative meaning or does not evaluate this requirement/template category."
+        }
+    ],
+    "extractions": [
+        {
+            "page_id": "confluentes-01",
+            "journal_id": "confluentes",
+            "snapshot_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+            "snapshot_fingerprint": "6b341f1b285f45d10a33822b2e725fec306382d34a1d2b5f5868d36a3c1217f3",
+            "registry_version": "editorial-v4",
+            "document_version": "editorial-dom-v4",
+            "status": "completed",
+            "dry_run": true,
+            "proposals": []
+        }
+    ],
+    "metrics": {
+        "overall": {
+            "TP": 0,
+            "FP": 0,
+            "FN": 1,
+            "precision": null,
+            "recall": 0.0,
+            "f1": 0.0,
+            "fp_rate": null,
+            "CA": 0,
+            "ambiguous_not_evaluated": 0,
+            "OOS": 6,
+            "AB": 1,
+            "policy_holds": 0,
+            "extraction_failures": 0,
+            "proposals": 0,
+            "expected_positives": 1
+        },
+        "by_fact_type": {
+            "article_type": {
+                "TP": 0,
+                "FP": 0,
+                "FN": 0,
+                "precision": null,
+                "recall": null,
+                "f1": null,
+                "fp_rate": null
+            },
+            "fee": {
+                "TP": 0,
+                "FP": 0,
+                "FN": 0,
+                "precision": null,
+                "recall": null,
+                "f1": null,
+                "fp_rate": null
+            },
+            "language": {
+                "TP": 0,
+                "FP": 0,
+                "FN": 1,
+                "precision": null,
+                "recall": 0.0,
+                "f1": 0.0,
+                "fp_rate": null
+            },
+            "requirement.abstract_words": {
+                "TP": 0,
+                "FP": 0,
+                "FN": 0,
+                "precision": null,
+                "recall": null,
+                "f1": null,
+                "fp_rate": null
+            },
+            "requirement.reference_style": {
+                "TP": 0,
+                "FP": 0,
+                "FN": 0,
+                "precision": null,
+                "recall": null,
+                "f1": null,
+                "fp_rate": null
+            },
+            "requirement.word_count": {
+                "TP": 0,
+                "FP": 0,
+                "FN": 0,
+                "precision": null,
+                "recall": null,
+                "f1": null,
+                "fp_rate": null
+            },
+            "submission_url": {
+                "TP": 0,
+                "FP": 0,
+                "FN": 0,
+                "precision": null,
+                "recall": null,
+                "f1": null,
+                "fp_rate": null
+            },
+            "template": {
+                "TP": 0,
+                "FP": 0,
+                "FN": 0,
+                "precision": null,
+                "recall": null,
+                "f1": null,
+                "fp_rate": null
+            }
+        },
+        "by_journal": {
+            "jss": {
+                "TP": 0,
+                "FP": 0,
+                "FN": 0,
+                "precision": null,
+                "recall": null,
+                "f1": null,
+                "fp_rate": null,
+                "acquired_pages": 0,
+                "CA": 0,
+                "OOS": 0
+            },
+            "confluentes": {
+                "TP": 0,
+                "FP": 0,
+                "FN": 1,
+                "precision": null,
+                "recall": 0.0,
+                "f1": 0.0,
+                "fp_rate": null,
+                "acquired_pages": 1,
+                "CA": 0,
+                "OOS": 6
+            }
+        },
+        "details": [
+            {
+                "classification": "FN",
+                "page_id": "confluentes-01",
+                "fact_type": "language",
+                "annotation_id": "cml-english"
+            }
+        ]
+    },
+    "database_counts_after_acquisition": {
+        "source_records": 6,
+        "journal_assertions": 0,
+        "assertion_reviews": 0,
+        "journal_revisions": 0,
+        "catalog_revisions": 0
+    },
+    "additional_review_notes": [
+        {
+            "category": "explicit_not_supported_v4",
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[1]",
+            "observation": "LaTeX manuscript source; documentclass cml after acceptance; generic formatting requirements outside evaluated V4 rules."
+        },
+        {
+            "category": "explicit_not_supported_v4",
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[6]",
+            "observation": "Unmodified class page layout, globally and locally; not a numerical figure/page/word limit."
+        },
+        {
+            "category": "explicit_not_supported_v4",
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[7]",
+            "observation": "Title/alternate-title LaTeX commands; mandatory structure/translation beyond evaluated V4 mapping."
+        },
+        {
+            "category": "explicit_not_supported_v4",
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[8]",
+            "observation": "Author declaration command guidance; no project/collaboration fact."
+        },
+        {
+            "category": "explicit_not_supported_v4",
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[16]",
+            "observation": "Theorem environment conventions and proof examples; not article types."
+        },
+        {
+            "category": "explicit_not_supported_v4",
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[17]",
+            "observation": "Permitted TeX source encoding; not accepted manuscript language."
+        },
+        {
+            "category": "ambiguous",
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[10]",
+            "observation": "Exact choice between base style and French alternative requires human scope review. Do not select a unique mandatory style from an alternatives sentence. Source wording is explicit; unresolved issue is normalization/applicability."
+        },
+        {
+            "category": "not_submission_portal",
+            "source_locator": "/html/body/header/div[1]/div[1]/nav/div/ul/li[3]/ul/li[1]/a",
+            "observation": "Navigation submission label points to an author-instructions page, not proven action/system portal. No submission_url candidate; not followed."
+        },
+        {
+            "category": "potential_missing",
+            "observation": "No numeric abstract/manuscript word limit, fee/APC claim or accepted article-type list identified in this snapshot. No inferences from other pages or absence of text; reviewer must attest category coverage."
+        },
+        {
+            "category": "dynamic_rendering",
+            "observation": "Editorial paragraphs are readable in stored static HTML; no JS needed for cited candidates. Some formula/command blocks use separate markup; literal source-only DOM inspection verified they are outside evaluated fact categories. No JS/assets executed/downloaded."
+        },
+        {
+            "category": "explicit_not_supported_v4",
+            "source_locator": "/html/body/main/div/div/div[2]/div/div/p[15]",
+            "observation": "Following figure instructions require relative TeX dimensions and graphics inclusion; common PDF/JPG/TIFF formats allowed, PostScript excluded. These are file/layout requirements outside evaluated V4 extraction; never turn physical dimensions into word limits."
+        }
+    ],
+    "annotation_policy": {
+        "human_reviewer": "florent-3ec3-holdout-2026-10-13",
+        "completed_at": "2026-10-13T10:20:27.175102+00:00",
+        "page_coverage_attested": true,
+        "maximum_evidence_words_per_page": 25,
+        "no_extractor_run_before_human_gold": true,
+        "annotator_reference": "florent-3ec3-holdout-2026-10-13",
+        "annotator_kind": "human_required",
+        "labels_frozen_before_extraction": true,
+        "human_validation": "User approves English manuscript language as sole positive, six explicit OOS observations, full static Confluentes coverage and no JSS annotation before unchanged V4 benchmark.",
+        "counting_policy": "One positive / six OOS. JSS remains acquisition blocked, no annotation or FN. Additional coverage notes are not separately counted facts."
+    },
+    "evidence_words": 23,
+    "static_coverage_review": {
+        "method": "Manual original DOM paragraphs, anchors and whole editorial container textContent; NONET; no PrepareDocument/RuleRegistry/extraction invocation.",
+        "editorial_container_locator": "/html/body/main/div/div/div[2]/div/div",
+        "candidate_coverage_status": "PENDING_HUMAN",
+        "dynamic_limitation": "No dynamic limitation for editorial body; all examined instructions available in stored HTML.",
+        "jss": "No snapshot; no candidate factual annotations from cached search snippets."
+    },
+    "gold_sha256": "e9ba5e96f637b40b62e414bf5e40d71fa6e4bbe7367a74f423f4276420373d71",
+    "benchmark_proof": {
+        "completed_at": "2026-10-13T10:20:27+00:00",
+        "postgresql_transaction": "READ ONLY then rollback",
+        "http_policy": "Http::preventStrayRequests; no network acquisition",
+        "counts_before": {
+            "article_types": 0,
+            "assertion_reviews": 0,
+            "cache": 0,
+            "cache_locks": 0,
+            "catalog_revision_journals": 0,
+            "catalog_revisions": 0,
+            "failed_jobs": 0,
+            "indexation_services": 0,
+            "ingestion_claims": 0,
+            "ingestion_items": 0,
+            "ingestion_run_items": 0,
+            "ingestion_runs": 0,
+            "ingestion_source_providers": 0,
+            "job_batches": 0,
+            "jobs": 0,
+            "journal_article_types": 0,
+            "journal_assertions": 0,
+            "journal_fees": 0,
+            "journal_identifiers": 0,
+            "journal_indexations": 0,
+            "journal_languages": 0,
+            "journal_requirements": 0,
+            "journal_revision_assertions": 0,
+            "journal_revisions": 0,
+            "journal_sources": 8,
+            "journal_subjects": 0,
+            "journal_templates": 0,
+            "journals": 8,
+            "languages": 0,
+            "migrations": 10,
+            "password_reset_tokens": 0,
+            "personal_access_tokens": 0,
+            "publishers": 0,
+            "sessions": 0,
+            "source_records": 6,
+            "subjects": 0,
+            "users": 0
+        },
+        "counts_after": {
+            "article_types": 0,
+            "assertion_reviews": 0,
+            "cache": 0,
+            "cache_locks": 0,
+            "catalog_revision_journals": 0,
+            "catalog_revisions": 0,
+            "failed_jobs": 0,
+            "indexation_services": 0,
+            "ingestion_claims": 0,
+            "ingestion_items": 0,
+            "ingestion_run_items": 0,
+            "ingestion_runs": 0,
+            "ingestion_source_providers": 0,
+            "job_batches": 0,
+            "jobs": 0,
+            "journal_article_types": 0,
+            "journal_assertions": 0,
+            "journal_fees": 0,
+            "journal_identifiers": 0,
+            "journal_indexations": 0,
+            "journal_languages": 0,
+            "journal_requirements": 0,
+            "journal_revision_assertions": 0,
+            "journal_revisions": 0,
+            "journal_sources": 8,
+            "journal_subjects": 0,
+            "journal_templates": 0,
+            "journals": 8,
+            "languages": 0,
+            "migrations": 10,
+            "password_reset_tokens": 0,
+            "personal_access_tokens": 0,
+            "publishers": 0,
+            "sessions": 0,
+            "source_records": 6,
+            "subjects": 0,
+            "users": 0
+        }
+    }
+}

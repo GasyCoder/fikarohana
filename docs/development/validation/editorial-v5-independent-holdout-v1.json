@@ -1,0 +1,243 @@
+{
+    "schema_version": 1,
+    "status": "ACQUISITION_COMPLETE_NO_USABLE_STATIC_CORPUS_AWAITING_HUMAN_REVIEW",
+    "registry_version": "editorial-v5",
+    "document_version": "editorial-dom-v5",
+    "file_sha256": {
+        "apps/api/app/Services/EditorialExtraction/PreparedDocument.php": "a5de80e0e570824eb5b40cf872b079d16efb333fd75b6b88032c394d1754961e",
+        "apps/api/app/Services/EditorialExtraction/EvidenceUnit.php": "d0f41ebe7aceeec27850116df24d510141a26ac6368639d76b1c68af510b9e31",
+        "apps/api/app/Services/EditorialExtraction/WordLimitRule.php": "fcfb0b18245412fd18af764769e59f8c0c82a61b237408e89b77b1e623943360",
+        "apps/api/app/Services/EditorialExtraction/EditorialVocabulary.php": "681e79cd27a4e7adbce0aeb6279d1e236512638d4d33353dd3fe1a7c93a76054",
+        "apps/api/app/Services/EditorialExtraction/RuleContext.php": "1e41adaac89ae57b8eb33def0e7b089de5ab726fdba8d215292e60f23fd77107",
+        "apps/api/app/Services/EditorialExtraction/LinkRule.php": "ddda40369c6702ec194cafb81936d0be52e35c8628769c97a520ed984aab6633",
+        "apps/api/app/Services/EditorialExtraction/ExtractEditorialSnapshot.php": "9641ceaf6cb7f29d64594daa8d3aa5ed1721c7f7e5f10476c300011a6f346201",
+        "apps/api/app/Services/EditorialExtraction/EditorialRule.php": "47d5c2e2f8dd4bf73afe383cb78b826da34df86dc5fe770669dc5899f5252e39",
+        "apps/api/app/Services/EditorialExtraction/RuleRegistry.php": "73218635280cb01e7a9995be5e88a7f6c880ff5d5831f5176bbd64dc02fc7c99",
+        "apps/api/app/Services/EditorialExtraction/ReferenceStyleRule.php": "3ae10de767f20d1cd9ce13e597b378b67a7f38184dfa5492d72cc54b5f05d221",
+        "apps/api/app/Services/EditorialExtraction/LanguageRule.php": "9a6b677647812880b7fbbf7db9f7c3c707e1410e12f5e7785992bba95c2364c5",
+        "apps/api/app/Services/EditorialExtraction/PrepareDocument.php": "fd10afcf817e668d90a2de91dc432a6a0aea4ca3f8bdbad22d3b5bbba74e53c7",
+        "apps/api/app/Services/EditorialExtraction/ArticleTypeRule.php": "db8132724c7d0f8f183c409b39e69fa2248f7ff1e9114983960acf996179a966",
+        "apps/api/app/Services/EditorialExtraction/FeeRule.php": "b95520bb8eed596cf724ec684ee987c588025985463e94cf185526d23ba934a4"
+    },
+    "operator_authorization": {
+        "reference": "florent-3ec4-v5-holdout-2026-10-13",
+        "justification": "Independent generalization corpus on three journals/four exact pages; no rule development or retuning; only conditional public official acquisition with all 3E-A checks, policy/access and internal retention; no secondary resources; STOP for human gold before any extraction."
+    },
+    "validation_database": "fikarohana_3ec_validation",
+    "journals": [
+        {
+            "id": "biology-open",
+            "title": "Biology Open",
+            "publisher": "The Company of Biologists",
+            "official_journal_url": "https://journals.biologists.com/bio",
+            "canonical_journal_id": null,
+            "split": "independent-holdout",
+            "ownership_evidence": [
+                "https://www.biologists.com/open-access/",
+                "https://journals.biologists.com/bio"
+            ],
+            "validation_journal_id": "01a1350e-a3e1-728d-8df8-235119e48347"
+        },
+        {
+            "id": "systematic-biology",
+            "title": "Systematic Biology",
+            "publisher": "Oxford University Press / Society of Systematic Biologists",
+            "canonical_journal_id": null,
+            "split": "independent-holdout"
+        },
+        {
+            "id": "discrete-analysis",
+            "title": "Discrete Analysis",
+            "publisher": "Journal editorial team; Scholastica technical platform",
+            "official_journal_url": "https://discreteanalysisjournal.com/",
+            "canonical_journal_id": null,
+            "split": "independent-holdout",
+            "ownership_evidence": [
+                "https://discreteanalysisjournal.com/for-authors",
+                "https://discreteanalysisjournal.com/post/40-welcome-to-discrete-analysis"
+            ],
+            "validation_journal_id": "01a1350f-90b2-71bc-83c9-9783716e36a8"
+        }
+    ],
+    "pages": [
+        {
+            "id": "biology-open-prep",
+            "journal_id": "biology-open",
+            "requested_url": "https://journals.biologists.com/bio/pages/manuscript-prep",
+            "role": "guidelines",
+            "ownership_review": "Primary journal-branded page and publisher masthead; operator browser returned text/html editorial content.",
+            "robots_review": {
+                "url": "https://journals.biologists.com/robots.txt",
+                "http_status": 200,
+                "decision": "Exact editorial path permitted; no longer Crawl-delay declared; unchanged 30-second cadence."
+            },
+            "approval_status": "APPROVED",
+            "acquisition_status": "ACQUISITION_BLOCKED",
+            "source_id": "01a1350e-a3f7-73a8-9b09-e663d4c8bd6b",
+            "source_record_id": null,
+            "policy_review": {
+                "reason": "Public non-authenticated official author page; institutional subscription licence is not blanket authorization nor a clearly applicable prohibition for this bounded public-guideline request; reviewed robot paths allow acquisition. Retain internal only, no HTML redistribution."
+            },
+            "failure_code": "official_forbidden",
+            "observed_http_status": 403,
+            "next_action": "NO_RETRY_OR_BYPASS",
+            "snapshot_usability": "NO_SNAPSHOT"
+        },
+        {
+            "id": "biology-open-types",
+            "journal_id": "biology-open",
+            "requested_url": "https://journals.biologists.com/bio/pages/article-types",
+            "role": "article_types",
+            "ownership_review": "Exact journal-domain article-types link from official manuscript-preparation navigation.",
+            "robots_review": {
+                "url": "https://journals.biologists.com/robots.txt",
+                "http_status": 200,
+                "decision": "Exact editorial path permitted; no longer Crawl-delay declared; unchanged 30-second cadence."
+            },
+            "approval_status": "APPROVED",
+            "acquisition_status": "ACQUISITION_BLOCKED",
+            "source_id": "01a1350f-1a80-7130-a55d-40ff957a04bc",
+            "source_record_id": null,
+            "policy_review": {
+                "reason": "Public non-authenticated official author page; institutional subscription licence is not blanket authorization nor a clearly applicable prohibition for this bounded public-guideline request; reviewed robot paths allow acquisition. Retain internal only, no HTML redistribution."
+            },
+            "failure_code": "official_forbidden",
+            "observed_http_status": 403,
+            "next_action": "NO_RETRY_OR_BYPASS",
+            "snapshot_usability": "NO_SNAPSHOT"
+        },
+        {
+            "id": "systematic-biology-guidelines",
+            "journal_id": "systematic-biology",
+            "requested_url": "https://academic.oup.com/sysbio/pages/Manuscript_Preparation_Guidelines",
+            "role": "guidelines",
+            "ownership_review": "Primary Oxford Academic journal page identifies Society of Systematic Biologists and journal.",
+            "robots_review": {
+                "url": "https://academic.oup.com/robots.txt",
+                "http_status": 200,
+                "decision": "Exact editorial path permitted; no longer Crawl-delay declared; unchanged 30-second cadence."
+            },
+            "approval_status": "DO_NOT_APPROVE",
+            "acquisition_status": "NOT_ATTEMPTED_POLICY_HOLD",
+            "source_id": null,
+            "source_record_id": null,
+            "policy_review": {
+                "url": "https://academic.oup.com/pages/legal-notice?login=true",
+                "decision": "DO_NOT_APPROVE",
+                "reason": "Oxford Academic special website terms expressly prohibit robot/bot/scraper/other automated access/obtaining/copying Content. No exception or permission for these guidelines established; no register/approve/editorial request or redirect substitution."
+            },
+            "snapshot_usability": "NO_SNAPSHOT_POLICY_HOLD"
+        },
+        {
+            "id": "discrete-analysis-authors",
+            "journal_id": "discrete-analysis",
+            "requested_url": "https://discreteanalysisjournal.com/for-authors",
+            "role": "guidelines",
+            "ownership_review": "Journal-branded indexed For Authors page on own journal domain; journal/platform ownership must be explicitly reviewed before approval.",
+            "robots_review": {
+                "url": "https://discreteanalysisjournal.com/robots.txt",
+                "http_status": 200,
+                "decision": "Exact editorial path permitted; no longer Crawl-delay declared; unchanged 30-second cadence."
+            },
+            "approval_status": "APPROVED",
+            "acquisition_status": "ACQUIRED",
+            "source_id": "01a1350f-90b4-734b-a7ab-3090cac16ed8",
+            "source_record_id": "01a13510-0af0-71bc-98e0-3902ea22b837",
+            "policy_review": {
+                "reason": "Official journal own-domain editorial announcement and indexed author page corroborate journal/platform identity. Third-party Scholastica URLs are metadata only, never implicitly approved. Robot excludes export formats, not /for-authors."
+            },
+            "final_url": "https://discreteanalysisjournal.com/for-authors",
+            "http_status": 200,
+            "mime": "text/html",
+            "retrieved_at": "2026-10-13T11:40:06+00:00",
+            "fingerprint": "28cbea9453c40a837ecbf3b65359117ca80de1c15a9b8c4407cfd729de3942b8",
+            "content_sha256": "86f9cad6466c4f1427e1baa07e37745ab66570e844a2337574bbef738d0b09ee",
+            "bytes": 41473,
+            "snapshot_usability": "NO_STATIC_EDITORIAL_TEXT",
+            "static_inspection": {
+                "body_text_bytes": 27,
+                "body_nonwhitespace_bytes": 0,
+                "script_nodes": 4,
+                "root_nodes": [
+                    {
+                        "tag": "app-root",
+                        "id": ""
+                    },
+                    {
+                        "tag": "script",
+                        "id": ""
+                    },
+                    {
+                        "tag": "script",
+                        "id": ""
+                    },
+                    {
+                        "tag": "script",
+                        "id": ""
+                    }
+                ],
+                "head_script_text_bytes": 0,
+                "editorial_node_count": 0,
+                "method": "SourceRecord raw HTML, original inert DOMDocument LIBXML_NONET; no resource resolution/script execution/preparation/rules/extractor."
+            }
+        }
+    ],
+    "draft_observations": [],
+    "annotations": [],
+    "extractions": [],
+    "metrics": null,
+    "database_counts_after_acquisition": {
+        "source_records": 7,
+        "journal_assertions": 0,
+        "assertion_reviews": 0,
+        "journal_revisions": 0,
+        "catalog_revisions": 0
+    },
+    "coverage_review": {
+        "explicit_not_representable": [],
+        "conditions_qualifiers": [],
+        "ambiguous_observations": [],
+        "potential_missing_facts": "Not assessable: no static editorial body. Search-index/browser text cannot replace retained snapshots. No positive or OOS facts inferred for any of the four pages.",
+        "acquisition_limitations": [
+            {
+                "page_id": "biology-open-prep",
+                "status": "ACQUISITION_BLOCKED",
+                "reason": "3E-A HTTP 403; no snapshot or retry."
+            },
+            {
+                "page_id": "biology-open-types",
+                "status": "ACQUISITION_BLOCKED",
+                "reason": "Independent 3E-A HTTP 403; no snapshot or retry."
+            },
+            {
+                "page_id": "systematic-biology-guidelines",
+                "status": "DO_NOT_APPROVE",
+                "reason": "Official automated-access restriction; no editorial fetch or manual redirect substitution."
+            }
+        ],
+        "rendering_limitations": [
+            {
+                "page_id": "discrete-analysis-authors",
+                "reason": "Stored HTML has empty app-root and script resources only; 27 whitespace bytes of body text, zero non-whitespace bytes, zero p/h/a/li/td nodes. No JS executed or script/secondary URL fetched."
+            }
+        ],
+        "candidate_table_status": "NO_ROWS_NO_USABLE_SNAPSHOT",
+        "human_review_required": "Review acquisition/rendering outcomes before changing corpus. No gold is frozen and no benchmark authorized/executed from this empty packet."
+    },
+    "annotation_policy": {
+        "human_reviewer": "florent-3ec4-v5-holdout-2026-10-13",
+        "completed_at": null,
+        "page_coverage_attested": false,
+        "labels_frozen_before_extraction": false,
+        "no_extractor_before_whole_corpus_human_gold": true,
+        "maximum_evidence_words_per_page": 25
+    },
+    "scope_confirmation": {
+        "only_authorized_editorial_urls_attempted": true,
+        "source_registration_approval_fetch_service": "Existing OfficialSources",
+        "no_secondary_download": true,
+        "no_raw_html_in_repository": true,
+        "v5_hashes_unchanged": true,
+        "no_extractor_or_preparer_rule_registry_comparator": true
+    }
+}

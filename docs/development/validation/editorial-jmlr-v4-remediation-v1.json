@@ -1,0 +1,600 @@
+{
+  "schema_version": 1,
+  "status": "FROZEN_V4_DEVELOPMENT_REMEDIATION",
+  "registry_version": "editorial-v4",
+  "document_version": "editorial-dom-v4",
+  "file_sha256": {
+    "apps/api/app/Services/EditorialExtraction/PreparedDocument.php": "a5de80e0e570824eb5b40cf872b079d16efb333fd75b6b88032c394d1754961e",
+    "apps/api/app/Services/EditorialExtraction/EvidenceUnit.php": "d0f41ebe7aceeec27850116df24d510141a26ac6368639d76b1c68af510b9e31",
+    "apps/api/app/Services/EditorialExtraction/WordLimitRule.php": "2cc4008ff9646e181608744db53b6411b9196763a5a2b8388bfb6825f7001a6c",
+    "apps/api/app/Services/EditorialExtraction/EditorialVocabulary.php": "681e79cd27a4e7adbce0aeb6279d1e236512638d4d33353dd3fe1a7c93a76054",
+    "apps/api/app/Services/EditorialExtraction/RuleContext.php": "ef9bc5187ae49d78f8156f9d402530ea69efffecbf24700fd5d9c889ff32ece7",
+    "apps/api/app/Services/EditorialExtraction/LinkRule.php": "2af70addafe1defd0a0370eeb5c605e538601ae36c1985f94512627253a47d69",
+    "apps/api/app/Services/EditorialExtraction/ExtractEditorialSnapshot.php": "9641ceaf6cb7f29d64594daa8d3aa5ed1721c7f7e5f10476c300011a6f346201",
+    "apps/api/app/Services/EditorialExtraction/EditorialRule.php": "47d5c2e2f8dd4bf73afe383cb78b826da34df86dc5fe770669dc5899f5252e39",
+    "apps/api/app/Services/EditorialExtraction/RuleRegistry.php": "a3d14b1ffa84da45f25c129dd9e2f1d8018da3b6bf384d49cc7082bbda449f3c",
+    "apps/api/app/Services/EditorialExtraction/ReferenceStyleRule.php": "3ae10de767f20d1cd9ce13e597b378b67a7f38184dfa5492d72cc54b5f05d221",
+    "apps/api/app/Services/EditorialExtraction/LanguageRule.php": "9286669fb3fc9a10c06d1f0b9d26530050e9f37b8a8fd011f21a5b7fd02b503b",
+    "apps/api/app/Services/EditorialExtraction/PrepareDocument.php": "955abecc79ada7f187819e87690f2ea763339f43bcc1f6776c2706a102dcdfd3",
+    "apps/api/app/Services/EditorialExtraction/ArticleTypeRule.php": "db8132724c7d0f8f183c409b39e69fa2248f7ff1e9114983960acf996179a966",
+    "apps/api/app/Services/EditorialExtraction/FeeRule.php": "b95520bb8eed596cf724ec684ee987c588025985463e94cf185526d23ba934a4"
+  },
+  "operator_authorization": {
+    "reference": "florent-3ec-holdout-2026-10-13",
+    "scope": "Only two exact URLs; official public access, 3E-A protections, applicable policy review, restricted internal retention; no secondary resources; stop before benchmark."
+  },
+  "validation_database": "fikarohana_3ec_validation",
+  "journals": [
+    {
+      "id": "jmlr",
+      "title": "Journal of Machine Learning Research",
+      "publisher": "JMLR, Inc. (online); Microtome Publishing (print)",
+      "eissn": "1533-7928",
+      "issn": "1532-4435",
+      "official_journal_url": "https://www.jmlr.org/",
+      "canonical_journal_id": null,
+      "validation_journal_id": "01a13486-c410-71d1-b660-1b1ba814a0f0",
+      "split": "development-remediation"
+    },
+    {
+      "id": "bmc-medicine",
+      "title": "BMC Medicine",
+      "publisher": "Springer Nature / BMC",
+      "eissn": "1741-7015",
+      "official_journal_url": "https://link.springer.com/journal/12916",
+      "canonical_journal_id": null,
+      "split": "unacquired-policy-hold"
+    }
+  ],
+  "pages": [
+    {
+      "id": "jmlr-01",
+      "journal_id": "jmlr",
+      "requested_url": "https://www.jmlr.org/author-info.html",
+      "role": "guidelines",
+      "robots_review": {
+        "url": "https://www.jmlr.org/robots.txt",
+        "http_status": 404,
+        "decision": "No robots directive available; conditional official public acquisition only."
+      },
+      "approval_status": "APPROVED",
+      "acquisition_status": "ACQUIRED",
+      "source_id": "01a13486-c422-709f-a402-662b9ec9a64c",
+      "source_record_id": "01a13487-40bf-7275-936b-ddd3cf3e9ed3",
+      "final_url": "https://www.jmlr.org/author-info.html",
+      "http_status": 200,
+      "mime": "text/html",
+      "retrieved_at": "2026-10-13T09:10:41+00:00",
+      "fingerprint": "c7887cc2423829c978f0ab0fae948f8c625ee91019cd2a1b256a31987a476848",
+      "content_sha256": "de4f2e6dee40e595e0307ab1ff40a11554ab51be6ce12f4a625f04fdf97e3924",
+      "bytes": 22728
+    },
+    {
+      "id": "bmc-medicine-01",
+      "journal_id": "bmc-medicine",
+      "requested_url": "https://link.springer.com/journal/12916/submission-guidelines/research-article",
+      "role": "guidelines",
+      "robots_review": {
+        "url": "https://link.springer.com/robots.txt",
+        "http_status": 200,
+        "summary": "Wildcard /journal* allowed but named AI agents prohibited; uncertain applicability, consistent precaution with Nature.",
+        "decision": "DO_NOT_APPROVE"
+      },
+      "approval_status": "DO_NOT_APPROVE",
+      "acquisition_status": "NOT_ATTEMPTED_POLICY_HOLD",
+      "source_id": null,
+      "source_record_id": null
+    }
+  ],
+  "draft_observations": [
+    {
+      "id": "jmlr-abstract",
+      "journal_id": "jmlr",
+      "page_id": "jmlr-01",
+      "source_record_id": "01a13487-40bf-7275-936b-ddd3cf3e9ed3",
+      "snapshot_fingerprint": "c7887cc2423829c978f0ab0fae948f8c625ee91019cd2a1b256a31987a476848",
+      "fact_type": "requirement",
+      "candidate_normalized_value": {
+        "requirement_type": "abstract_words",
+        "operator": "max",
+        "value_number": 200
+      },
+      "candidate_scope": {
+        "section": "abstract",
+        "article_code": null,
+        "submission_stage": "metadata entered with initial submission"
+      },
+      "source_locator": "/html/body/div[2]/ul[4]/li[4]",
+      "evidence_fragment": "an abstract that does not exceed 200 words",
+      "proposed_status": "EXPLICIT",
+      "review_status": "HUMAN_VALIDATED",
+      "context_note": "Preceding submission-procedure instructions identify this as the submission metadata abstract. Do not convert pages to words or infer limits for the whole manuscript.",
+      "human_confidence": "explicit",
+      "classification": null,
+      "human_resolution": "EXPLICIT"
+    },
+    {
+      "id": "jmlr-submission",
+      "journal_id": "jmlr",
+      "page_id": "jmlr-01",
+      "source_record_id": "01a13487-40bf-7275-936b-ddd3cf3e9ed3",
+      "snapshot_fingerprint": "c7887cc2423829c978f0ab0fae948f8c625ee91019cd2a1b256a31987a476848",
+      "fact_type": "submission_url",
+      "candidate_normalized_value": {
+        "text_value": "https://jmlr.csail.mit.edu/manudb/"
+      },
+      "candidate_scope": {
+        "section": "unspecified",
+        "article_code": null
+      },
+      "source_locator": "/html/body/div[2]/p[18]/a",
+      "evidence_fragment": "electronic submission management system",
+      "proposed_status": "EXPLICIT",
+      "review_status": "HUMAN_VALIDATED",
+      "context_note": "Parent paragraph explicitly identifies the journal own electronic submission system; URL is metadata only, never requested.",
+      "human_confidence": "explicit",
+      "classification": null,
+      "human_resolution": "EXPLICIT"
+    },
+    {
+      "id": "jmlr-review-exclusion",
+      "journal_id": "jmlr",
+      "page_id": "jmlr-01",
+      "source_record_id": "01a13487-40bf-7275-936b-ddd3cf3e9ed3",
+      "snapshot_fingerprint": "c7887cc2423829c978f0ab0fae948f8c625ee91019cd2a1b256a31987a476848",
+      "fact_type": "article_type",
+      "candidate_normalized_value": {
+        "code": "review_article",
+        "supported": false
+      },
+      "candidate_scope": {
+        "section": "journal",
+        "article_code": null
+      },
+      "source_locator": "/html/body/div[2]/p[7]",
+      "evidence_fragment": "does not publish review articles",
+      "proposed_status": "EXPLICIT",
+      "review_status": "HUMAN_VALIDATED",
+      "context_note": "Negative support claim, not an accepted type. The canonical link has supported=false, but the frozen rule may not extract this grammar. Do not classify a grammar miss OOS merely to improve metrics.",
+      "human_confidence": "explicit",
+      "classification": null,
+      "human_resolution": "OUT_OF_SCOPE"
+    },
+    {
+      "id": "jmlr-publication-absence",
+      "journal_id": "jmlr",
+      "page_id": "jmlr-01",
+      "source_record_id": "01a13487-40bf-7275-936b-ddd3cf3e9ed3",
+      "snapshot_fingerprint": "c7887cc2423829c978f0ab0fae948f8c625ee91019cd2a1b256a31987a476848",
+      "fact_type": "fee",
+      "candidate_normalized_value": {
+        "reported_claim": "explicit_no_publication_fees",
+        "fee_type": "other",
+        "amount": null,
+        "currency": null
+      },
+      "candidate_scope": {
+        "section": "journal",
+        "article_code": null
+      },
+      "source_locator": "/html/body/div[2]/p[31]",
+      "evidence_fragment": "no publication fees",
+      "proposed_status": "AMBIGUOUS",
+      "review_status": "HUMAN_VALIDATED",
+      "context_note": "The absence wording is explicit; ambiguity concerns safe V1 normalization from generic publication fees to APC. No amount/currency invented. Human must decide whether APC absence is justified, or retain generic absence outside the V1 presence representation.",
+      "human_confidence": "explicit",
+      "classification": null,
+      "human_resolution": "OUT_OF_SCOPE"
+    },
+    {
+      "id": "jmlr-external-style",
+      "journal_id": "jmlr",
+      "page_id": "jmlr-01",
+      "source_record_id": "01a13487-40bf-7275-936b-ddd3cf3e9ed3",
+      "snapshot_fingerprint": "c7887cc2423829c978f0ab0fae948f8c625ee91019cd2a1b256a31987a476848",
+      "fact_type": "template",
+      "candidate_normalized_value": {
+        "format": "latex",
+        "official_url": "https://github.com/JmlrOrg/jmlr-style-file"
+      },
+      "candidate_scope": {
+        "section": "manuscript",
+        "article_code": null
+      },
+      "source_locator": "/html/body/div[2]/p[19]/a[1]",
+      "evidence_fragment": "JMLR LaTeX style file",
+      "proposed_status": "OUT_OF_SCOPE",
+      "review_status": "HUMAN_VALIDATED",
+      "context_note": "Explicit manuscript style-file link, but cross-origin GitHub template is outside current same-origin template policy. Never downloaded.",
+      "human_confidence": "explicit",
+      "classification": null,
+      "human_resolution": "OUT_OF_SCOPE"
+    }
+  ],
+  "annotations": [
+    {
+      "id": "jmlr-abstract",
+      "page_id": "jmlr-01",
+      "journal_id": "jmlr",
+      "snapshot_fingerprint": "c7887cc2423829c978f0ab0fae948f8c625ee91019cd2a1b256a31987a476848",
+      "fact_type": "requirement",
+      "source_locator": "/html/body/div[2]/ul[4]/li[4]",
+      "evidence_fragment": "an abstract that does not exceed 200 words",
+      "context_note": "Preceding submission-procedure instructions identify this as the submission metadata abstract. Do not convert pages to words or infer limits for the whole manuscript.",
+      "snapshot_id": "01a13487-40bf-7275-936b-ddd3cf3e9ed3",
+      "disposition": "positive",
+      "confidence": "explicit",
+      "value": {
+        "requirement_type": "abstract_words",
+        "operator": "max",
+        "value_number": 200
+      },
+      "scope": {
+        "section": "abstract",
+        "article_code": null,
+        "submission_stage": "metadata entered with initial submission"
+      },
+      "human_review_reference": "florent-3ec-holdout-2026-10-13"
+    },
+    {
+      "id": "jmlr-submission",
+      "page_id": "jmlr-01",
+      "journal_id": "jmlr",
+      "snapshot_fingerprint": "c7887cc2423829c978f0ab0fae948f8c625ee91019cd2a1b256a31987a476848",
+      "fact_type": "submission_url",
+      "source_locator": "/html/body/div[2]/p[18]/a",
+      "evidence_fragment": "electronic submission management system",
+      "context_note": "Parent paragraph explicitly identifies the journal own electronic submission system; URL is metadata only, never requested.",
+      "snapshot_id": "01a13487-40bf-7275-936b-ddd3cf3e9ed3",
+      "disposition": "positive",
+      "confidence": "explicit",
+      "value": {
+        "text_value": "https://jmlr.csail.mit.edu/manudb/"
+      },
+      "scope": {
+        "section": "unspecified",
+        "article_code": null
+      },
+      "human_review_reference": "florent-3ec-holdout-2026-10-13"
+    },
+    {
+      "id": "jmlr-review-exclusion",
+      "page_id": "jmlr-01",
+      "journal_id": "jmlr",
+      "snapshot_fingerprint": "c7887cc2423829c978f0ab0fae948f8c625ee91019cd2a1b256a31987a476848",
+      "fact_type": "article_type",
+      "source_locator": "/html/body/div[2]/p[7]",
+      "evidence_fragment": "does not publish review articles",
+      "context_note": "Negative support claim, not an accepted type. The canonical link has supported=false, but the frozen rule may not extract this grammar. Do not classify a grammar miss OOS merely to improve metrics.",
+      "snapshot_id": "01a13487-40bf-7275-936b-ddd3cf3e9ed3",
+      "disposition": "out_of_scope",
+      "confidence": "explicit",
+      "value": {
+        "code": "review_article",
+        "supported": false
+      },
+      "scope": {
+        "section": "journal",
+        "article_code": null
+      },
+      "human_review_reference": "florent-3ec-holdout-2026-10-13",
+      "reason": "Canonical JournalArticleType has supported=false, but frozen editorial-v3 ArticleTypeRule emits only accepted types and materialize hardcodes supported=true. Under the human conditional decision, excluded from this V3 benchmark; never inverted."
+    },
+    {
+      "id": "jmlr-publication-absence",
+      "page_id": "jmlr-01",
+      "journal_id": "jmlr",
+      "snapshot_fingerprint": "c7887cc2423829c978f0ab0fae948f8c625ee91019cd2a1b256a31987a476848",
+      "fact_type": "fee",
+      "source_locator": "/html/body/div[2]/p[31]",
+      "evidence_fragment": "no publication fees",
+      "context_note": "The absence wording is explicit; ambiguity concerns safe V1 normalization from generic publication fees to APC. No amount/currency invented. Human must decide whether APC absence is justified, or retain generic absence outside the V1 presence representation.",
+      "snapshot_id": "01a13487-40bf-7275-936b-ddd3cf3e9ed3",
+      "disposition": "out_of_scope",
+      "confidence": "explicit",
+      "value": {
+        "reported_claim": "explicit_no_publication_fees",
+        "fee_type": "other",
+        "amount": null,
+        "currency": null
+      },
+      "scope": {
+        "section": "journal",
+        "article_code": null
+      },
+      "human_review_reference": "florent-3ec-holdout-2026-10-13",
+      "reason": "Canonical fee_type CHECK allows apc/submission/page/color/other, no publication_fee category. Human explicitly prohibits inferred APC absence; explicit source claim is OOS, not ambiguous."
+    },
+    {
+      "id": "jmlr-external-style",
+      "page_id": "jmlr-01",
+      "journal_id": "jmlr",
+      "snapshot_fingerprint": "c7887cc2423829c978f0ab0fae948f8c625ee91019cd2a1b256a31987a476848",
+      "fact_type": "template",
+      "source_locator": "/html/body/div[2]/p[19]/a[1]",
+      "evidence_fragment": "JMLR LaTeX style file",
+      "context_note": "Explicit manuscript style-file link, but cross-origin GitHub template is outside current same-origin template policy. Never downloaded.",
+      "snapshot_id": "01a13487-40bf-7275-936b-ddd3cf3e9ed3",
+      "disposition": "out_of_scope",
+      "confidence": "explicit",
+      "value": {
+        "format": "latex",
+        "official_url": "https://github.com/JmlrOrg/jmlr-style-file"
+      },
+      "scope": {
+        "section": "manuscript",
+        "article_code": null
+      },
+      "human_review_reference": "florent-3ec-holdout-2026-10-13",
+      "reason": "Human confirms external GitHub style-file link OOS under same-origin template V1 policy; never downloaded."
+    }
+  ],
+  "extractions": [
+    {
+      "page_id": "jmlr-01",
+      "journal_id": "jmlr",
+      "snapshot_id": "01a13487-40bf-7275-936b-ddd3cf3e9ed3",
+      "snapshot_fingerprint": "c7887cc2423829c978f0ab0fae948f8c625ee91019cd2a1b256a31987a476848",
+      "registry_version": "editorial-v4",
+      "document_version": "editorial-dom-v4",
+      "status": "completed",
+      "dry_run": true,
+      "proposals": []
+    }
+  ],
+  "metrics": {
+    "overall": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 2,
+      "precision": null,
+      "recall": 0.0,
+      "f1": 0.0,
+      "fp_rate": null,
+      "CA": 0,
+      "ambiguous_not_evaluated": 0,
+      "OOS": 3,
+      "AB": 0,
+      "policy_holds": 1,
+      "extraction_failures": 0,
+      "proposals": 0,
+      "expected_positives": 2
+    },
+    "by_fact_type": {
+      "article_type": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "fp_rate": null
+      },
+      "fee": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "fp_rate": null
+      },
+      "language": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "fp_rate": null
+      },
+      "requirement.abstract_words": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 1,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fp_rate": null
+      },
+      "requirement.reference_style": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "fp_rate": null
+      },
+      "requirement.word_count": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "fp_rate": null
+      },
+      "submission_url": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 1,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fp_rate": null
+      },
+      "template": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "fp_rate": null
+      }
+    },
+    "by_journal": {
+      "jmlr": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 2,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fp_rate": null,
+        "acquired_pages": 1,
+        "CA": 0,
+        "OOS": 3
+      },
+      "bmc-medicine": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "fp_rate": null,
+        "acquired_pages": 0,
+        "CA": 0,
+        "OOS": 0
+      }
+    },
+    "details": [
+      {
+        "classification": "FN",
+        "page_id": "jmlr-01",
+        "fact_type": "requirement.abstract_words",
+        "annotation_id": "jmlr-abstract"
+      },
+      {
+        "classification": "FN",
+        "page_id": "jmlr-01",
+        "fact_type": "submission_url",
+        "annotation_id": "jmlr-submission"
+      }
+    ]
+  },
+  "additional_review_notes": [
+    {
+      "source_locator": "/html/body/div[2]/p[21]",
+      "observation": "35-page and 50-page thresholds trigger longer review/justification and possible rejection, not a universal maximum word count. Do not convert these to a numeric word maximum.",
+      "proposed_status": "OUT_OF_SCOPE"
+    },
+    {
+      "source_locator": "/html/body/div[2]/p[1]",
+      "observation": "Invited surveys have restricted eligibility; do not collapse survey into review_article, or turn invitation-only permission into global type support.",
+      "proposed_status": "AMBIGUOUS"
+    },
+    {
+      "source_locator": "/html/body/div[2]/p[22]/a",
+      "observation": "Cover-letter LaTeX template is an external GitHub URL, not a same-origin manuscript template; not downloaded.",
+      "proposed_status": "OUT_OF_SCOPE"
+    },
+    {
+      "source_locator": "/html/body/div[2]/p[19]",
+      "observation": "LaTeX typesetting and PDF-only submission are explicit requirements outside the current evaluated rule set; do not derive reference style or manuscript language.",
+      "proposed_status": "OUT_OF_SCOPE"
+    }
+  ],
+  "annotation_policy": {
+    "human_reviewer": "florent-3ec-holdout-2026-10-13",
+    "completed_at": "2026-10-13T09:38:06.410020+00:00",
+    "page_coverage_attested": true,
+    "maximum_evidence_words_per_page": 25,
+    "no_extractor_run_before_human_gold": true,
+    "annotator_kind": "human_required",
+    "annotator_reference": "florent-3ec-holdout-2026-10-13",
+    "labels_frozen_before_extraction": true,
+    "human_validation": "User validates JMLR coverage and two unconditional positives; negative article support OOS because frozen V3 cannot materialize it; generic publication-fee absence OOS because no generic publication_fee exists; external template OOS.",
+    "counting_policy": "Two positive facts and three OOS observations. Additional review notes are coverage exclusions, not extra scored observations. BMC remains an unacquired policy hold.",
+    "scope_matching_limitation": "Unchanged comparator matches abstract section/article type, not submission_stage. Initial-submission stage is retained in gold; a TP does not certify stage-aware extraction."
+  },
+  "gold_sha256": "eba4f7fdf8eeb92b1034788b4d4eadef2b8f9077a5769f0684ea29e054feda59",
+  "benchmark_proof": {
+    "database": "fikarohana_3ec_validation",
+    "postgresql_transaction": "READ ONLY then rollback",
+    "http_policy": "Http::preventStrayRequests",
+    "completed_at": "2026-10-13T09:50:40+00:00",
+    "counts_before": {
+      "article_types": 0,
+      "assertion_reviews": 0,
+      "cache": 0,
+      "cache_locks": 0,
+      "catalog_revision_journals": 0,
+      "catalog_revisions": 0,
+      "failed_jobs": 0,
+      "indexation_services": 0,
+      "ingestion_claims": 0,
+      "ingestion_items": 0,
+      "ingestion_run_items": 0,
+      "ingestion_runs": 0,
+      "ingestion_source_providers": 0,
+      "job_batches": 0,
+      "jobs": 0,
+      "journal_article_types": 0,
+      "journal_assertions": 0,
+      "journal_fees": 0,
+      "journal_identifiers": 0,
+      "journal_indexations": 0,
+      "journal_languages": 0,
+      "journal_requirements": 0,
+      "journal_revision_assertions": 0,
+      "journal_revisions": 0,
+      "journal_sources": 7,
+      "journal_subjects": 0,
+      "journal_templates": 0,
+      "journals": 7,
+      "languages": 0,
+      "migrations": 10,
+      "password_reset_tokens": 0,
+      "personal_access_tokens": 0,
+      "publishers": 0,
+      "sessions": 0,
+      "source_records": 5,
+      "subjects": 0,
+      "users": 0
+    },
+    "counts_after": {
+      "article_types": 0,
+      "assertion_reviews": 0,
+      "cache": 0,
+      "cache_locks": 0,
+      "catalog_revision_journals": 0,
+      "catalog_revisions": 0,
+      "failed_jobs": 0,
+      "indexation_services": 0,
+      "ingestion_claims": 0,
+      "ingestion_items": 0,
+      "ingestion_run_items": 0,
+      "ingestion_runs": 0,
+      "ingestion_source_providers": 0,
+      "job_batches": 0,
+      "jobs": 0,
+      "journal_article_types": 0,
+      "journal_assertions": 0,
+      "journal_fees": 0,
+      "journal_identifiers": 0,
+      "journal_indexations": 0,
+      "journal_languages": 0,
+      "journal_requirements": 0,
+      "journal_revision_assertions": 0,
+      "journal_revisions": 0,
+      "journal_sources": 7,
+      "journal_subjects": 0,
+      "journal_templates": 0,
+      "journals": 7,
+      "languages": 0,
+      "migrations": 10,
+      "password_reset_tokens": 0,
+      "personal_access_tokens": 0,
+      "publishers": 0,
+      "sessions": 0,
+      "source_records": 5,
+      "subjects": 0,
+      "users": 0
+    }
+  },
+  "historical_baseline_file": "editorial-holdout-v1.json",
+  "evaluation_split": "development-remediation"
+}

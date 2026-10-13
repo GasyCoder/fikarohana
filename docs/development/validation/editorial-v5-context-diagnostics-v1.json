@@ -1,0 +1,349 @@
+{
+  "schema_version": 1,
+  "status": "V4_DIAGNOSED_BEFORE_C4_EDITS_V5_DEVELOPMENT_REPLAY",
+  "private_full_evidence": "Original snapshots remain in restricted validation database. Full normalized bounded target-node text retained only in private operator /tmp evidence inspection; no raw HTML/body is included here.",
+  "confluentes": {
+    "snapshot_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+    "locator": "/html/body/main/div/div/div[2]/div/div/p[2]",
+    "unit_bytes": 377,
+    "normalized_text_sha256": "b9ce1a0c3d266e1ebde49f9cf27fccbb8c3f072a51d4157166a24969a4a5908b",
+    "raw_and_normalized_text_identical_after_whitespace_normalization": true,
+    "evidence_unit_exists": true,
+    "v4_contexts": [
+      {
+        "kind": "heading",
+        "text": "Instructions LaTeX",
+        "locator": "/html/body/main/div/div/div[2]/div/h3"
+      }
+    ],
+    "v4_ambiguous_context": false,
+    "v4_context_eligible": false,
+    "v4_grammar_matches": false,
+    "v4_rejection": "Unknown heading immediately rejects LanguageRule; French subject/predicate/list and non-English translation clause independently unmatched by V4 English-only full-unit grammar. No later proposal suppression.",
+    "v5_context": "Neutral unknown heading tolerated only for complete eligibility grammar. Full conditional paragraph retained.",
+    "v5_language_result": [
+      "en"
+    ],
+    "v5_unsupported_languages": [
+      "fr",
+      "de"
+    ]
+  },
+  "jmlr": {
+    "snapshot_id": "01a13487-40bf-7275-936b-ddd3cf3e9ed3",
+    "v4_heading_contexts": [
+      "JMLR Information for Authors",
+      "Overview",
+      "Submission procedure"
+    ],
+    "v4_oversize_qualifier_locator": "/html/body/div[2]/p[17]",
+    "v4_oversize_qualifier_bytes": 272,
+    "v4_ambiguous_context": true,
+    "v4_context_eligible": false,
+    "facts": [
+      {
+        "field": "requirement.abstract_words",
+        "locator": "/html/body/div[2]/ul[4]/li[4]",
+        "unit_bytes": 42,
+        "unit_exists_v4": true,
+        "grammar_matches_v4": true,
+        "v4_rule_exits": "Context rejects before grammar; no proposal created.",
+        "v5_result": "max 200, abstract scope"
+      },
+      {
+        "field": "submission_url",
+        "locator": "/html/body/div[2]/p[18]/a",
+        "unit_bytes": 39,
+        "unit_exists_v4": true,
+        "grammar_matches_v4": true,
+        "v4_rule_exits": "Context rejects before label/URI; no proposal created.",
+        "v5_result": "Existing gold action-system URL as inert metadata"
+      }
+    ],
+    "v5_context": "Closed illustrative paragraph immediately preceding a new heading stays in preceding block. Example introducing the next section or direct example adjacent to evidence still rejects. Unknown headings do not supply scope, but no longer veto complete abstract or action-link grammar."
+  },
+  "false_positive_audit": [
+    {
+      "id": "plos-one-gold-apc-assistance",
+      "source_record_id": "01a133a9-2611-7302-a1a5-7b27b4698bcf",
+      "locator": "/html/body/main/div/article/div[58]",
+      "disposition": "ambiguous",
+      "source_node_found": true,
+      "bytes": 753,
+      "page_proposal_fields": [
+        "language",
+        "requirement",
+        "requirement",
+        "submission_url"
+      ],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "plos-one-gold-article-examples",
+      "source_record_id": "01a133a9-2611-7302-a1a5-7b27b4698bcf",
+      "locator": "/html/body/main/div/article/div[12]/ul/li[3]",
+      "disposition": "ambiguous",
+      "source_node_found": true,
+      "bytes": 109,
+      "page_proposal_fields": [
+        "language",
+        "requirement",
+        "requirement",
+        "submission_url"
+      ],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "plos-one-gold-sample-pdfs",
+      "source_record_id": "01a133a9-2611-7302-a1a5-7b27b4698bcf",
+      "locator": "/html/body/main/div/article/div[6]",
+      "disposition": "ambiguous",
+      "source_node_found": true,
+      "bytes": 206,
+      "page_proposal_fields": [
+        "language",
+        "requirement",
+        "requirement",
+        "submission_url"
+      ],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "plos-one-gold-unlimited-length",
+      "source_record_id": "01a133a9-2611-7302-a1a5-7b27b4698bcf",
+      "locator": "/html/body/main/div/article/div[3]/table/tbody/tr[2]",
+      "disposition": "out_of_scope",
+      "source_node_found": true,
+      "bytes": 199,
+      "page_proposal_fields": [
+        "language",
+        "requirement",
+        "requirement",
+        "submission_url"
+      ],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "plos-one-gold-external-osf",
+      "source_record_id": "01a133a9-2611-7302-a1a5-7b27b4698bcf",
+      "locator": "/html/body/main/div/article/div[38]/p[3]",
+      "disposition": "out_of_scope",
+      "source_node_found": true,
+      "bytes": 194,
+      "page_proposal_fields": [
+        "language",
+        "requirement",
+        "requirement",
+        "submission_url"
+      ],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "elife-gold-research_article",
+      "source_record_id": "01a133ac-062c-7152-930d-119647199623",
+      "locator": "/html/body/div/div/div[2]/div/div[2]/div/div/div/div/div/p",
+      "disposition": "out_of_scope",
+      "source_node_found": true,
+      "bytes": 210,
+      "page_proposal_fields": [],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "elife-gold-review_article",
+      "source_record_id": "01a133ac-062c-7152-930d-119647199623",
+      "locator": "/html/body/div/div/div[2]/div/div[2]/div/div/div/div/div/p",
+      "disposition": "out_of_scope",
+      "source_node_found": true,
+      "bytes": 210,
+      "page_proposal_fields": [],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "elife-gold-submission-pathway",
+      "source_record_id": "01a133ac-062c-7152-930d-119647199623",
+      "locator": "/html/body/div/div/div[1]/header/div[2]/nav[2]/ul/li[3]/a",
+      "disposition": "ambiguous",
+      "source_node_found": true,
+      "bytes": 20,
+      "page_proposal_fields": [],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "elife-gold-unmapped-short-reports",
+      "source_record_id": "01a133ac-062c-7152-930d-119647199623",
+      "locator": "/html/body/div/div/div[2]/div/div[2]/div/div/div/div/div/p",
+      "disposition": "out_of_scope",
+      "source_node_found": true,
+      "bytes": 210,
+      "page_proposal_fields": [],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "elife-gold-unmapped-tools-and-resources-articles",
+      "source_record_id": "01a133ac-062c-7152-930d-119647199623",
+      "locator": "/html/body/div/div/div[2]/div/div[2]/div/div/div/div/div/p",
+      "disposition": "out_of_scope",
+      "source_node_found": true,
+      "bytes": 210,
+      "page_proposal_fields": [],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "elife-gold-unmapped-research-advances",
+      "source_record_id": "01a133ac-062c-7152-930d-119647199623",
+      "locator": "/html/body/div/div/div[2]/div/div[2]/div/div/div/div/div/p",
+      "disposition": "out_of_scope",
+      "source_node_found": true,
+      "bytes": 210,
+      "page_proposal_fields": [],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "elife-gold-unmapped-replication-studies",
+      "source_record_id": "01a133ac-062c-7152-930d-119647199623",
+      "locator": "/html/body/div/div/div[2]/div/div[2]/div/div/div/div/div/p",
+      "disposition": "out_of_scope",
+      "source_node_found": true,
+      "bytes": 210,
+      "page_proposal_fields": [],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "elife-gold-unmapped-scientific-correspondence",
+      "source_record_id": "01a133ac-062c-7152-930d-119647199623",
+      "locator": "/html/body/div/div/div[2]/div/div[2]/div/div/div/div/div/p",
+      "disposition": "out_of_scope",
+      "source_node_found": true,
+      "bytes": 210,
+      "page_proposal_fields": [],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "jmlr-review-exclusion",
+      "source_record_id": "01a13487-40bf-7275-936b-ddd3cf3e9ed3",
+      "locator": "/html/body/div[2]/p[7]",
+      "disposition": "out_of_scope",
+      "source_node_found": true,
+      "bytes": 49,
+      "page_proposal_fields": [
+        "requirement",
+        "submission_url"
+      ],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "jmlr-publication-absence",
+      "source_record_id": "01a13487-40bf-7275-936b-ddd3cf3e9ed3",
+      "locator": "/html/body/div[2]/p[31]",
+      "disposition": "out_of_scope",
+      "source_node_found": true,
+      "bytes": 106,
+      "page_proposal_fields": [
+        "requirement",
+        "submission_url"
+      ],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "jmlr-external-style",
+      "source_record_id": "01a13487-40bf-7275-936b-ddd3cf3e9ed3",
+      "locator": "/html/body/div[2]/p[19]/a[1]",
+      "disposition": "out_of_scope",
+      "source_node_found": true,
+      "bytes": 21,
+      "page_proposal_fields": [
+        "requirement",
+        "submission_url"
+      ],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "cml-french",
+      "source_record_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+      "locator": "/html/body/main/div/div/div[2]/div/div/p[2]",
+      "disposition": "out_of_scope",
+      "source_node_found": true,
+      "bytes": 377,
+      "page_proposal_fields": [
+        "language"
+      ],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "cml-german",
+      "source_record_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+      "locator": "/html/body/main/div/div/div[2]/div/div/p[2]",
+      "disposition": "out_of_scope",
+      "source_node_found": true,
+      "bytes": 377,
+      "page_proposal_fields": [
+        "language"
+      ],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "cml-translation",
+      "source_record_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+      "locator": "/html/body/main/div/div/div[2]/div/div/p[2]",
+      "disposition": "out_of_scope",
+      "source_node_found": true,
+      "bytes": 377,
+      "page_proposal_fields": [
+        "language"
+      ],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "cml-bibliography",
+      "source_record_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+      "locator": "/html/body/main/div/div/div[2]/div/div/p[10]",
+      "disposition": "out_of_scope",
+      "source_node_found": true,
+      "bytes": 167,
+      "page_proposal_fields": [
+        "language"
+      ],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "cml-external-pack",
+      "source_record_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+      "locator": "/html/body/main/div/div/div[2]/div/div/p[1]/a[2]",
+      "disposition": "out_of_scope",
+      "source_node_found": true,
+      "bytes": 11,
+      "page_proposal_fields": [
+        "language"
+      ],
+      "no_unexpected_positive": true
+    },
+    {
+      "id": "cml-required-abstract",
+      "source_record_id": "01a134ba-9f65-72c9-b6fe-c9e68cf575e6",
+      "locator": "/html/body/main/div/div/div[2]/div/div/p[9]",
+      "disposition": "out_of_scope",
+      "source_node_found": true,
+      "bytes": 235,
+      "page_proposal_fields": [
+        "language"
+      ],
+      "no_unexpected_positive": true
+    }
+  ],
+  "source_hashes": {
+    "apps/api/app/Services/EditorialExtraction/PreparedDocument.php": "a5de80e0e570824eb5b40cf872b079d16efb333fd75b6b88032c394d1754961e",
+    "apps/api/app/Services/EditorialExtraction/EvidenceUnit.php": "d0f41ebe7aceeec27850116df24d510141a26ac6368639d76b1c68af510b9e31",
+    "apps/api/app/Services/EditorialExtraction/WordLimitRule.php": "fcfb0b18245412fd18af764769e59f8c0c82a61b237408e89b77b1e623943360",
+    "apps/api/app/Services/EditorialExtraction/EditorialVocabulary.php": "681e79cd27a4e7adbce0aeb6279d1e236512638d4d33353dd3fe1a7c93a76054",
+    "apps/api/app/Services/EditorialExtraction/RuleContext.php": "1e41adaac89ae57b8eb33def0e7b089de5ab726fdba8d215292e60f23fd77107",
+    "apps/api/app/Services/EditorialExtraction/LinkRule.php": "ddda40369c6702ec194cafb81936d0be52e35c8628769c97a520ed984aab6633",
+    "apps/api/app/Services/EditorialExtraction/ExtractEditorialSnapshot.php": "9641ceaf6cb7f29d64594daa8d3aa5ed1721c7f7e5f10476c300011a6f346201",
+    "apps/api/app/Services/EditorialExtraction/EditorialRule.php": "47d5c2e2f8dd4bf73afe383cb78b826da34df86dc5fe770669dc5899f5252e39",
+    "apps/api/app/Services/EditorialExtraction/RuleRegistry.php": "73218635280cb01e7a9995be5e88a7f6c880ff5d5831f5176bbd64dc02fc7c99",
+    "apps/api/app/Services/EditorialExtraction/ReferenceStyleRule.php": "3ae10de767f20d1cd9ce13e597b378b67a7f38184dfa5492d72cc54b5f05d221",
+    "apps/api/app/Services/EditorialExtraction/LanguageRule.php": "9a6b677647812880b7fbbf7db9f7c3c707e1410e12f5e7785992bba95c2364c5",
+    "apps/api/app/Services/EditorialExtraction/PrepareDocument.php": "fd10afcf817e668d90a2de91dc432a6a0aea4ca3f8bdbad22d3b5bbba74e53c7",
+    "apps/api/app/Services/EditorialExtraction/ArticleTypeRule.php": "db8132724c7d0f8f183c409b39e69fa2248f7ff1e9114983960acf996179a966",
+    "apps/api/app/Services/EditorialExtraction/FeeRule.php": "b95520bb8eed596cf724ec684ee987c588025985463e94cf185526d23ba934a4"
+  }
+}

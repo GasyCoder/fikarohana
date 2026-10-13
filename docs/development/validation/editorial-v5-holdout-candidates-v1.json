@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "status": "PENDING_HUMAN_APPROVAL_NO_FIKAROHANA_ACQUISITION",
+  "registry_version": "editorial-v5",
+  "document_version": "editorial-dom-v5",
+  "file_sha256": {
+    "apps/api/app/Services/EditorialExtraction/PreparedDocument.php": "a5de80e0e570824eb5b40cf872b079d16efb333fd75b6b88032c394d1754961e",
+    "apps/api/app/Services/EditorialExtraction/EvidenceUnit.php": "d0f41ebe7aceeec27850116df24d510141a26ac6368639d76b1c68af510b9e31",
+    "apps/api/app/Services/EditorialExtraction/WordLimitRule.php": "fcfb0b18245412fd18af764769e59f8c0c82a61b237408e89b77b1e623943360",
+    "apps/api/app/Services/EditorialExtraction/EditorialVocabulary.php": "681e79cd27a4e7adbce0aeb6279d1e236512638d4d33353dd3fe1a7c93a76054",
+    "apps/api/app/Services/EditorialExtraction/RuleContext.php": "1e41adaac89ae57b8eb33def0e7b089de5ab726fdba8d215292e60f23fd77107",
+    "apps/api/app/Services/EditorialExtraction/LinkRule.php": "ddda40369c6702ec194cafb81936d0be52e35c8628769c97a520ed984aab6633",
+    "apps/api/app/Services/EditorialExtraction/ExtractEditorialSnapshot.php": "9641ceaf6cb7f29d64594daa8d3aa5ed1721c7f7e5f10476c300011a6f346201",
+    "apps/api/app/Services/EditorialExtraction/EditorialRule.php": "47d5c2e2f8dd4bf73afe383cb78b826da34df86dc5fe770669dc5899f5252e39",
+    "apps/api/app/Services/EditorialExtraction/RuleRegistry.php": "73218635280cb01e7a9995be5e88a7f6c880ff5d5831f5176bbd64dc02fc7c99",
+    "apps/api/app/Services/EditorialExtraction/ReferenceStyleRule.php": "3ae10de767f20d1cd9ce13e597b378b67a7f38184dfa5492d72cc54b5f05d221",
+    "apps/api/app/Services/EditorialExtraction/LanguageRule.php": "9a6b677647812880b7fbbf7db9f7c3c707e1410e12f5e7785992bba95c2364c5",
+    "apps/api/app/Services/EditorialExtraction/PrepareDocument.php": "fd10afcf817e668d90a2de91dc432a6a0aea4ca3f8bdbad22d3b5bbba74e53c7",
+    "apps/api/app/Services/EditorialExtraction/ArticleTypeRule.php": "db8132724c7d0f8f183c409b39e69fa2248f7ff1e9114983960acf996179a966",
+    "apps/api/app/Services/EditorialExtraction/FeeRule.php": "b95520bb8eed596cf724ec684ee987c588025985463e94cf185526d23ba934a4"
+  },
+  "design_split_exclusions": [
+    "PLOS ONE",
+    "JOSS",
+    "eLife",
+    "PeerJ",
+    "JMLR",
+    "Confluentes",
+    "JSS",
+    "Frontiers",
+    "IUCrJ",
+    "BMC Medicine"
+  ],
+  "target": {
+    "journals": 3,
+    "minimum_potential_positives": 6,
+    "preferred_fact_types": 3
+  },
+  "discovery_policy": "Bounded operator web search/browser discovery only AFTER V5 final implementation/tests. No candidate used for rule changes. No official source register/approve/fetch. Human applicability/robots/access/retention approval and subsequent gold validation required. Search/browser observations never become benchmark labels.",
+  "candidates": [
+    {
+      "journal": "Biology Open",
+      "publisher_platform": "The Company of Biologists / Silverchair",
+      "url": "https://journals.biologists.com/bio/pages/manuscript-prep",
+      "domain": "journals.biologists.com",
+      "role": "manuscript preparation",
+      "official_domain_evidence": "Primary journal-branded page and publisher masthead; operator browser returned text/html editorial content.",
+      "static_accessibility": "Readable during operator discovery; 3E-A raw size, DNS/TLS/robots/access not verified.",
+      "diversity": "Life-sciences commercial platform, nested article/stage scopes and compound requirements; not chosen for grammar simplicity.",
+      "potential_facts": [
+        "submission_url",
+        "abstract maximum for the stated Research Article scope"
+      ],
+      "potential_count": 2
+    },
+    {
+      "journal": "Biology Open",
+      "publisher_platform": "The Company of Biologists / Silverchair",
+      "url": "https://journals.biologists.com/bio/pages/article-types",
+      "domain": "journals.biologists.com",
+      "role": "article types",
+      "official_domain_evidence": "Exact journal-domain article-types link from official manuscript-preparation navigation.",
+      "static_accessibility": "Linked official HTML candidate, not opened/acquired; scope and public raw availability unknown.",
+      "diversity": "Additional type evidence with distinctions that can reveal unsupported or conditional memberships.",
+      "potential_facts": [
+        "research_article membership subject to applicability review"
+      ],
+      "potential_count": 1
+    },
+    {
+      "journal": "Systematic Biology",
+      "publisher_platform": "Society of Systematic Biologists / Oxford University Press",
+      "url": "https://academic.oup.com/sysbio/pages/Manuscript_Preparation_Guidelines",
+      "domain": "academic.oup.com",
+      "role": "author guidelines",
+      "official_domain_evidence": "Primary Oxford Academic journal page identifies Society of Systematic Biologists and journal.",
+      "static_accessibility": "Operator browser returned text/html instructions; Fikarohana raw acquisition safeguards still unverified.",
+      "diversity": "Society journal on second publisher platform; software/POV exceptions, author-year references and submission-system prose.",
+      "potential_facts": [
+        "English manuscript language",
+        "submission_url"
+      ],
+      "potential_count": 2
+    },
+    {
+      "journal": "Discrete Analysis",
+      "publisher_platform": "Discrete Analysis editorial team / Scholastica overlay platform (ownership to attest)",
+      "url": "https://discreteanalysisjournal.com/for-authors",
+      "domain": "discreteanalysisjournal.com",
+      "role": "author instructions",
+      "official_domain_evidence": "Journal-branded indexed For Authors page on own journal domain; journal/platform ownership must be explicitly reviewed before approval.",
+      "static_accessibility": "Search-index text present, operator browser open returned text/html without parsed lines. Static raw body may be limited; no JS execution or acquisition fallback planned.",
+      "diversity": "Mathematics arXiv-overlay workflow; avoids assuming arXiv precondition equals ordinary full manuscript submission.",
+      "potential_facts": [
+        "submission_url if action destination is directly evidenced"
+      ],
+      "potential_count": 1
+    }
+  ],
+  "potential_total": 6,
+  "potential_fact_types": [
+    "submission_url",
+    "requirement.abstract_words",
+    "article_type",
+    "language"
+  ],
+  "adequacy": "Six semantic opportunities, not six proven facts or a promise of extraction. Article/stage scope and static availability may reduce gold; target remains unverified.",
+  "rejected_discovery_candidate": {
+    "journal": "Acta Acustica",
+    "url": "https://acta-acustica.edpsciences.org/author-information/instructions-for-authors",
+    "reason": "Operator browser 403; not selected, no bypass or Fikarohana request."
+  },
+  "source_ids": [],
+  "annotations": [],
+  "extractions": [],
+  "metrics": null
+}

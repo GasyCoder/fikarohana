@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "status": "CANDIDATES_AWAITING_HUMAN_APPROVAL_NO_FETCH",
+  "registry_version": "editorial-v4",
+  "file_sha256": {
+    "apps/api/app/Services/EditorialExtraction/PreparedDocument.php": "a5de80e0e570824eb5b40cf872b079d16efb333fd75b6b88032c394d1754961e",
+    "apps/api/app/Services/EditorialExtraction/EvidenceUnit.php": "d0f41ebe7aceeec27850116df24d510141a26ac6368639d76b1c68af510b9e31",
+    "apps/api/app/Services/EditorialExtraction/WordLimitRule.php": "2cc4008ff9646e181608744db53b6411b9196763a5a2b8388bfb6825f7001a6c",
+    "apps/api/app/Services/EditorialExtraction/EditorialVocabulary.php": "681e79cd27a4e7adbce0aeb6279d1e236512638d4d33353dd3fe1a7c93a76054",
+    "apps/api/app/Services/EditorialExtraction/RuleContext.php": "ef9bc5187ae49d78f8156f9d402530ea69efffecbf24700fd5d9c889ff32ece7",
+    "apps/api/app/Services/EditorialExtraction/LinkRule.php": "2af70addafe1defd0a0370eeb5c605e538601ae36c1985f94512627253a47d69",
+    "apps/api/app/Services/EditorialExtraction/ExtractEditorialSnapshot.php": "9641ceaf6cb7f29d64594daa8d3aa5ed1721c7f7e5f10476c300011a6f346201",
+    "apps/api/app/Services/EditorialExtraction/EditorialRule.php": "47d5c2e2f8dd4bf73afe383cb78b826da34df86dc5fe770669dc5899f5252e39",
+    "apps/api/app/Services/EditorialExtraction/RuleRegistry.php": "a3d14b1ffa84da45f25c129dd9e2f1d8018da3b6bf384d49cc7082bbda449f3c",
+    "apps/api/app/Services/EditorialExtraction/ReferenceStyleRule.php": "3ae10de767f20d1cd9ce13e597b378b67a7f38184dfa5492d72cc54b5f05d221",
+    "apps/api/app/Services/EditorialExtraction/LanguageRule.php": "9286669fb3fc9a10c06d1f0b9d26530050e9f37b8a8fd011f21a5b7fd02b503b",
+    "apps/api/app/Services/EditorialExtraction/PrepareDocument.php": "955abecc79ada7f187819e87690f2ea763339f43bcc1f6776c2706a102dcdfd3",
+    "apps/api/app/Services/EditorialExtraction/ArticleTypeRule.php": "db8132724c7d0f8f183c409b39e69fa2248f7ff1e9114983960acf996179a966",
+    "apps/api/app/Services/EditorialExtraction/FeeRule.php": "b95520bb8eed596cf724ec684ee987c588025985463e94cf185526d23ba934a4"
+  },
+  "minimum_target": {
+    "new_journals": 2,
+    "human_positive_facts": "4–6 total; not yet verified"
+  },
+  "selection_policy": "Search-index discovery only after V4 rules finalized; no search snippets become gold; no provider/page acquisition. No candidate content used to design rules.",
+  "candidates": [
+    {
+      "journal": "Journal of Statistical Software",
+      "publisher": "Foundation for Open Access Statistics",
+      "url": "https://www.jstatsoft.org/style",
+      "domain": "www.jstatsoft.org",
+      "page_role": "guidelines/templates",
+      "rationale": "Official indexed HTML style guide; candidate same-origin template metadata and named reference-style requirements. OJS-based journal site; no template download.",
+      "evidence_status": "Search discovery only; accessible raw HTML, robots/policy, ownership and supported-fact count require operator review and 3E-A acquisition."
+    },
+    {
+      "journal": "Confluentes Mathematici",
+      "publisher": "Centre Mersenne / Mathdoc; journal editorial ownership to confirm",
+      "url": "https://cml.centre-mersenne.org/page/instructions-latex_fr/",
+      "domain": "cml.centre-mersenne.org",
+      "page_role": "author instructions",
+      "rationale": "Official indexed CMS HTML; explicit multilingual eligibility candidate, with translation obligation retained for human scope review; different publisher/site structure. Never infer language support from page language.",
+      "evidence_status": "Search discovery only; French/German applicability, static usable HTML and total 4–6 supported facts remain unverified. No guaranteed count."
+    }
+  ],
+  "approval_status": "PENDING_HUMAN",
+  "source_ids": [],
+  "gold_annotations": [],
+  "extractions": []
+}

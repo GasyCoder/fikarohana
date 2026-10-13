@@ -1,0 +1,65 @@
+{
+  "source_record_id": "01a13487-40bf-7275-936b-ddd3cf3e9ed3",
+  "diagnostic_before_rule_changes": true,
+  "facts": [
+    {
+      "fact_type": "requirement.abstract_words",
+      "locator": "/html/body/div[2]/ul[4]/li[4]",
+      "evidence_reached_preparer": true,
+      "v3_unit_exists": true,
+      "normalized_text": "an abstract that does not exceed 200 words",
+      "heading": "",
+      "contexts": [
+        {
+          "kind": "heading",
+          "text": "JMLR Information for Authors",
+          "locator": "/html/body/div[2]/h1"
+        },
+        {
+          "kind": "heading",
+          "text": "Overview",
+          "locator": "/html/body/div[2]/a[1]/h2"
+        },
+        {
+          "kind": "heading",
+          "text": "Submission procedure",
+          "locator": "/html/body/div[2]/h3[5]"
+        }
+      ],
+      "ambiguous_context": true,
+      "rejected_context": {
+        "kind": "qualifier",
+        "locator": "/html/body/div[2]/p[17]",
+        "bytes": 272,
+        "reason": "Example paragraph immediately before submission heading; exceeds 128-byte retained-context limit. Whole text omitted rather than truncated; ambiguous=true."
+      },
+      "v3_rule_eligible": false,
+      "v3_grammar_matches_even_without_context": false,
+      "suppression": "RuleContext rejects ambiguous context; all inherited heading labels also unknown to frozen GENERAL. Grammar would miss relative-clause wording independently.",
+      "v4_unit_exists": true,
+      "v4_rule_eligible": false,
+      "v4_grammar_matches_without_context": true,
+      "v4_actual_proposals": 0
+    },
+    {
+      "fact_type": "submission_url",
+      "locator": "/html/body/div[2]/p[18]/a",
+      "evidence_reached_preparer": true,
+      "normalized_text": "electronic submission management system",
+      "href": "https://jmlr.csail.mit.edu/manudb/",
+      "v3_unit_exists": false,
+      "v3_label_matches": false,
+      "v3_rule_eligible": "not invoked: no link unit",
+      "suppression": "PrepareDocument appendLink label gate rejects anchor before EvidenceUnit creation; LinkRule same anchored grammar cannot match label.",
+      "v4_unit_exists": true,
+      "v4_label_matches": true,
+      "v4_ambiguous_context": true,
+      "v4_rule_eligible": false,
+      "v4_actual_proposals": 0,
+      "v4_contexts": "Same heading and oversize p[17] qualifier as abstract; no context policy changes."
+    }
+  ],
+  "no_network": true,
+  "no_canonical_writes": true,
+  "v4_limitation": "Grammar remediation does not relax context safety; retain both FN."
+}
