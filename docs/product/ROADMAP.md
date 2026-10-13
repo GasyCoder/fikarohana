@@ -29,3 +29,7 @@ Prioritize freshness, evidence and usability over catalog size. If strict constr
 ## Review checkpoints
 
 At each gate, review user evidence, data-quality gaps, operating cost, privacy impact and unresolved decisions. Update the decision register and affected specifications before implementation diverges. No dates or paid feature commitments are implied by this initial roadmap.
+
+## Phase 4A API delivery
+
+[Journal discovery and deterministic recommendation API V1](../development/JOURNAL-DISCOVERY-API-V1.md) implements anonymous reviewed-catalog listing, detail, hard filters and local taxonomy/lexical metadata relevance in Laravel. Phase 4B UI and real-catalog relevance/scale validation remain separate. editorial-v5 independent holdout validation remains pending; Phase 4A does not depend on unvalidated V5 extraction or publish raw proposals.

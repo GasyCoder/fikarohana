@@ -1,6 +1,6 @@
 # Recommendation engine V1
 
-Status: design. Recommendations originate exclusively in the eligible stored journal catalog. Laravel owns final policy, filtering and ranking; specialist Python computation is optional.
+Status: broader design; Phase 4A deterministic local metadata implementation is documented in [Journal Discovery API V1](../development/JOURNAL-DISCOVERY-API-V1.md). Recommendations originate exclusively in the eligible stored journal catalog. Laravel owns final policy, filtering and ranking; specialist Python computation is optional.
 
 ## Input and output
 
@@ -14,7 +14,7 @@ Output returns at most five unique active journal IDs/revisions, ranked relevanc
 2. **Retrieve candidates:** query active reviewed journal scope/discipline records using PostgreSQL full-text/structured retrieval. Bound the candidate pool and record retrieval version. Cheap indexed constraints can narrow retrieval, but final hard-filter checks are mandatory.
 3. **Semantic matching, when enabled:** compute an input embedding and compare with journal-scope embeddings of the same model/version/dimensions. Combine lexical and semantic candidates so one method does not unnecessarily exclude valid journals. Unavailable/incompatible vectors trigger the documented lexical mode.
 4. **Hard filters:** reject incompatible journals and those lacking current verified applicable evidence for strict constraints. Record aggregate exclusion reasons. Never infer unknown APC as zero or unknown language as supported.
-5. **Rank:** combine semantic/lexical scope fit, discipline, keywords, language, budget, article type, OA/indexation and user preferences using a validated configuration.
+5. **Rank:** Phase 4A combines taxonomy and lexical metadata relevance only; language, article type, APC and indexation are hard eligibility constraints, not boosts. Semantic matching and preference ranking remain future design subject to validation.
 6. **Select:** take a bounded shortlist; stable opaque ID breaks equal-score ties. Categories may annotate qualified results without duplicates or invented winners.
 7. **Explain:** render deterministic reasons tied to input features and source assertions. Optional LLM wording is a later enrichment; it cannot change IDs, scores, eligibility or facts.
 

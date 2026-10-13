@@ -1,8 +1,8 @@
 # Foundation V1 API
 
-Status: implemented foundation. Laravel 13 is the canonical business API. Public discovery/journal/recommendation/project/workspace/assistant APIs remain unimplemented. Phase 2 implements only the internal journal/provenance schema and revision primitives; see [Phase 2](../development/JOURNAL-DATA-MODEL-V1.md). The approved complete MVP still includes them.
+Status: implemented foundation. Laravel 13 is the canonical business API. Phase 4A public journal discovery/detail and deterministic metadata recommendation APIs are implemented; project/workspace/assistant APIs remain unimplemented. See [Phase 4A](../development/JOURNAL-DISCOVERY-API-V1.md). Phase 2 implements only the internal journal/provenance schema and revision primitives; see [Phase 2](../development/JOURNAL-DATA-MODEL-V1.md). The approved complete MVP still includes them.
 
-Phase 3A adds trusted-operator Artisan ingestion/review/publication commands, without changing routes or OpenAPI. See [Phase 3A](../development/JOURNAL-INGESTION-V1.md); Phase 3B now adds explicit bounded DOAJ retrieval through the same command; no public catalog endpoint exists. See [DOAJ adapter](../development/DOAJ-ADAPTER-V1.md).
+Phase 3A adds trusted-operator Artisan ingestion/review/publication commands, without changing routes or OpenAPI. See [Phase 3A](../development/JOURNAL-INGESTION-V1.md); Phase 3B now adds explicit bounded DOAJ retrieval through the same command; public catalog discovery is now documented in Phase 4A. See [DOAJ adapter](../development/DOAJ-ADAPTER-V1.md).
 
 ## Routes
 
@@ -15,6 +15,12 @@ Phase 3A adds trusted-operator Artisan ingestion/review/publication commands, wi
 | `POST /api/v1/auth/tokens` | Email/password plus device name | 201 token, type, expiry and user; mobile flow |
 | `DELETE /api/v1/auth/tokens/current` | Current Sanctum personal access token | 200 message; only current token deleted |
 | `GET /api/v1/me` | `auth:sanctum`: web session or Bearer | 200 authenticated user |
+
+Phase 4A anonymous routes, shared rate limit 60/minute per IP:
+
+- `GET /api/v1/journals` — bounded published catalogue and filters.
+- `GET /api/v1/journals/{journal}` — canonical detail and provenance.
+- `POST /api/v1/journal-recommendations` — request-scoped deterministic relevance; score is not acceptance probability.
 
 `GET /sanctum/csrf-cookie` is the documented framework exception outside `/api/v1`, returning 204 and SPA cookies. `/up` is process liveness, not database readiness. The scaffold `/api/user` and broken welcome-page route were removed; there are no external consumers requiring compatibility. Root `/` has no application page.
 

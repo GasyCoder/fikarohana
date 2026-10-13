@@ -118,3 +118,10 @@ Phase 2 schema/results and remaining ingestion work are recorded in [JOURNAL-DAT
 - [ ] Human operator must approve the exact new eight-URL batch and applicable officiality/access/robots/internal-retention basis. Previous C4 authorization does not cover C5 URLs or reserves. DNS/TLS/SSRF, same-origin redirects, 256 KiB and raw static usability remain unverified; reader visibility is not 3E-A eligibility.
 - [ ] Later authorized acquisition: proceed in the proposed order until **three distinct journals with usable static snapshots AND at least six plausible candidate positive facts** exist, or all approved URLs are exhausted. Record every attempted outcome; no automatic retry, crawling, secondary resources or replacement URLs.
 - [ ] After acquisition stops, prepare and human-freeze gold for the complete acquired corpus before one unchanged V5 whole-corpus evaluation. No page-by-page benchmark/remediation. **Phase 4 NOT_READY.**
+
+## Phase 4A — public reviewed-catalog discovery API
+
+- [x] Anonymous `/api/v1/journals`, journal detail and `/api/v1/journal-recommendations`; immutable published catalog membership/current usable selections, strict unknown-safe filters and configurable deterministic metadata relevance. See [Phase 4A](JOURNAL-DISCOVERY-API-V1.md).
+- [x] OpenAPI/generated contracts and PostgreSQL route/ranking/publication/validation regressions; no frontend, external request or saved manuscript input.
+- [ ] Phase 4B UI remains separate; verify actual reviewed catalogue coverage and measured production scale before broad release.
+- [ ] editorial-v5 independent holdout validation remains pending; Phase 4A does not depend on unvalidated V5 extraction. No holdout work resumed.

@@ -57,7 +57,7 @@ Post-MVP uploads: Laravel authorizes the project and prepares a private object k
 
 Foundation V1 implements `packages/contracts/openapi.yaml` using OpenAPI 3.1.0, with openapi-typescript declarations and Redocly-core validation. npm workspaces/root package-lock.json are canonical. Laravel implements the health/auth/me routes in [API](../api/API.md); the table below describes future domain endpoints alongside implemented me.
 
-Domain endpoint proposals (not implemented except `/me`):
+Domain endpoint proposals (Phase 4A journal list/detail/recommendations and `/me` are implemented; remaining endpoints are future):
 
 | Method/path | Purpose | Access/phase |
 | --- | --- | --- |
@@ -100,3 +100,7 @@ Laravel owns the journal-bound approved-source registry, DNS/IP-pinned native HT
 ## Deterministic editorial extraction (Phase 3E-B)
 
 Laravel prepares stored official snapshots and runs a fixed bounded rule registry outside write transactions. A short transaction uses the existing review/publication advisory lock to create immutable assertions and typed facts, with conflict comparison. No network, Python, AI, queue or public API is involved. Manual review and existing Phase 2 publication remain separate. See [extraction architecture](../development/EDITORIAL-EXTRACTION-V1.md).
+
+### Phase 4A reviewed-catalog API
+
+Anonymous journal discovery/detail and deterministic metadata recommendations now read published catalog membership and current usable selected assertions through Laravel. No database access from clients, new publication model, network ingestion or AI calls. See [contracts, scoring and limits](../development/JOURNAL-DISCOVERY-API-V1.md). Editorial V5 holdout remains pending; no unvalidated extraction proposal is consumed.
