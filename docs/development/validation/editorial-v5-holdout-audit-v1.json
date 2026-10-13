@@ -1,0 +1,446 @@
+{
+  "schema_version": 1,
+  "audit_date": "2026-10-13",
+  "baseline_commit": "4734623b0f4ae2f27e2bbf1f657d02fbede16abe",
+  "implementation_commit": "f4bef4a",
+  "historical_comparator_commit": "e4c7105",
+  "preflight_commit": "4734623",
+  "decision": "BLOCKED",
+  "validation_status": "PENDING",
+  "phase_4_readiness": "NOT_READY",
+  "independent_dataset_available": false,
+  "fingerprint_checks": [
+    {
+      "path": "apps/api/app/Services/EditorialExtraction/PreparedDocument.php",
+      "expected_sha256": "a5de80e0e570824eb5b40cf872b079d16efb333fd75b6b88032c394d1754961e",
+      "actual_sha256": "a5de80e0e570824eb5b40cf872b079d16efb333fd75b6b88032c394d1754961e",
+      "matches": true,
+      "matches_implementation_commit": true
+    },
+    {
+      "path": "apps/api/app/Services/EditorialExtraction/EvidenceUnit.php",
+      "expected_sha256": "d0f41ebe7aceeec27850116df24d510141a26ac6368639d76b1c68af510b9e31",
+      "actual_sha256": "d0f41ebe7aceeec27850116df24d510141a26ac6368639d76b1c68af510b9e31",
+      "matches": true,
+      "matches_implementation_commit": true
+    },
+    {
+      "path": "apps/api/app/Services/EditorialExtraction/WordLimitRule.php",
+      "expected_sha256": "fcfb0b18245412fd18af764769e59f8c0c82a61b237408e89b77b1e623943360",
+      "actual_sha256": "fcfb0b18245412fd18af764769e59f8c0c82a61b237408e89b77b1e623943360",
+      "matches": true,
+      "matches_implementation_commit": true
+    },
+    {
+      "path": "apps/api/app/Services/EditorialExtraction/EditorialVocabulary.php",
+      "expected_sha256": "681e79cd27a4e7adbce0aeb6279d1e236512638d4d33353dd3fe1a7c93a76054",
+      "actual_sha256": "681e79cd27a4e7adbce0aeb6279d1e236512638d4d33353dd3fe1a7c93a76054",
+      "matches": true,
+      "matches_implementation_commit": true
+    },
+    {
+      "path": "apps/api/app/Services/EditorialExtraction/RuleContext.php",
+      "expected_sha256": "1e41adaac89ae57b8eb33def0e7b089de5ab726fdba8d215292e60f23fd77107",
+      "actual_sha256": "1e41adaac89ae57b8eb33def0e7b089de5ab726fdba8d215292e60f23fd77107",
+      "matches": true,
+      "matches_implementation_commit": true
+    },
+    {
+      "path": "apps/api/app/Services/EditorialExtraction/LinkRule.php",
+      "expected_sha256": "ddda40369c6702ec194cafb81936d0be52e35c8628769c97a520ed984aab6633",
+      "actual_sha256": "ddda40369c6702ec194cafb81936d0be52e35c8628769c97a520ed984aab6633",
+      "matches": true,
+      "matches_implementation_commit": true
+    },
+    {
+      "path": "apps/api/app/Services/EditorialExtraction/ExtractEditorialSnapshot.php",
+      "expected_sha256": "9641ceaf6cb7f29d64594daa8d3aa5ed1721c7f7e5f10476c300011a6f346201",
+      "actual_sha256": "9641ceaf6cb7f29d64594daa8d3aa5ed1721c7f7e5f10476c300011a6f346201",
+      "matches": true,
+      "matches_implementation_commit": true
+    },
+    {
+      "path": "apps/api/app/Services/EditorialExtraction/EditorialRule.php",
+      "expected_sha256": "47d5c2e2f8dd4bf73afe383cb78b826da34df86dc5fe770669dc5899f5252e39",
+      "actual_sha256": "47d5c2e2f8dd4bf73afe383cb78b826da34df86dc5fe770669dc5899f5252e39",
+      "matches": true,
+      "matches_implementation_commit": true
+    },
+    {
+      "path": "apps/api/app/Services/EditorialExtraction/RuleRegistry.php",
+      "expected_sha256": "73218635280cb01e7a9995be5e88a7f6c880ff5d5831f5176bbd64dc02fc7c99",
+      "actual_sha256": "73218635280cb01e7a9995be5e88a7f6c880ff5d5831f5176bbd64dc02fc7c99",
+      "matches": true,
+      "matches_implementation_commit": true
+    },
+    {
+      "path": "apps/api/app/Services/EditorialExtraction/ReferenceStyleRule.php",
+      "expected_sha256": "3ae10de767f20d1cd9ce13e597b378b67a7f38184dfa5492d72cc54b5f05d221",
+      "actual_sha256": "3ae10de767f20d1cd9ce13e597b378b67a7f38184dfa5492d72cc54b5f05d221",
+      "matches": true,
+      "matches_implementation_commit": true
+    },
+    {
+      "path": "apps/api/app/Services/EditorialExtraction/LanguageRule.php",
+      "expected_sha256": "9a6b677647812880b7fbbf7db9f7c3c707e1410e12f5e7785992bba95c2364c5",
+      "actual_sha256": "9a6b677647812880b7fbbf7db9f7c3c707e1410e12f5e7785992bba95c2364c5",
+      "matches": true,
+      "matches_implementation_commit": true
+    },
+    {
+      "path": "apps/api/app/Services/EditorialExtraction/PrepareDocument.php",
+      "expected_sha256": "fd10afcf817e668d90a2de91dc432a6a0aea4ca3f8bdbad22d3b5bbba74e53c7",
+      "actual_sha256": "fd10afcf817e668d90a2de91dc432a6a0aea4ca3f8bdbad22d3b5bbba74e53c7",
+      "matches": true,
+      "matches_implementation_commit": true
+    },
+    {
+      "path": "apps/api/app/Services/EditorialExtraction/ArticleTypeRule.php",
+      "expected_sha256": "db8132724c7d0f8f183c409b39e69fa2248f7ff1e9114983960acf996179a966",
+      "actual_sha256": "db8132724c7d0f8f183c409b39e69fa2248f7ff1e9114983960acf996179a966",
+      "matches": true,
+      "matches_implementation_commit": true
+    },
+    {
+      "path": "apps/api/app/Services/EditorialExtraction/FeeRule.php",
+      "expected_sha256": "b95520bb8eed596cf724ec684ee987c588025985463e94cf185526d23ba934a4",
+      "actual_sha256": "b95520bb8eed596cf724ec684ee987c588025985463e94cf185526d23ba934a4",
+      "matches": true,
+      "matches_implementation_commit": true
+    }
+  ],
+  "comparator_sha256": "a40fc0fc608af3ae5d6d607e5f33e875d6f9c5e90216d4d7e7edb01559006170",
+  "repository_dataset_inventory": [
+    {
+      "path": "docs/development/validation/editorial-holdout-v1.json",
+      "sha256": "14e085e740ad41299a132012fda2e09ddaf69bdf78429e83494e710378e04199",
+      "status": "FROZEN_JMLR_HOLDOUT_COMPLETE_NO_EXTRACTOR_CHANGES",
+      "registry_version": "editorial-v3",
+      "page_count": 2,
+      "annotation_count": 5,
+      "extraction_count": 1,
+      "human_gold_complete": true,
+      "stored_metrics": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 2,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fp_rate": null,
+        "CA": 0,
+        "ambiguous_not_evaluated": 0,
+        "OOS": 3,
+        "AB": 0,
+        "policy_holds": 1,
+        "extraction_failures": 0,
+        "proposals": 0,
+        "expected_positives": 2
+      }
+    },
+    {
+      "path": "docs/development/validation/editorial-jmlr-v3-v4-diagnostics.json",
+      "sha256": "5c3f43cd8bc86e34564168bc88c8cd2ba0b21b8366fef71cc4a8e26ba4e60170",
+      "status": null,
+      "registry_version": null,
+      "page_count": 0,
+      "annotation_count": 0,
+      "extraction_count": 0,
+      "human_gold_complete": false,
+      "stored_metrics": null
+    },
+    {
+      "path": "docs/development/validation/editorial-jmlr-v4-remediation-v1.json",
+      "sha256": "f487cf274571003de068622d26ab922e77c63a9392aa487d046b339610c5bd8c",
+      "status": "FROZEN_V4_DEVELOPMENT_REMEDIATION",
+      "registry_version": "editorial-v4",
+      "page_count": 2,
+      "annotation_count": 5,
+      "extraction_count": 1,
+      "human_gold_complete": true,
+      "stored_metrics": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 2,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fp_rate": null,
+        "CA": 0,
+        "ambiguous_not_evaluated": 0,
+        "OOS": 3,
+        "AB": 0,
+        "policy_holds": 1,
+        "extraction_failures": 0,
+        "proposals": 0,
+        "expected_positives": 2
+      }
+    },
+    {
+      "path": "docs/development/validation/editorial-real-world-v1-postfix.json",
+      "sha256": "c4201687e1eae9496488f6f92b211baffe7a7cf76a502e0c07053b7e7fd60c87",
+      "status": "POST_FIX_EDITORIAL_V3_PENDING_INDEPENDENT_HOLDOUT",
+      "registry_version": null,
+      "page_count": 8,
+      "annotation_count": 19,
+      "extraction_count": 4,
+      "human_gold_complete": true,
+      "stored_metrics": {
+        "TP": 6,
+        "FP": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "fp_rate": 0.0,
+        "CA": 1,
+        "ambiguous_not_evaluated": 3,
+        "OOS": 9,
+        "AB": 2,
+        "policy_holds": 2,
+        "extraction_failures": 0,
+        "proposals": 6,
+        "expected_positives": 6
+      }
+    },
+    {
+      "path": "docs/development/validation/editorial-real-world-v1.json",
+      "sha256": "425579338e58b5bdd7a210911f3bf4bf34ff39960dd8675f4afd1b5323806e43",
+      "status": "FROZEN_BASELINE_COMPLETE_NO_PRODUCTION_FIXES",
+      "registry_version": null,
+      "page_count": 8,
+      "annotation_count": 19,
+      "extraction_count": 4,
+      "human_gold_complete": true,
+      "stored_metrics": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 6,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fp_rate": null,
+        "CA": 1,
+        "ambiguous_not_evaluated": 3,
+        "OOS": 9,
+        "AB": 2,
+        "policy_holds": 2,
+        "extraction_failures": 1,
+        "proposals": 0,
+        "expected_positives": 6
+      }
+    },
+    {
+      "path": "docs/development/validation/editorial-real-world-v4-development-v1.json",
+      "sha256": "03cca3bba2d257c1b7aa02457f954f5ae80e97be5b696459105dae63b3589447",
+      "status": "FROZEN_V4_DEVELOPMENT_REGRESSION",
+      "registry_version": "editorial-v4",
+      "page_count": 8,
+      "annotation_count": 19,
+      "extraction_count": 4,
+      "human_gold_complete": true,
+      "stored_metrics": {
+        "TP": 6,
+        "FP": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "fp_rate": 0.0,
+        "CA": 1,
+        "ambiguous_not_evaluated": 3,
+        "OOS": 9,
+        "AB": 2,
+        "policy_holds": 2,
+        "extraction_failures": 0,
+        "proposals": 6,
+        "expected_positives": 6
+      }
+    },
+    {
+      "path": "docs/development/validation/editorial-v4-independent-holdout-v1.json",
+      "sha256": "367af891c173bffe7018bdf3f6938e896450853a90603b87109c4af055d8f716",
+      "status": "FROZEN_CONFLUENTES_INDEPENDENT_HOLDOUT_COMPLETE_V4_UNCHANGED",
+      "registry_version": "editorial-v4",
+      "page_count": 2,
+      "annotation_count": 7,
+      "extraction_count": 1,
+      "human_gold_complete": true,
+      "stored_metrics": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 1,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fp_rate": null,
+        "CA": 0,
+        "ambiguous_not_evaluated": 0,
+        "OOS": 6,
+        "AB": 1,
+        "policy_holds": 0,
+        "extraction_failures": 0,
+        "proposals": 0,
+        "expected_positives": 1
+      }
+    },
+    {
+      "path": "docs/development/validation/editorial-v4-new-holdout-candidates.json",
+      "sha256": "3c39f0246cda5f1b5b5490d3e641d837aeba2e2ce8828da175ca9589b660edaa",
+      "status": "CANDIDATES_AWAITING_HUMAN_APPROVAL_NO_FETCH",
+      "registry_version": "editorial-v4",
+      "page_count": 0,
+      "annotation_count": 0,
+      "extraction_count": 0,
+      "human_gold_complete": false,
+      "stored_metrics": null
+    },
+    {
+      "path": "docs/development/validation/editorial-v5-context-diagnostics-v1.json",
+      "sha256": "cc2cce14e9962d109ea5552c7163aaefbff81b25370b3d9cda2c802db3e4eebe",
+      "status": "V4_DIAGNOSED_BEFORE_C4_EDITS_V5_DEVELOPMENT_REPLAY",
+      "registry_version": null,
+      "page_count": 0,
+      "annotation_count": 0,
+      "extraction_count": 0,
+      "human_gold_complete": false,
+      "stored_metrics": null
+    },
+    {
+      "path": "docs/development/validation/editorial-v5-development-v1.json",
+      "sha256": "de02fb173bebdab00a0813e3b5a5aaef0e7e940c700bb1336f9fa5e7d6a46ad0",
+      "status": "FROZEN_V5_DEVELOPMENT_REPLAY_NOT_INDEPENDENT",
+      "registry_version": "editorial-v5",
+      "page_count": 12,
+      "annotation_count": 31,
+      "extraction_count": 6,
+      "human_gold_complete": true,
+      "stored_metrics": {
+        "TP": 9,
+        "FP": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "fp_rate": 0.0,
+        "CA": 1,
+        "ambiguous_not_evaluated": 3,
+        "OOS": 18,
+        "AB": 3,
+        "policy_holds": 3,
+        "extraction_failures": 0,
+        "proposals": 9,
+        "expected_positives": 9
+      }
+    },
+    {
+      "path": "docs/development/validation/editorial-v5-holdout-candidates-v1.json",
+      "sha256": "32e73cb6a33bdc9d14c17a28dd8581915797189773babc3e303104acd7202cfa",
+      "status": "PENDING_HUMAN_APPROVAL_NO_FIKAROHANA_ACQUISITION",
+      "registry_version": "editorial-v5",
+      "page_count": 0,
+      "annotation_count": 0,
+      "extraction_count": 0,
+      "human_gold_complete": false,
+      "stored_metrics": null
+    },
+    {
+      "path": "docs/development/validation/editorial-v5-holdout-preflight-v1.json",
+      "sha256": "3ec4675f3e6627f4136b824af6649783f7b18518995081a0a45a5885e5771adc",
+      "status": "DISCOVERY_COMPLETE_AWAITING_EXACT_URL_HUMAN_APPROVAL",
+      "registry_version": "editorial-v5",
+      "page_count": 0,
+      "annotation_count": 0,
+      "extraction_count": 0,
+      "human_gold_complete": false,
+      "stored_metrics": null
+    },
+    {
+      "path": "docs/development/validation/editorial-v5-independent-holdout-v1.json",
+      "sha256": "b87d69b375d321cc34e79c04d3cbc0f41841197c3b699732995709eae6f8240b",
+      "status": "ACQUISITION_COMPLETE_NO_USABLE_STATIC_CORPUS_AWAITING_HUMAN_REVIEW",
+      "registry_version": "editorial-v5",
+      "page_count": 4,
+      "annotation_count": 0,
+      "extraction_count": 0,
+      "human_gold_complete": false,
+      "stored_metrics": null
+    }
+  ],
+  "existing_independent_acquisition_outcomes": [
+    {
+      "page_id": "biology-open-prep",
+      "requested_url": "https://journals.biologists.com/bio/pages/manuscript-prep",
+      "acquisition_status": "ACQUISITION_BLOCKED",
+      "snapshot_id": null,
+      "snapshot_usability": "NO_SNAPSHOT"
+    },
+    {
+      "page_id": "biology-open-types",
+      "requested_url": "https://journals.biologists.com/bio/pages/article-types",
+      "acquisition_status": "ACQUISITION_BLOCKED",
+      "snapshot_id": null,
+      "snapshot_usability": "NO_SNAPSHOT"
+    },
+    {
+      "page_id": "systematic-biology-guidelines",
+      "requested_url": "https://academic.oup.com/sysbio/pages/Manuscript_Preparation_Guidelines",
+      "acquisition_status": "NOT_ATTEMPTED_POLICY_HOLD",
+      "snapshot_id": null,
+      "snapshot_usability": "NO_SNAPSHOT_POLICY_HOLD"
+    },
+    {
+      "page_id": "discrete-analysis-authors",
+      "requested_url": "https://discreteanalysisjournal.com/for-authors",
+      "acquisition_status": "ACQUIRED",
+      "snapshot_id": "01a13510-0af0-71bc-98e0-3902ea22b837",
+      "snapshot_usability": "NO_STATIC_EDITORIAL_TEXT"
+    }
+  ],
+  "case_counts": {
+    "previous_candidate_pages": 4,
+    "previous_candidate_journals": 3,
+    "stored_snapshots": 1,
+    "usable_editorial_snapshots": 0,
+    "human_gold_annotations": 0,
+    "evaluated_independent_cases": 0,
+    "c5_candidate_pages": 11,
+    "c5_recommended_urls": 8
+  },
+  "preexisting_criteria": {
+    "protocol": "Explicit exact-URL approval -> unchanged 3E-A acquisition -> whole-corpus human gold freeze -> one unchanged V5 dry-run batch -> unchanged comparator -> report",
+    "acquisition_stop": "At least three distinct journals with usable static snapshots AND six plausible candidate positives, or exhaust all approved URLs",
+    "preferred_gold_target": "6-10 representable positives across at least three fact categories",
+    "precision_guidance": "Ideal 100%; preferred >=98% before exposure; not a formal benchmark PASS threshold",
+    "formal_pass_fail_threshold": "NOT_DEFINED_IN_EXISTING_PROTOCOL",
+    "no_new_thresholds": true
+  },
+  "raw_results": null,
+  "aggregate_metrics": null,
+  "ambiguous_case_results": null,
+  "benchmark_executed": false,
+  "external_requirements": [
+    "New exact-URL authorization covering the proposed C5 batch with current officiality/access/robots/internal-retention basis",
+    "Successful unchanged 3E-A snapshots with requested/final URLs, source/snapshot IDs, retrieval timestamps and hashes; full HTML internal only",
+    "Whole-corpus independent human annotation and coverage attestation, exact fact scopes, short snapshot-backed evidence and frozen gold digest before extraction",
+    "Independent provenance attestation: journals/pages/snapshots/labels unused for V1-V5 development/calibration; check exclusions and identifiers",
+    "Explicit pre-run acceptance decision if a binary benchmark PASS is required; current guidance is not a formal threshold"
+  ],
+  "commands_executed": [
+    "git status --short",
+    "git log -3 --oneline",
+    "git show / rev-parse for baseline commits (via read-only Python subprocess)",
+    "SHA-256 verification of 14 files against 4734623 manifest and f4bef4a contents",
+    "rg / rg --files and sed: local protocol/source/documentation audit",
+    "Python JSON inventory and report/template preparation",
+    "git diff --check (final)"
+  ],
+  "not_executed": [
+    "Web research",
+    "3E-A register/approve/fetch",
+    "V5 extractor or document preparer",
+    "Comparator evaluation on any independent/development/historical corpus",
+    "Full test suite",
+    "Commit or push"
+  ]
+}
