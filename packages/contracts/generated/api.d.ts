@@ -164,6 +164,63 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/journals": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Discover published journals anonymously
+         * @description Public rate limit: 60 requests/minute per IP shared with detail and recommendations. Published usable selections only. Subject filter is exact. Supported languages/article types/indexations require explicit compatibility.
+         */
+        get: operations["listJournals"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/journals/{journal}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get canonical journal metadata */
+        get: operations["showJournal"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/journal-recommendations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Recommend journals by deterministic metadata relevance
+         * @description The score represents metadata relevance, not likelihood of manuscript acceptance. Anonymous; input is request-scoped and never stored. Hard filters precede ranking; unknown evidence never satisfies a hard constraint. No APC, language or indexation prestige boosts. Local bounded taxonomy and lexical matching only.
+         */
+        post: operations["recommendJournals"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -268,6 +325,165 @@ export interface components {
                 };
                 /** Format: uuid */
                 request_id: string;
+            };
+        };
+        DiscoveryVocabulary: {
+            code: string;
+            name: string;
+            supported: boolean;
+        };
+        DiscoverySubject: {
+            /** Format: uuid */
+            id: string;
+            name: string;
+            /** Format: uuid */
+            parent_id: string | null;
+            taxonomy_level: string | null;
+        };
+        DiscoveryIdentifier: {
+            type: string;
+            value: string;
+        };
+        DiscoveryApc: {
+            /** @enum {string} */
+            status: "unknown" | "known" | "no_apc" | "context_dependent";
+            amount: string | null;
+            currency: string | null;
+        };
+        DiscoveryFee: {
+            fee_type: string;
+            /** @enum {string} */
+            availability: "known" | "unknown" | "not_applicable";
+            amount: string | null;
+            currency: string | null;
+            basis: string;
+            applicability: string;
+            article_type: string | null;
+            language: string | null;
+        };
+        DiscoveryJournal: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            revision_id: string;
+            title: string;
+            publisher: {
+                /** Format: uuid */
+                id: string;
+                name: string;
+            } | null;
+            identifiers: components["schemas"]["DiscoveryIdentifier"][];
+            subjects: components["schemas"]["DiscoverySubject"][];
+            languages: components["schemas"]["DiscoveryVocabulary"][];
+            article_types: components["schemas"]["DiscoveryVocabulary"][];
+            indexations: components["schemas"]["DiscoveryVocabulary"][];
+            apc: components["schemas"]["DiscoveryApc"];
+            fees: components["schemas"]["DiscoveryFee"][];
+        };
+        DiscoveryProvenance: {
+            /** Format: uuid */
+            assertion_id: string;
+            field: string;
+            source_url: string | null;
+            /** Format: date-time */
+            retrieved_at: string | null;
+            /** Format: date-time */
+            verified_at: string | null;
+        };
+        DiscoveryJournalDetail: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            revision_id: string;
+            title: string;
+            publisher: {
+                /** Format: uuid */
+                id: string;
+                name: string;
+            } | null;
+            identifiers: components["schemas"]["DiscoveryIdentifier"][];
+            subjects: components["schemas"]["DiscoverySubject"][];
+            languages: components["schemas"]["DiscoveryVocabulary"][];
+            article_types: components["schemas"]["DiscoveryVocabulary"][];
+            indexations: components["schemas"]["DiscoveryVocabulary"][];
+            apc: components["schemas"]["DiscoveryApc"];
+            fees: components["schemas"]["DiscoveryFee"][];
+            provenance: components["schemas"]["DiscoveryProvenance"][];
+        };
+        DiscoveryList: {
+            data: components["schemas"]["DiscoveryJournal"][];
+            meta: {
+                current_page: number;
+                per_page: number;
+                total: number;
+                last_page: number;
+                /** Format: uuid */
+                catalog_revision_id: string | null;
+            };
+        };
+        DiscoveryDetail: {
+            data: components["schemas"]["DiscoveryJournalDetail"];
+        };
+        JournalRecommendationRequest: {
+            title: string;
+            abstract?: string;
+            keywords?: string[];
+            subject_ids?: string[];
+            language?: string;
+            article_type?: string;
+            no_apc_only?: boolean;
+            indexation_services?: string[];
+            /** @default 5 */
+            limit: number;
+        };
+        RecommendationReason: {
+            /** @enum {string} */
+            type: "subject_match" | "taxonomy_match" | "keyword_match";
+            label: string;
+            /** Format: uuid */
+            subject_id?: string;
+            distance?: number;
+        };
+        RecommendedJournal: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            revision_id: string;
+            title: string;
+            publisher: {
+                /** Format: uuid */
+                id: string;
+                name: string;
+            } | null;
+            identifiers: components["schemas"]["DiscoveryIdentifier"][];
+            subjects: components["schemas"]["DiscoverySubject"][];
+            languages: components["schemas"]["DiscoveryVocabulary"][];
+            article_types: components["schemas"]["DiscoveryVocabulary"][];
+            indexations: components["schemas"]["DiscoveryVocabulary"][];
+            apc: components["schemas"]["DiscoveryApc"];
+            fees: components["schemas"]["DiscoveryFee"][];
+            /** @description Metadata relevance, not likelihood of manuscript acceptance. */
+            relevance_score: number;
+            score_components: {
+                taxonomy: number | null;
+                lexical: number | null;
+            };
+            reasons: components["schemas"]["RecommendationReason"][];
+        };
+        JournalRecommendationResponse: {
+            data: components["schemas"]["RecommendedJournal"][];
+            meta: {
+                requested_limit: number;
+                candidates_after_filters: number;
+                returned: number;
+                scored_candidates_loaded: number;
+                /** Format: uuid */
+                catalog_revision_id: string | null;
+                algorithm_version: string;
+                /** @constant */
+                retrieval_mode: "deterministic_metadata";
+                /** @constant */
+                score_semantics: "metadata_relevance_only";
             };
         };
     };
@@ -674,6 +890,121 @@ export interface operations {
                     "application/json": components["schemas"]["ErrorResponse"];
                 };
             };
+        };
+    };
+    listJournals: {
+        parameters: {
+            query?: {
+                /** @description Canonical metadata filter; q searches title, publisher, subject names and normalized identifiers. */
+                q?: string;
+                /** @description Local canonical UUID. */
+                subject?: string;
+                /** @description Canonical metadata filter; q searches title, publisher, subject names and normalized identifiers. */
+                language?: string;
+                /** @description Canonical metadata filter; q searches title, publisher, subject names and normalized identifiers. */
+                article_type?: string;
+                /** @description Canonical metadata filter; q searches title, publisher, subject names and normalized identifiers. */
+                indexation?: string;
+                /** @description Local canonical UUID. */
+                publisher?: string;
+                /** @description True requires explicit applicable no APC; false requires a known positive APC. Unknown satisfies neither. */
+                no_apc?: boolean;
+                /** @description Canonical metadata filter; q searches title, publisher, subject names and normalized identifiers. */
+                page?: number;
+                /** @description Canonical metadata filter; q searches title, publisher, subject names and normalized identifiers. */
+                per_page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Canonical published metadata */
+            200: {
+                headers: {
+                    "X-Request-ID"?: string;
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiscoveryList"];
+                };
+            };
+            405: components["responses"]["MethodNotAllowed"];
+            422: components["responses"]["ValidationError"];
+            429: components["responses"]["RateLimited"];
+            500: components["responses"]["ServerError"];
+        };
+    };
+    showJournal: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                journal: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Canonical published metadata */
+            200: {
+                headers: {
+                    "X-Request-ID"?: string;
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DiscoveryDetail"];
+                };
+            };
+            /** @description Journal not published or not currently usable. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            405: components["responses"]["MethodNotAllowed"];
+            422: components["responses"]["ValidationError"];
+            429: components["responses"]["RateLimited"];
+            500: components["responses"]["ServerError"];
+        };
+    };
+    recommendJournals: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["JournalRecommendationRequest"];
+            };
+        };
+        responses: {
+            /** @description Canonical published metadata */
+            200: {
+                headers: {
+                    "X-Request-ID"?: string;
+                    /** @description no-store */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["JournalRecommendationResponse"];
+                };
+            };
+            405: components["responses"]["MethodNotAllowed"];
+            422: components["responses"]["ValidationError"];
+            429: components["responses"]["RateLimited"];
+            500: components["responses"]["ServerError"];
         };
     };
 }

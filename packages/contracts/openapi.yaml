@@ -1,9 +1,8 @@
 openapi: 3.1.0
 info:
-  title: Fikarohana Foundation V1 API
+  title: Fikarohana API V1
   version: 1.0.0
-  description: Canonical Foundation V1 contract. No journal/project/assistant endpoints
-    are implemented. Authentication is Laravel Sanctum, never JWT.
+  description: Canonical API contract including anonymous journal discovery and metadata recommendations. Authentication is Laravel Sanctum, never JWT.
 servers:
 - url: http://localhost:8000
   description: Local API; production uses HTTPS.
@@ -12,6 +11,8 @@ tags:
   description: Dependency readiness.
 - name: Authentication
   description: Account, SPA session and mobile token operations.
+- name: Journal discovery
+  description: Anonymous published journal metadata and deterministic relevance.
 paths:
   /api/v1/health:
     get:
@@ -317,6 +318,187 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/journals:
+    get:
+      operationId: listJournals
+      tags:
+        - Journal discovery
+      security: []
+      responses:
+        '200':
+          description: Canonical published metadata
+          headers:
+            X-Request-ID:
+              schema:
+                type: string
+                format: uuid
+            Cache-Control:
+              schema:
+                type: string
+              description: no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscoveryList'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      summary: Discover published journals anonymously
+      description: >-
+        Public rate limit: 60 requests/minute per IP shared with detail and recommendations. Published usable
+        selections only. Subject filter is exact. Supported languages/article types/indexations require explicit
+        compatibility.
+      parameters:
+        - name: q
+          in: query
+          schema:
+            type: string
+            maxLength: 500
+          description: Canonical metadata filter; q searches title, publisher, subject names and normalized identifiers.
+        - name: subject
+          in: query
+          schema:
+            type: string
+            format: uuid
+          description: Local canonical UUID.
+        - name: language
+          in: query
+          schema:
+            type: string
+          description: Canonical metadata filter; q searches title, publisher, subject names and normalized identifiers.
+        - name: article_type
+          in: query
+          schema:
+            type: string
+          description: Canonical metadata filter; q searches title, publisher, subject names and normalized identifiers.
+        - name: indexation
+          in: query
+          schema:
+            type: string
+          description: Canonical metadata filter; q searches title, publisher, subject names and normalized identifiers.
+        - name: publisher
+          in: query
+          schema:
+            type: string
+            format: uuid
+          description: Local canonical UUID.
+        - name: no_apc
+          in: query
+          schema:
+            type: boolean
+            description: >-
+              True requires explicit applicable no APC; false requires a known positive APC. Unknown satisfies
+              neither.
+          description: >-
+            True requires explicit applicable no APC; false requires a known positive APC. Unknown satisfies
+            neither.
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 10000
+            default: 1
+          description: Canonical metadata filter; q searches title, publisher, subject names and normalized identifiers.
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: Canonical metadata filter; q searches title, publisher, subject names and normalized identifiers.
+  /api/v1/journals/{journal}:
+    get:
+      operationId: showJournal
+      tags:
+        - Journal discovery
+      security: []
+      responses:
+        '200':
+          description: Canonical published metadata
+          headers:
+            X-Request-ID:
+              schema:
+                type: string
+                format: uuid
+            Cache-Control:
+              schema:
+                type: string
+              description: no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscoveryDetail'
+        '404':
+          description: Journal not published or not currently usable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      summary: Get canonical journal metadata
+      parameters:
+        - name: journal
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+  /api/v1/journal-recommendations:
+    post:
+      operationId: recommendJournals
+      tags:
+        - Journal discovery
+      security: []
+      responses:
+        '200':
+          description: Canonical published metadata
+          headers:
+            X-Request-ID:
+              schema:
+                type: string
+                format: uuid
+            Cache-Control:
+              schema:
+                type: string
+              description: no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JournalRecommendationResponse'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      summary: Recommend journals by deterministic metadata relevance
+      description: >-
+        The score represents metadata relevance, not likelihood of manuscript acceptance. Anonymous; input is
+        request-scoped and never stored. Hard filters precede ranking; unknown evidence never satisfies a hard
+        constraint. No APC, language or indexation prestige boosts. Local bounded taxonomy and lexical matching
+        only.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JournalRecommendationRequest'
 components:
   securitySchemes:
     sessionCookie:
@@ -517,6 +699,541 @@ components:
             request_id:
               type: string
               format: uuid
+    DiscoveryVocabulary:
+      type: object
+      additionalProperties: false
+      required:
+        - code
+        - name
+        - supported
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        supported:
+          type: boolean
+    DiscoverySubject:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - name
+        - parent_id
+        - taxonomy_level
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        parent_id:
+          type:
+            - string
+            - 'null'
+          format: uuid
+        taxonomy_level:
+          type:
+            - string
+            - 'null'
+    DiscoveryIdentifier:
+      type: object
+      additionalProperties: false
+      required:
+        - type
+        - value
+      properties:
+        type:
+          type: string
+        value:
+          type: string
+    DiscoveryApc:
+      type: object
+      additionalProperties: false
+      required:
+        - status
+        - amount
+        - currency
+      properties:
+        status:
+          type: string
+          enum:
+            - unknown
+            - known
+            - no_apc
+            - context_dependent
+        amount:
+          type:
+            - string
+            - 'null'
+        currency:
+          type:
+            - string
+            - 'null'
+    DiscoveryFee:
+      type: object
+      additionalProperties: false
+      required:
+        - fee_type
+        - availability
+        - amount
+        - currency
+        - basis
+        - applicability
+        - article_type
+        - language
+      properties:
+        fee_type:
+          type: string
+        availability:
+          type: string
+          enum:
+            - known
+            - unknown
+            - not_applicable
+        amount:
+          type:
+            - string
+            - 'null'
+        currency:
+          type:
+            - string
+            - 'null'
+        basis:
+          type: string
+        applicability:
+          type: string
+        article_type:
+          type:
+            - string
+            - 'null'
+        language:
+          type:
+            - string
+            - 'null'
+    DiscoveryJournal:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - revision_id
+        - title
+        - publisher
+        - identifiers
+        - subjects
+        - languages
+        - article_types
+        - indexations
+        - apc
+        - fees
+      properties:
+        id:
+          type: string
+          format: uuid
+        revision_id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        publisher:
+          anyOf:
+            - type: object
+              additionalProperties: false
+              required:
+                - id
+                - name
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                name:
+                  type: string
+            - type: 'null'
+        identifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryIdentifier'
+        subjects:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoverySubject'
+        languages:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryVocabulary'
+        article_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryVocabulary'
+        indexations:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryVocabulary'
+        apc:
+          $ref: '#/components/schemas/DiscoveryApc'
+        fees:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryFee'
+    DiscoveryProvenance:
+      type: object
+      additionalProperties: false
+      required:
+        - assertion_id
+        - field
+        - source_url
+        - retrieved_at
+        - verified_at
+      properties:
+        assertion_id:
+          type: string
+          format: uuid
+        field:
+          type: string
+        source_url:
+          type:
+            - string
+            - 'null'
+        retrieved_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+        verified_at:
+          type:
+            - string
+            - 'null'
+          format: date-time
+    DiscoveryJournalDetail:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - revision_id
+        - title
+        - publisher
+        - identifiers
+        - subjects
+        - languages
+        - article_types
+        - indexations
+        - apc
+        - fees
+        - provenance
+      properties:
+        id:
+          type: string
+          format: uuid
+        revision_id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        publisher:
+          anyOf:
+            - type: object
+              additionalProperties: false
+              required:
+                - id
+                - name
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                name:
+                  type: string
+            - type: 'null'
+        identifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryIdentifier'
+        subjects:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoverySubject'
+        languages:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryVocabulary'
+        article_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryVocabulary'
+        indexations:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryVocabulary'
+        apc:
+          $ref: '#/components/schemas/DiscoveryApc'
+        fees:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryFee'
+        provenance:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryProvenance'
+    DiscoveryList:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+        - meta
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryJournal'
+        meta:
+          type: object
+          additionalProperties: false
+          required:
+            - current_page
+            - per_page
+            - total
+            - last_page
+            - catalog_revision_id
+          properties:
+            current_page:
+              type: integer
+              minimum: 1
+            per_page:
+              type: integer
+              minimum: 1
+              maximum: 100
+            total:
+              type: integer
+              minimum: 0
+            last_page:
+              type: integer
+              minimum: 1
+            catalog_revision_id:
+              type:
+                - string
+                - 'null'
+              format: uuid
+    DiscoveryDetail:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+      properties:
+        data:
+          $ref: '#/components/schemas/DiscoveryJournalDetail'
+    JournalRecommendationRequest:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 500
+        abstract:
+          type: string
+          maxLength: 10000
+        keywords:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 100
+          maxItems: 20
+          uniqueItems: true
+        subject_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          maxItems: 10
+          uniqueItems: true
+        language:
+          type: string
+        article_type:
+          type: string
+        no_apc_only:
+          type: boolean
+        indexation_services:
+          type: array
+          items:
+            type: string
+          maxItems: 10
+          uniqueItems: true
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 10
+          default: 5
+    RecommendationReason:
+      type: object
+      additionalProperties: false
+      required:
+        - type
+        - label
+      properties:
+        type:
+          type: string
+          enum:
+            - subject_match
+            - taxonomy_match
+            - keyword_match
+        label:
+          type: string
+        subject_id:
+          type: string
+          format: uuid
+        distance:
+          type: integer
+          minimum: 0
+          maximum: 3
+    RecommendedJournal:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - revision_id
+        - title
+        - publisher
+        - identifiers
+        - subjects
+        - languages
+        - article_types
+        - indexations
+        - apc
+        - fees
+        - relevance_score
+        - score_components
+        - reasons
+      properties:
+        id:
+          type: string
+          format: uuid
+        revision_id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        publisher:
+          anyOf:
+            - type: object
+              additionalProperties: false
+              required:
+                - id
+                - name
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                name:
+                  type: string
+            - type: 'null'
+        identifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryIdentifier'
+        subjects:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoverySubject'
+        languages:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryVocabulary'
+        article_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryVocabulary'
+        indexations:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryVocabulary'
+        apc:
+          $ref: '#/components/schemas/DiscoveryApc'
+        fees:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveryFee'
+        relevance_score:
+          type: number
+          minimum: 0
+          maximum: 100
+          description: Metadata relevance, not likelihood of manuscript acceptance.
+        score_components:
+          type: object
+          additionalProperties: false
+          required:
+            - taxonomy
+            - lexical
+          properties:
+            taxonomy:
+              type:
+                - number
+                - 'null'
+              minimum: 0
+              maximum: 100
+            lexical:
+              type:
+                - number
+                - 'null'
+              minimum: 0
+              maximum: 100
+        reasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecommendationReason'
+    JournalRecommendationResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - data
+        - meta
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecommendedJournal'
+          maxItems: 10
+        meta:
+          type: object
+          additionalProperties: false
+          required:
+            - requested_limit
+            - candidates_after_filters
+            - returned
+            - scored_candidates_loaded
+            - catalog_revision_id
+            - algorithm_version
+            - retrieval_mode
+            - score_semantics
+          properties:
+            requested_limit:
+              type: integer
+              minimum: 1
+              maximum: 10
+            candidates_after_filters:
+              type: integer
+              minimum: 0
+            returned:
+              type: integer
+              minimum: 0
+              maximum: 10
+            scored_candidates_loaded:
+              type: integer
+              minimum: 0
+              maximum: 200
+            catalog_revision_id:
+              type:
+                - string
+                - 'null'
+              format: uuid
+            algorithm_version:
+              type: string
+            retrieval_mode:
+              type: string
+              const: deterministic_metadata
+            score_semantics:
+              type: string
+              const: metadata_relevance_only
   responses:
     BadRequest:
       description: SPA origin/session required.
