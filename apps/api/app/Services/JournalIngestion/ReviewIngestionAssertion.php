@@ -19,8 +19,8 @@ class ReviewIngestionAssertion
 
         return DB::transaction(function () use ($claim, $status, $actor, $method, $reason): AssertionReview {
             DB::select('SELECT pg_advisory_xact_lock(170001)');
-            JournalAssertion::whereKey($claim->id)->lockForUpdate()->firstOrFail();
-            if (! DB::table('ingestion_claims')->where('assertion_id', $claim->id)->exists()) {
+            $claim = JournalAssertion::whereKey($claim->id)->lockForUpdate()->firstOrFail();
+            if ($claim->extraction_metadata === null && ! DB::table('ingestion_claims')->where('assertion_id', $claim->id)->exists()) {
                 throw new DomainException('not_an_ingestion_assertion');
             }
             if ($claim->sourceRecord->status !== 'captured') {

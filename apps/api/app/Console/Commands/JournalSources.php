@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use App\Models\Journal;
 use App\Models\JournalSource;
+use App\Models\SourceRecord;
+use App\Services\EditorialExtraction\ExtractEditorialSnapshot;
 use App\Services\OfficialSources\OfficialSources;
 use DomainException;
 use Illuminate\Console\Command;
@@ -11,7 +13,8 @@ use Throwable;
 
 class JournalSources extends Command
 {
-    protected $signature = 'journals:sources {action : register|approve|fetch|deactivate|status}
+    protected $signature = 'journals:sources {action : register|approve|fetch|deactivate|status|extract}
+        {--record= : Stored snapshot UUID, extract only}
         {--journal= : Existing journal UUID} {--source= : Registered source UUID}
         {--type=official_journal : official_journal|official_publisher}
         {--purpose=website : website|guidelines|submission|fees|template|article_types|editorial}
@@ -21,16 +24,23 @@ class JournalSources extends Command
 
     protected $description = 'Register, approve and check one explicit official journal evidence page';
 
-    public function handle(OfficialSources $sources): int
+    public function handle(OfficialSources $sources, ExtractEditorialSnapshot $extractor): int
     {
         try {
             $action = $this->argument('action');
-            if (! in_array($action, ['register', 'approve', 'fetch', 'deactivate', 'status'], true)
-                || ($action !== 'register' && $this->option('url') !== null)) {
+            if (! in_array($action, ['register', 'approve', 'fetch', 'deactivate', 'status', 'extract'], true)
+                || ($action !== 'register' && $this->option('url') !== null)
+                || ($action !== 'extract' && $this->option('record') !== null)) {
                 throw new DomainException('official_invalid_action');
             }
             $dry = (bool) $this->option('dry-run');
-            if ($action === 'register') {
+            if ($action === 'extract') {
+                $record = SourceRecord::findOrFail($this->option('record'));
+                if ($this->option('source') !== null && $record->journal_source_id !== $this->option('source')) {
+                    throw new DomainException('editorial_invalid_source');
+                }
+                $result = $extractor->extract($record, $dry, $this->option('journal'));
+            } elseif ($action === 'register') {
                 $journal = Journal::findOrFail($this->option('journal'));
                 $source = $sources->register($journal, $this->option('type'), $this->option('purpose'), (string) $this->option('url'), $dry);
                 $result = ['source_id' => $source->id, 'approval_status' => $source->approval_status, 'dry_run' => $dry];
@@ -59,7 +69,7 @@ class JournalSources extends Command
 
             return self::SUCCESS;
         } catch (Throwable $exception) {
-            $code = $exception instanceof DomainException && preg_match('/^official_[a-z0-9_]+$/D', $exception->getMessage())
+            $code = $exception instanceof DomainException && preg_match('/^(official|editorial)_[a-z0-9_]+$/D', $exception->getMessage())
                 ? $exception->getMessage() : 'official_operation_failed';
             $this->error($code);
 
