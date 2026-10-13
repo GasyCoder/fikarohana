@@ -44,7 +44,7 @@ class PublishJournalRevision
                 }
                 $key = $claim->selectionKey();
                 foreach ($journal->assertions()->where('field', $claim->field->value)->where('id', '<>', $claim->id)->get() as $other) {
-                    if ($other->availability !== FactAvailability::Unknown && in_array($other->verificationStatus(), [VerificationStatus::Verified, VerificationStatus::Conflicting], true)
+                    if ($other->hasConcreteClaim() && in_array($other->verificationStatus(), [VerificationStatus::Verified, VerificationStatus::Conflicting], true)
                         && $other->selectionKey() === $key) {
                         throw new DomainException('Competing current assertions require explicit review resolution.');
                     }

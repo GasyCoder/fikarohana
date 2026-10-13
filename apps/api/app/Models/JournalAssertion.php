@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\FactAvailability;
+use App\Enums\FeeType;
 use App\Enums\JournalField;
 use App\Enums\VerificationStatus;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -10,14 +11,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-#[Fillable(['journal_id', 'source_record_id', 'field', 'availability', 'text_value', 'publisher_id', 'article_type_id', 'language_id', 'source_locator', 'original_wording', 'effective_from', 'effective_until', 'supersedes_id'])]
+#[Fillable(['journal_id', 'source_record_id', 'field', 'availability', 'text_value', 'publisher_id', 'article_type_id', 'language_id', 'source_locator', 'original_wording', 'effective_from', 'effective_until', 'supersedes_id', 'extraction_metadata'])]
 class JournalAssertion extends CatalogModel
 {
+    public const NO_APC_BASES = ['doaj_reported_no_apc', 'official_reported_no_apc'];
+
     public $timestamps = false;
 
     protected function casts(): array
     {
         return [
+            'extraction_metadata' => 'array',
             'field' => JournalField::class,
             'availability' => FactAvailability::class,
             'effective_from' => 'immutable_datetime',
@@ -113,6 +117,18 @@ class JournalAssertion extends CatalogModel
     public function verificationStatus(): VerificationStatus
     {
         return $this->latestReview()->first()?->status ?? VerificationStatus::Pending;
+    }
+
+    public function isExplicitNoApc(): bool
+    {
+        return $this->field === JournalField::Fee && $this->availability === FactAvailability::Unknown
+            && $this->fee?->fee_type === FeeType::Apc && $this->fee->amount === null && $this->fee->currency === null
+            && in_array($this->fee->basis, self::NO_APC_BASES, true);
+    }
+
+    public function hasConcreteClaim(): bool
+    {
+        return $this->availability !== FactAvailability::Unknown || $this->isExplicitNoApc();
     }
 
     public function selectionKey(): string

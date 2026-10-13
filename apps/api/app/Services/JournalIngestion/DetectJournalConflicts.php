@@ -2,7 +2,6 @@
 
 namespace App\Services\JournalIngestion;
 
-use App\Enums\FactAvailability;
 use App\Enums\JournalField;
 use App\Enums\VerificationStatus;
 use App\Models\JournalAssertion;
@@ -13,7 +12,7 @@ class DetectJournalConflicts
 {
     public function assertion(JournalAssertion $claim): array
     {
-        if ($claim->availability === FactAvailability::Unknown && $claim->fee?->basis !== 'doaj_reported_no_apc') {
+        if (! $claim->hasConcreteClaim()) {
             return [];
         }
 
@@ -30,7 +29,9 @@ class DetectJournalConflicts
             }
         }
         foreach ($proposal['fees'] ?? [] as $fee) {
-            if ($fee['availability'] === 'unknown' && $fee['basis'] !== 'doaj_reported_no_apc') {
+            $explicitAbsence = $fee['availability'] === 'unknown' && $fee['fee_type'] === 'apc'
+                && $fee['amount'] === null && $fee['currency'] === null && in_array($fee['basis'], JournalAssertion::NO_APC_BASES, true);
+            if ($fee['availability'] === 'unknown' && ! $explicitAbsence) {
                 continue;
             }
             $availability = $fee['availability'];
@@ -39,8 +40,9 @@ class DetectJournalConflicts
                 $parts = explode('.', $fee['amount']);
                 $fee['amount'] = $parts[0].'.'.str_pad($parts[1] ?? '', 4, '0');
             }
-            $ids = array_merge($ids, $this->compare($journalId, JournalField::Fee, 'fee:'.$fee['fee_type'].'::',
-                CanonicalJson::encode([$availability, null, $fee])));
+            $value = $explicitAbsence
+                ? CanonicalJson::encode(['explicit_no_apc', 'apc']) : CanonicalJson::encode([$availability, null, $fee]);
+            $ids = array_merge($ids, $this->compare($journalId, JournalField::Fee, 'fee:'.$fee['fee_type'].'::', $value));
         }
         if (isset($proposal['publisher'])) {
             $ids = array_merge($ids, $this->compare($journalId, JournalField::Publisher, 'publisher:::',
@@ -70,7 +72,7 @@ class DetectJournalConflicts
     {
         $ids = [];
         foreach (JournalAssertion::where('journal_id', $journalId)->where('field', $field->value)->get() as $other) {
-            if ($other->id === $exclude || ($other->availability === FactAvailability::Unknown && $other->fee?->basis !== 'doaj_reported_no_apc')
+            if ($other->id === $exclude || ! $other->hasConcreteClaim()
                 || in_array($other->verificationStatus(), [VerificationStatus::Rejected, VerificationStatus::Stale], true)) {
                 continue;
             }
@@ -84,6 +86,9 @@ class DetectJournalConflicts
 
     private function value(JournalAssertion $claim): string
     {
+        if ($claim->isExplicitNoApc()) {
+            return CanonicalJson::encode(['explicit_no_apc', 'apc']);
+        }
         $value = [$claim->availability->value, $claim->text_value,
             $claim->fee?->only(['fee_type', 'amount', 'currency', 'basis', 'applicability'])];
         if (in_array($claim->field, [JournalField::Publisher, JournalField::Language], true)) {
@@ -93,6 +98,16 @@ class DetectJournalConflicts
 
         if ($claim->field === JournalField::Subject && $claim->subjectLink?->subject?->provider !== null) {
             $value[] = $claim->subjectLink->subject->revision_fingerprint;
+        }
+
+        if ($claim->field === JournalField::Requirement) {
+            $value[] = $claim->requirement?->only(['requirement_type', 'operator', 'value_number', 'value_text', 'value_items']);
+        }
+        if ($claim->field === JournalField::Template) {
+            $value[] = $claim->template?->only(['format', 'official_url']);
+        }
+        if ($claim->field === JournalField::ArticleType) {
+            $value[] = $claim->articleTypeLink?->only(['article_type_id', 'supported']);
         }
 
         return CanonicalJson::encode($value);

@@ -464,6 +464,7 @@ class JournalCatalogTest extends TestCase
         $migration = require database_path('migrations/2026_10_11_170000_create_journal_catalog.php');
         try {
             DB::transaction(function () use ($migration): void {
+                (require database_path('migrations/2026_10_12_110000_add_editorial_extraction_metadata.php'))->down();
                 (require database_path('migrations/2026_10_12_100000_add_official_source_foundation.php'))->down();
                 (require database_path('migrations/2026_10_12_090000_add_provider_taxonomy_to_subjects.php'))->down();
                 // Dependent ingestion tables must roll back before their catalog parents.

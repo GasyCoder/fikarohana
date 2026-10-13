@@ -39,10 +39,15 @@ class JournalRevision extends CatalogModel
             AND (a.effective_until IS NULL OR a.effective_until > CURRENT_TIMESTAMP)
             AND NOT EXISTS (
                 SELECT 1 FROM journal_assertions other WHERE other.journal_id = a.journal_id AND other.field = a.field
-                AND other.id <> a.id AND other.availability <> 'unknown'
+                AND other.id <> a.id AND (other.availability <> 'unknown' OR (
+                    other.field = 'fee' AND EXISTS (
+                        SELECT 1 FROM journal_fees f WHERE f.assertion_id = other.id AND f.fee_type = 'apc'
+                        AND f.amount IS NULL AND f.currency IS NULL AND f.basis IN (?, ?)
+                    )
+                ))
                 AND (SELECT r.status FROM assertion_reviews r WHERE r.assertion_id = other.id ORDER BY r.sequence DESC LIMIT 1) IN ('verified', 'conflicting')
                 AND catalog_assertion_selection_key(other.id) = journal_revision_assertions.selection_key
             )
-        )");
+        )", JournalAssertion::NO_APC_BASES);
     }
 }
