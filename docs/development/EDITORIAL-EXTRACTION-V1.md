@@ -1,6 +1,6 @@
 # Phase 3E-B — Deterministic editorial extraction V1
 
-Status: internal Laravel implementation, with semantic corrections on 2026-10-13. Stored-snapshot proposals only; no LLM, network acquisition, verification, automatic publication or public endpoint. Phase 3E-A transport and provider mappings are unchanged. Laravel remains canonical; Next.js/Expo remain API clients and FastAPI remains optional specialized compute.
+Status: internal Laravel implementation; current defaults are editorial-v5/editorial-dom-v5 after Phase 3E-C4. V1–V4 sections retain historical behavior and verification; C2/C3/C4 describe subsequent changes. Stored-snapshot proposals only; no LLM, network acquisition, verification, automatic publication or public endpoint. Phase 3E-A transport and provider mappings are unchanged. Laravel remains canonical; Next.js/Expo remain API clients and FastAPI remains optional specialized compute.
 
 ## Architecture and lifecycle
 
@@ -345,3 +345,36 @@ Five files changed in this narrow correction (the larger pre-existing Phase 3E-B
 - docs/development/TESTING.md
 
 Narrow correction verdict: **PASS** for the requested deterministic context boundaries and regression coverage. No remaining identified blocker within this pass. Real editorial coverage and advisory verification remain unverified; no production readiness claim. All changes remain uncommitted on master, HEAD 5da5f75.
+
+
+## Phase 3E-C2 current V3 preparation and grammar
+
+See [preserved baseline and separate post-fix validation](EDITORIAL-REAL-WORLD-VALIDATION-V1.md#phase-3e-c2--post-fix-editorial-v3--editorial-dom-v3). V3 scans every bounded block, retaining lexical rule candidates rather than all irrelevant prose before applying 512 candidate-unit / 128 KiB normalized-text ceilings. No first/last-unit truncation. Raw 256 KiB and 4096 DOM-element caps stay unchanged; ancestry traversal is bounded at 16 and contexts remain <=8 with 128-byte text. Per-unit input remains 1 KiB. Unknown scope, qualifiers and deleted/hidden markup remain conservative. Eligible overflow still fails rather than hide evidence.
+
+PreparedDocument has separate links (<=128 /16 KiB anchor text) and textual units. Exact submission-action anchors can survive nav/header/footer; their prose cannot. Only LinkRule sees link units. Main-body link labels must also be explicit template/submission roles before budgeting. Fragment/unsafe/template-origin and metadata-only external submission rules remain.
+
+Generic negative fee constructions, named-style sentences with Unicode quotes, neutral editorial section labels and structurally attached abstract maximum list items add deterministic coverage. No publisher names/domains/selectors or journal values are encoded. Conditional absence/style and domain-qualified article types remain unsupported. PeerJ JS, new source transport and larger download limits remain out of scope.
+
+Default registry/preparer are editorial-v3/editorial-dom-v3. Forward migration 2026_10_13_120000_allow_editorial_v3_metadata changes only the existing CHECK allow-list/context obligation, preserving V1/V2 immutability; V3-bearing rollback refuses. Tests retain legacy version coexistence, dry-run and pending review/publication. The real four-snapshot replay recovered 6/6 human positives with zero FP, but is a development-set result. Independent operator-approved/human-labeled holdout is required before exposure. Existing V2 baseline is untouched.
+
+
+## Phase 3E-C3 — V4 grammar remediation and unresolved context coverage
+
+Default versions advance to editorial-v4/editorial-dom-v4. WordLimitRule adds anchored singular/plural abstract maxima with optional article, must/does/should not exceed, relative-clause construction, maximum, limited to and optional required suffix. Approximate/recommended/minimum/range/qualified prose remains unmatched. Existing article inheritance, section consistency and RuleContext guards apply unchanged. LinkRule shares one submission-label predicate with preparation and recognizes electronic/manuscript submission systems, management systems and portals. Guidelines/instructions/policies/preparation labels remain ineligible. External targets remain metadata; no fetch or approval is triggered.
+
+No qualifier/heading/ambiguity/resource safety policy changes, no publisher/host/locator branches, no fee inference change. In particular generic no-publication-fees does not create APC absence. V4 grammar succeeds on synthetic safe contexts but does **not** recover JMLR: unknown inherited headings plus the oversize immediately preceding example context still force abstention. This retained limitation must not be concealed by changing human gold or dropping FN. See [actual diagnostics and V4 results](EDITORIAL-REAL-WORLD-VALIDATION-V1.md#phase-3e-c3--v4-remediation-and-generalization).
+
+The forward `2026_10_13_130000_allow_editorial_v4_metadata.php` migration extends the existing PostgreSQL document-version whitelist/context obligation; V1/V2/V3 remain compatible. No old migration or immutable stored metadata is edited. Rollback locks the table and refuses retained V4 evidence. Tests cover V2/V3 retained assertions alongside V4, idempotency, empty rollback/reapply and populated refusal. Canonical business API, Phase 2 review/publication/provenance and 3E-A acquisition are unchanged.
+
+JMLR is development/remediation data after this change; its original V3 independent result is preserved separately. New independent candidates require operator approval then 3E-A acquisition and human gold validation before V4 evaluation. Phase 4 remains NOT_READY.
+
+
+## Phase 3E-C4 — V5 context robustness
+
+Unknown heading is now distinct from unsafe/unsupported scope. Language, numeric word-limit and submission-action rules can tolerate unknown **heading** contexts only when their own full grammar independently supplies subject, predicate, value and canonical scope. Bare language/style/number fragments cannot use unknown headings to invent scope. Fees, article lists, styles and templates keep their prior context eligibility. Unknown captions/table headers, ambiguity/overflow, qualifiers, examples, hypothetical/optional/conditional prose, incompatible article scopes and unsupported article/special/domain scopes still fail closed.
+
+A closed illustrative paragraph immediately preceding a new heading belongs to its preceding block. It is not automatically inherited as qualification of the entire new section. Only immediate paragraph/heading relationships are inspected; no backwards search or distance window. Direct examples preceding evidence, colon introductions, next/following-section examples, explicit example headings and conditional qualifiers still veto. The 128-byte context size cap is unchanged; retained oversize relevant contexts still mark ambiguity rather than silently truncate. Link semantics have a separate evidence channel: action labels may survive neutral headings, while conditional/example prose in their own leaf block, disabled/hidden/deleted markup, unsafe URL metadata and explanatory links remain rejected. Large ancestor containers are not concatenated into pseudo-local qualification.
+
+LanguageRule additionally understands a bounded French eligibility-list construction with an explicit English-title/abstract translation dependency for non-English manuscripts. It emits **English only** when listed; conditioned languages remain unmapped. Unknown languages, ambiguous/conditional subjects, further eligibility restrictions or unknown trailing prose abstain. Only unrelated technical-subject formatting notes may follow the closed eligibility sentence; whole unit/context remains the evidence. No journal name/host/locator special case, translation service, new conditional-language model or inference from document language.
+
+Version defaults intentionally advance to editorial-v5/editorial-dom-v5. New forward metadata migration preserves V1–V4 and existing context constraints; populated V5 rollback refuses. No canonical schema ontology/business/publication change. All old gold/history remains immutable. Six stored development pages now yield 9 TP / 0 FP / 0 FN; this is **development remediation**, not independent validation. See [C4 results and safety audit](EDITORIAL-REAL-WORLD-VALIDATION-V1.md#phase-3e-c4--context-robustness-and-generalization). New V5 candidates require fresh human acquisition and gold approval; Phase 4 NOT_READY.

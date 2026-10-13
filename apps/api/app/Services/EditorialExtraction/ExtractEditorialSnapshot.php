@@ -34,7 +34,7 @@ class ExtractEditorialSnapshot
         $document = $this->preparer->prepare($record->raw_content, $record->snapshot_metadata['content_type'], $record->snapshot_metadata['final_url']);
         $proposals = [];
         foreach ($this->registry->rules() as $rule) {
-            foreach ($document->units as $unit) {
+            foreach ($rule instanceof LinkRule ? $document->links : $document->units as $unit) {
                 foreach ($rule->extract($unit, $document) as $value) {
                     $identity = array_diff_key($value, ['label' => true]);
                     $key = CanonicalJson::hash([$this->registry->version(), $rule->id(), $rule->field(), $identity]);

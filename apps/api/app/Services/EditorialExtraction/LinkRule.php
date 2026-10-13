@@ -11,6 +11,16 @@ class LinkRule implements EditorialRule
 {
     public function __construct(private readonly bool $template) {}
 
+    public static function isSubmissionLabel(string $label): bool
+    {
+        return (bool) preg_match('/^(?:Submit|Submit manuscript|Submit your (?:manuscript|paper)|Submission system|Online submission|Submit an article|(?:Electronic |Manuscript )?submission (?:management system|system|portal))$/iD', $label);
+    }
+
+    public static function isTemplateLabel(string $label): bool
+    {
+        return (bool) preg_match('/^(?:Download )?(?:manuscript|article) template(?: \((?:DOCX|Word|LaTeX|PDF)\))?$/iD', $label);
+    }
+
     public function id(): string
     {
         return $this->template ? 'explicit_template_link' : 'explicit_submission_link';
@@ -23,13 +33,10 @@ class LinkRule implements EditorialRule
 
     public function extract(EvidenceUnit $unit, PreparedDocument $document): array
     {
-        if (! RuleContext::allows($unit) || $unit->href === null || trim($unit->href) === '' || str_starts_with($unit->href, '#') || preg_match('/[\x00-\x20\x7f\\\\]/', $unit->href)) {
+        if (! RuleContext::allows($unit, false, ! $this->template && self::isSubmissionLabel($unit->text)) || $unit->href === null || trim($unit->href) === '' || str_starts_with($unit->href, '#') || preg_match('/[\x00-\x20\x7f\\\\]/', $unit->href)) {
             return [];
         }
-        $pattern = $this->template
-            ? '/^(?:Download )?(?:manuscript|article) template(?: \((?:DOCX|Word|LaTeX|PDF)\))?$/iD'
-            : '/^(?:Submit your manuscript|Online submission|Submit an article)$/iD';
-        if (! preg_match($pattern, $unit->text)) {
+        if (! ($this->template ? self::isTemplateLabel($unit->text) : self::isSubmissionLabel($unit->text))) {
             return [];
         }
         try {

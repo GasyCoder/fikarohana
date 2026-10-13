@@ -6,7 +6,7 @@ use DomainException;
 
 class RuleRegistry
 {
-    public const VERSION = 'editorial-v2';
+    public const VERSION = 'editorial-v5';
 
     public function __construct(private readonly string $version = self::VERSION) {}
 

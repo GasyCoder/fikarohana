@@ -20,7 +20,9 @@ class FeeRule implements EditorialRule
             return [];
         }
         $text = RuleContext::labeledText($unit, ['apc', 'article processing charge', 'publication fee', 'submission fee', 'page charge', 'color charge']);
-        if (preg_match('/^(?:No article processing charges|There is no APC|Authors are not charged publication fees)\.?$/iD', $unit->text)) {
+        $negative = '/^(?:(?:[A-Za-z][A-Za-z -]{0,100}) is an open access journal(?: committed to running at minimal costs)?, with )?(?:zero publication fees \(article processing charges\)(?: or subscription fees)?|No article processing charges|No APC|There is no APC|Authors are not charged publication fees|Authors pay no publication fee)\.?$/iD';
+        if (preg_match($negative, $unit->text)
+            && ! preg_match('/\b(?:some|only|invited|eligible|during|promotional|waiv\w*|additional|beyond|information|for|except)\b/i', $unit->text)) {
             return [['availability' => 'unknown', 'fee_type' => 'apc', 'amount' => null, 'currency' => null,
                 'basis' => 'official_reported_no_apc', 'applicability' => 'Explicit absence of APC; other charges and applicability require review.']];
         }

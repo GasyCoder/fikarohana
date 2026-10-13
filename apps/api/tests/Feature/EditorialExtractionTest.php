@@ -8,6 +8,7 @@ use App\Models\CatalogRevision;
 use App\Models\Journal;
 use App\Models\JournalAssertion;
 use App\Models\JournalFee;
+use App\Models\JournalLanguage;
 use App\Models\JournalRequirement;
 use App\Models\JournalSource;
 use App\Models\SourceRecord;
@@ -219,7 +220,7 @@ class EditorialExtractionTest extends TestCase
                 $this->assertNotEmpty($claim->source_locator);
                 $this->assertNotEmpty($claim->original_wording);
                 $this->assertLessThanOrEqual(1024, strlen($claim->original_wording));
-                $this->assertSame('editorial-v2', $claim->extraction_metadata['version']);
+                $this->assertSame('editorial-v5', $claim->extraction_metadata['version']);
                 $this->assertSame('deterministic_explicit', $claim->extraction_metadata['status']);
                 $this->assertArrayNotHasKey('snippet', $proposal);
             }
@@ -256,12 +257,12 @@ class EditorialExtractionTest extends TestCase
         $this->assertSame([$first['proposals'][0]['assertion_id']], $changed['proposals'][0]['conflict_ids']);
         $this->assertSame('conflicting', $changed['proposals'][0]['review_status']);
         $this->assertSame('1000.0000', JournalFee::where('assertion_id', $first['proposals'][0]['assertion_id'])->sole()->amount);
-        $v2 = new ExtractEditorialSnapshot(new PrepareDocument, new RuleRegistry('editorial-v3'), app(DetectJournalConflicts::class));
+        $v2 = new ExtractEditorialSnapshot(new PrepareDocument, new RuleRegistry('editorial-v6'), app(DetectJournalConflicts::class));
         $v2->extract($record);
         $this->assertSame(3, JournalAssertion::count());
         $v2->extract($record);
         $this->assertSame(3, JournalAssertion::count());
-        $this->assertSame('editorial-v2', JournalAssertion::findOrFail($first['proposals'][0]['assertion_id'])->extraction_metadata['version']);
+        $this->assertSame('editorial-v5', JournalAssertion::findOrFail($first['proposals'][0]['assertion_id'])->extraction_metadata['version']);
     }
 
     public function test_unchanged_fact_on_new_snapshot_preserves_both_observations_without_publication(): void
@@ -320,7 +321,7 @@ class EditorialExtractionTest extends TestCase
         return [['<p>APC: USD 1000</p>', 'application/pdf', 'editorial_unsupported_mime'],
             ["<p>bad\xff</p>", 'text/html', 'editorial_invalid_text'], ["<p>bad\0</p>", 'text/html', 'editorial_invalid_text'],
             [str_repeat('x', 262145), 'text/html', 'editorial_invalid_text'],
-            [str_repeat('<p>Text</p>', 513), 'text/html', 'editorial_document_limit']];
+            [str_repeat('<p>APC: USD 1000</p>', 513), 'text/html', 'editorial_document_limit']];
     }
 
     public function test_scripts_styles_hidden_boilerplate_entities_and_base_are_inert(): void
@@ -484,7 +485,7 @@ class EditorialExtractionTest extends TestCase
                 $this->assertContains($exception->errorInfo[0], ['23514', '23505']);
             }
         }
-        $this->assertSame('editorial-v2', $claim->fresh()->extraction_metadata['version']);
+        $this->assertSame('editorial-v5', $claim->fresh()->extraction_metadata['version']);
     }
 
     public function test_cli_rejects_missing_record_mismatch_and_fetch_options(): void
@@ -501,8 +502,14 @@ class EditorialExtractionTest extends TestCase
     {
         $migration = require database_path('migrations/2026_10_12_110000_add_editorial_extraction_metadata.php');
         DB::transaction(function () use ($migration): void {
+            (require database_path('migrations/2026_10_13_140000_allow_editorial_v5_metadata.php'))->down();
+            (require database_path('migrations/2026_10_13_130000_allow_editorial_v4_metadata.php'))->down();
+            (require database_path('migrations/2026_10_13_120000_allow_editorial_v3_metadata.php'))->down();
             $migration->down();
             $migration->up();
+            (require database_path('migrations/2026_10_13_120000_allow_editorial_v3_metadata.php'))->up();
+            (require database_path('migrations/2026_10_13_130000_allow_editorial_v4_metadata.php'))->up();
+            (require database_path('migrations/2026_10_13_140000_allow_editorial_v5_metadata.php'))->up();
         });
         $record = $this->fixture('fees');
         $this->extract($record);
@@ -687,7 +694,7 @@ class EditorialExtractionTest extends TestCase
             $this->assertNotNull($claim->article_type_id);
             $this->assertContains($claim->articleType->code, ['research_article', 'review_article']);
             $this->assertNotEmpty($claim->extraction_metadata['contexts']);
-            $this->assertSame('editorial-dom-v2', $claim->extraction_metadata['document_version']);
+            $this->assertSame('editorial-dom-v5', $claim->extraction_metadata['document_version']);
             $keys[] = $claim->selectionKey();
         }
         $this->assertCount(4, array_unique($keys));
@@ -869,6 +876,115 @@ class EditorialExtractionTest extends TestCase
         $this->assertLessThan(2, microtime(true) - $start);
     }
 
+    public function test_remediation_resource_caps_and_non_order_biased_collection(): void
+    {
+        $noise = str_repeat('<p>Background details.</p>', 700);
+        $early = '<p>Manuscripts must be submitted in English.</p>';
+        $late = '<p>Reference style: Vancouver</p>';
+        $this->assertCount(2, $this->extract($this->snapshot($early.$noise.$late))['proposals']);
+        foreach ([str_repeat('<i>x</i>', 4097),
+            str_repeat('<p>APC: '.str_repeat('9', 1019).'</p>', 129),
+            str_repeat('<a href="/new">Submit</a>', 129)] as $body) {
+            try {
+                (new PrepareDocument)->prepare($body, 'text/html', self::URL);
+                $this->fail('Resource ceiling silently truncated evidence.');
+            } catch (DomainException $exception) {
+                $this->assertSame('editorial_document_limit', $exception->getMessage());
+            }
+        }
+    }
+
+    public function test_remediation_v2_v3_v4_history_and_v5_rollback_guard(): void
+    {
+        $record = $this->snapshot('<p>APC: USD 1500</p>');
+        $claim = JournalAssertion::findOrFail($this->extract($record)['proposals'][0]['assertion_id']);
+        $metadata = $claim->extraction_metadata;
+        $metadata['version'] = 'editorial-v2';
+        $metadata['document_version'] = 'editorial-dom-v2';
+        $metadata['proposal_key'] = hash('sha256', 'synthetic V2 history');
+        $legacy = JournalAssertion::create(['journal_id' => $claim->journal_id, 'source_record_id' => $record->id,
+            'field' => 'fee', 'availability' => 'known', 'source_locator' => $claim->source_locator,
+            'original_wording' => $claim->original_wording, 'extraction_metadata' => $metadata]);
+        JournalFee::create(['journal_id' => $claim->journal_id, 'assertion_id' => $legacy->id,
+            'fee_type' => 'apc', 'amount' => '1500', 'currency' => 'USD', 'basis' => 'official_explicit_amount', 'applicability' => 'Synthetic V2 historical fee.']);
+        $v3metadata = $metadata;
+        $v3metadata['version'] = 'editorial-v3';
+        $v3metadata['document_version'] = 'editorial-dom-v3';
+        $v3metadata['proposal_key'] = hash('sha256', 'synthetic V3 history');
+        $v3 = JournalAssertion::create(['journal_id' => $claim->journal_id, 'source_record_id' => $record->id,
+            'field' => 'fee', 'availability' => 'known', 'source_locator' => $claim->source_locator,
+            'original_wording' => $claim->original_wording, 'extraction_metadata' => $v3metadata]);
+        JournalFee::create(['journal_id' => $claim->journal_id, 'assertion_id' => $v3->id,
+            'fee_type' => 'apc', 'amount' => '1500', 'currency' => 'USD', 'basis' => 'official_explicit_amount', 'applicability' => 'Synthetic V3 historical fee.']);
+        $this->extract($record);
+        $v4metadata = $v3metadata;
+        $v4metadata['version'] = 'editorial-v4';
+        $v4metadata['document_version'] = 'editorial-dom-v4';
+        $v4metadata['proposal_key'] = hash('sha256', 'synthetic V4 history');
+        $v4 = JournalAssertion::create(['journal_id' => $claim->journal_id, 'source_record_id' => $record->id,
+            'field' => 'fee', 'availability' => 'known', 'source_locator' => $claim->source_locator,
+            'original_wording' => $claim->original_wording, 'extraction_metadata' => $v4metadata]);
+        JournalFee::create(['journal_id' => $claim->journal_id, 'assertion_id' => $v4->id,
+            'fee_type' => 'apc', 'amount' => '1500', 'currency' => 'USD', 'basis' => 'official_explicit_amount', 'applicability' => 'Synthetic V4 history.']);
+        $this->extract($record);
+        $this->assertSame($v4metadata, $v4->fresh()->extraction_metadata);
+        $this->assertSame($v3metadata, $v3->fresh()->extraction_metadata);
+        $this->assertSame($metadata, $legacy->fresh()->extraction_metadata);
+        $this->assertSame(4, JournalAssertion::count());
+        try {
+            DB::transaction(fn () => (require database_path('migrations/2026_10_13_140000_allow_editorial_v5_metadata.php'))->down());
+            $this->fail('V5 rollback erased retained provenance compatibility.');
+        } catch (DomainException $exception) {
+            $this->assertSame('editorial_rollback_preserves_evidence', $exception->getMessage());
+        }
+        $this->assertSame(4, JournalAssertion::count());
+    }
+
+    #[DataProvider('remediationCases')]
+    public function test_remediation_general_evidence(string $html, string $field, int $count): void
+    {
+        $result = $this->extract($this->snapshot($html));
+        $this->assertCount($count, $result['proposals']);
+        foreach ($result['proposals'] as $proposal) {
+            $this->assertSame($field, $proposal['field']);
+            $claim = JournalAssertion::findOrFail($proposal['assertion_id']);
+            $this->assertSame('editorial-v5', $claim->extraction_metadata['version']);
+            $this->assertSame('editorial-dom-v5', $claim->extraction_metadata['document_version']);
+            $this->assertSame('pending', $claim->verificationStatus()->value);
+        }
+    }
+
+    public static function remediationCases(): array
+    {
+        $noise = str_repeat('<p>General explanatory background.</p>', 600);
+
+        return [
+            'late language' => [$noise.'<p>Manuscripts must be submitted in English.</p>', 'language', 1],
+            'late style' => [$noise.'<h2>Reference style</h2><p>Example Journal uses Vancouver style.</p>', 'requirement', 1],
+            'quoted style prose' => ['<h2>Reference style</h2><p>Example Journal uses “Vancouver” style, as outlined in the ICMJE sample references.</p>', 'requirement', 1],
+            'conditional prose style' => ['<p>Only invited authors uses “Vancouver” style.</p>', 'requirement', 0],
+            'conditional quoted style' => ['<h2>For invited authors only</h2><p>Example Journal uses “Vancouver” style.</p>', 'requirement', 0],
+            'late conditional fee' => [$noise.'<p>For invited authors only:</p><h3>Fees</h3><p>No APC</p>', 'fee', 0],
+            'zero publication prose' => ['<h2>Cost and Sustainability Model</h2><p>Example Journal is an open access journal committed to running at minimal costs, with zero publication fees (article processing charges) or subscription fees.</p>', 'fee', 1],
+            'no APC' => ['<p>No APC</p>', 'fee', 1],
+            'authors pay no fee' => ['<p>Authors pay no publication fee.</p>', 'fee', 1],
+            'invited zero' => ['<p>Zero APC for invited authors</p>', 'fee', 0],
+            'promotion' => ['<p>No fee during promotional period</p>', 'fee', 0],
+            'waiver' => ['<p>APC waived for eligible authors</p>', 'fee', 0],
+            'some authors' => ['<p>Some authors pay no APC</p>', 'fee', 0],
+            'additional' => ['<p>No additional APC beyond the standard fee</p>', 'fee', 0],
+            'unknown' => ['<p>No APC information is available</p>', 'fee', 0],
+            'nav submit' => ['<header><nav><a href="/papers/new">Submit</a><p>APC: USD 999</p><p>Manuscripts must be submitted in French.</p></nav></header>', 'submission_url', 1],
+            'nav external system' => ['<nav><a href="https://submission.example.org/new">Submission system</a><a href="/about">About</a></nav>', 'submission_url', 1],
+            'nav conditional' => ['<nav><p>For invited authors only:</p><a href="/new">Submit</a></nav>', 'submission_url', 0],
+            'nav example' => ['<nav><h2>Examples</h2><a href="/new">Submit</a></nav>', 'submission_url', 0],
+            'fragment action' => ['<nav><a href="#submit">Submit</a></nav>', 'submission_url', 0],
+            'unsafe action' => ['<nav><a href="javascript:alert(1)">Submit</a></nav>', 'submission_url', 0],
+            'abstract list maximum' => ['<h2>Parts of a Submission</h2><h3>Abstract</h3><div><p>The Abstract should:</p><ul><li>Not exceed 300 words</li></ul></div>', 'requirement', 1],
+            'domain restriction stays unsupported' => ['<h2>Aims and scope</h2><p>Article types: Research Article and Review Article in the subject areas below.</p>', 'article_type', 0],
+        ];
+    }
+
     public function test_semantic_legacy_metadata_and_context_constraints_preserve_history(): void
     {
         $record = $this->snapshot('<p>APC: USD 1500</p>');
@@ -920,5 +1036,202 @@ class EditorialExtractionTest extends TestCase
         $zero = $this->extract($this->snapshot('<p>APC: USD 0</p>', $record))['proposals'][0];
         $this->assertCount(2, $zero['conflict_ids']);
         $this->assertFalse(JournalAssertion::findOrFail($zero['assertion_id'])->isExplicitNoApc());
+    }
+
+    #[DataProvider('v4MaximumCases')]
+    public function test_v4_abstract_maximum_grammar(string $text, ?int $maximum): void
+    {
+        $record = $this->snapshot('<h2>Author instructions</h2><p>'.$text.'</p>');
+        $result = $this->extract($record);
+        $this->assertCount($maximum === null ? 0 : 1, $result['proposals']);
+        if ($maximum !== null) {
+            $proposal = $result['proposals'][0];
+            $this->assertSame('requirement', $proposal['field']);
+            $this->assertSame('abstract_words', $proposal['value']['requirement_type']);
+            $this->assertSame('max', $proposal['value']['operator']);
+            $this->assertSame($maximum, $proposal['value']['value_number']);
+            $this->assertSame('abstract', $proposal['value']['scope']);
+            $this->assertNull($proposal['value']['article_code']);
+            $claim = JournalAssertion::findOrFail($proposal['assertion_id']);
+            $this->assertSame('Author instructions: '.$text, $claim->original_wording);
+            $this->assertSame('editorial-v5', $claim->extraction_metadata['version']);
+            $this->assertSame('editorial-dom-v5', $claim->extraction_metadata['document_version']);
+            $this->assertSame('pending', $claim->verificationStatus()->value);
+        }
+        Http::assertNothingSent();
+    }
+
+    public static function v4MaximumCases(): array
+    {
+        return [
+            ['The abstract must not exceed 250 words.', 250],
+            ['An abstract that does not exceed 200 words is required.', 200],
+            ['Abstracts should not exceed 300 words.', 300],
+            ['an abstract that does not exceed 175 words', 175],
+            ['Abstract does not exceed 180 words.', 180],
+            ['Abstract maximum 220 words.', 220],
+            ['The abstract is limited to 230 words.', 230],
+            ['Abstracts are limited to 240 words.', 240],
+            ['The abstract should be about 200 words.', null],
+            ['The abstract must contain at least 200 words.', null],
+            ['Abstract length is 150–200 words.', null],
+            ['A 200-word abstract is recommended.', null],
+            ['Abstract approximately 200 words.', null],
+            ['Abstract usually 200 words.', null],
+            ['Abstract minimum 200 words.', null],
+            ['Abstract 150–200 words.', null],
+            ['An abstract that does not exceed 200 words is required for invited authors.', null],
+            ['Some abstracts should not exceed 200 words.', null],
+            ['The abstract must not exceed 200 words unless approved.', null],
+        ];
+    }
+
+    #[DataProvider('v4LinkCases')]
+    public function test_v4_submission_link_roles(string $label, bool $expected): void
+    {
+        $url = 'https://submission.example.net/manuscripts/new';
+        $record = $this->snapshot('<nav><a href="'.$url.'">'.$label.'</a></nav>');
+        $result = $this->extract($record);
+        $this->assertCount($expected ? 1 : 0, $result['proposals']);
+        if ($expected) {
+            $proposal = $result['proposals'][0];
+            $this->assertSame('submission_url', $proposal['field']);
+            $this->assertSame($url, $proposal['value']['text_value']);
+            $this->assertStringContainsString('/nav/a', $proposal['locator']);
+            $this->assertSame('pending', $proposal['review_status']);
+        }
+        Http::assertNothingSent();
+    }
+
+    public static function v4LinkCases(): array
+    {
+        return [
+            ['Electronic submission management system', true],
+            ['Manuscript submission system', true],
+            ['Submission portal', true],
+            ['Manuscript submission portal', true],
+            ['Electronic submission system', true],
+            ['Submission management system', true],
+            ['Submission guidelines', false],
+            ['Submission instructions', false],
+            ['Preparing your submission', false],
+            ['Editorial policies', false],
+            ['Author instructions', false],
+            ['Manuscript preparation', false],
+            ['About the submission portal', false],
+        ];
+    }
+
+    public function test_v5_unsafe_contexts_remain_rejected(): void
+    {
+        foreach ([
+            '<p>For invited authors only:</p><h3>Submission</h3><p>The abstract must not exceed 250 words.</p>',
+            '<h2>Examples</h2><a href="https://submission.example.net/new">Submission portal</a>',
+            '<nav><p>For invited authors only:</p><a href="https://submission.example.net/new">Electronic submission management system</a></nav>',
+            '<h2>Fees</h2><p>There are no publication fees.</p>',
+        ] as $html) {
+            $record = $this->snapshot($html);
+            $before = $this->counts();
+            $this->assertSame([], $this->extract($record)['proposals']);
+            $this->assertSame($before, $this->counts());
+        }
+        Http::assertNothingSent();
+    }
+
+    #[DataProvider('v5ContextCases')]
+    public function test_v5_context_classification(string $html, ?string $field): void
+    {
+        $record = $this->snapshot($html);
+        $result = $this->extract($record);
+        $this->assertCount($field === null ? 0 : 1, $result['proposals']);
+        if ($field !== null) {
+            $p = $result['proposals'][0];
+            $this->assertSame($field, $p['field']);
+            $this->assertSame('pending', $p['review_status']);
+            $claim = JournalAssertion::findOrFail($p['assertion_id']);
+            $this->assertSame('editorial-v5', $claim->extraction_metadata['version']);
+            $this->assertSame('editorial-dom-v5', $claim->extraction_metadata['document_version']);
+            $this->assertNotEmpty($claim->original_wording);
+        }
+        Http::assertNothingSent();
+    }
+
+    public static function v5ContextCases(): array
+    {
+        $language = '<p>Manuscripts must be submitted in English.</p>';
+        $abstract = '<p>An abstract that does not exceed 210 words is required.</p>';
+        $link = '<a href="https://submission.example.net/new">Manuscript submission system</a>';
+        $long = str_repeat('Unrelated technical background. ', 10);
+
+        return [
+            'neutral language' => ['<h2>Preparing your study</h2>'.$language, 'language'],
+            'unknown fragment' => ['<h2>Preparing your study</h2><p>English</p>', null],
+            'example language' => ['<h2>Example</h2>'.$language, null],
+            'conditional language' => ['<p>For invited authors only:</p>'.$language, null],
+            'hypothetical language' => ['<h2>Hypothetical policies</h2>'.$language, null],
+            'neutral abstract' => ['<h1>Unknown journal information</h1><h2>Overview</h2>'.$abstract, 'requirement'],
+            'unrelated long paragraph' => ['<p>'.$long.'</p>'.$abstract, 'requirement'],
+            'prior complete example' => ['<p>Example: '.$long.'</p><h3>Submission</h3>'.$abstract, 'requirement'],
+            'direct example still applies' => ['<p>Example: '.$long.'</p>'.$abstract, null],
+            'example introduces section' => ['<p>Example:</p><h3>Submission</h3>'.$abstract, null],
+            'following example applies' => ['<p>Example: the following section demonstrates formatting.</p><h3>Submission</h3>'.$abstract, null],
+            'invited example applies' => ['<p>Example: only invited authors use this workflow.</p><h3>Submission</h3>'.$abstract, null],
+            'inside example section' => ['<section><h2>Example</h2>'.$abstract.'</section>', null],
+            'conditional through intertitle' => ['<p>For invited authors only:</p><h3>Submission</h3>'.$abstract, null],
+            'minimum context' => ['<h2>Minimum word counts</h2>'.$abstract, null],
+            'unsupported subject scope' => ['<h2>Articles in the subject areas below</h2>'.$language, null],
+            'unsupported article scope' => ['<h2>Special invited contributions</h2>'.$abstract, null],
+            'body system' => ['<p>'.$link.'</p>', 'submission_url'],
+            'navigation system' => ['<nav>'.$link.'</nav>', 'submission_url'],
+            'unknown link wrapper' => ['<h2>Useful tools</h2><div>'.$link.'</div>', 'submission_url'],
+            'instructions are not portal' => ['<a href="/instructions">Submission guidelines</a>', null],
+            'example link' => ['<h2>Example</h2>'.$link, null],
+            'conditional link' => ['<p>For invited authors only:</p>'.$link, null],
+            'conditional link own prose' => ['<p>For invited authors only: '.$link.'</p>', null],
+            'example link own wrapper' => ['<div>Example: '.$link.'</div>', null],
+            'disabled link' => ['<div aria-disabled="true">'.$link.'</div>', null],
+            'optional language' => ['<h2>Optional recommendations</h2>'.$language, null],
+            'previous example section closes' => ['<section><h2>Examples</h2>'.$abstract.'</section><section><h2>Tools</h2>'.$link.'</section>', 'submission_url'],
+            'generic fee absence still not APC' => ['<h2>Overview</h2><p>There are no publication fees.</p>', null],
+            'negative types not inverted' => ['<h2>Overview</h2><p>This journal does not publish review articles.</p>', null],
+            'alternative styles not flattened' => ['<h2>Overview</h2><p>Reference style: plain or plain-fr</p>', null],
+            'unknown table scope' => ['<table><caption>Unrecognized scope</caption><tr><td>Abstract</td><td>maximum 200 words</td></tr></table>', null],
+        ];
+    }
+
+    #[DataProvider('v5FrenchCases')]
+    public function test_v5_french_eligibility_keeps_only_unconditioned_english(string $text, bool $expected): void
+    {
+        $record = $this->snapshot('<h3>Technical preparation</h3><p>'.$text.'</p>');
+        $result = $this->extract($record);
+        $this->assertCount($expected ? 1 : 0, $result['proposals']);
+        if ($expected) {
+            $p = $result['proposals'][0];
+            $this->assertSame('language', $p['field']);
+            $this->assertSame('en', $p['value']['code']);
+            $this->assertTrue($p['value']['supported']);
+            $claim = JournalAssertion::findOrFail($p['assertion_id']);
+            $this->assertStringContainsString('traduction anglaise', $claim->original_wording);
+            $this->assertSame(1, JournalLanguage::count());
+        }
+        Http::assertNothingSent();
+    }
+
+    public static function v5FrenchCases(): array
+    {
+        $base = 'Langues : Revue Synthétique accepte des articles en anglais, français et allemand ; si l’article n’est pas en anglais, une traduction anglaise du titre et du résumé doit être fournie.';
+
+        return [
+            'non-English condition' => [$base, true],
+            'formatting notes' => [$base.' Le paquet polyglossia est préchargé ; il ne faut pas l’inclure. Le mélange de langues est autorisé.', true],
+            'other publication name' => [str_replace('Revue Synthétique', 'Bulletin des Sciences', $base), true],
+            'unknown language' => [str_replace('allemand', 'japonais', $base), false],
+            'condition on English' => [str_replace('n’est pas en anglais', 'est en anglais', $base), false],
+            'additional condition' => [$base.' Les articles anglais sont acceptés uniquement sur invitation.', false],
+            'conditional technical note' => [$base.' Le paquet test est obligatoire si le manuscrit est en anglais.', false],
+            'unknown trailing prose' => [$base.' Autres règles applicables.', false],
+            'English not listed' => [str_replace('anglais, français et allemand', 'français et allemand', $base), false],
+            'conditional journal subject' => [str_replace('Revue Synthétique', 'Seulement certains auteurs', $base), false],
+        ];
     }
 }

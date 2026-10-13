@@ -464,6 +464,9 @@ class JournalCatalogTest extends TestCase
         $migration = require database_path('migrations/2026_10_11_170000_create_journal_catalog.php');
         try {
             DB::transaction(function () use ($migration): void {
+                (require database_path('migrations/2026_10_13_140000_allow_editorial_v5_metadata.php'))->down();
+                (require database_path('migrations/2026_10_13_130000_allow_editorial_v4_metadata.php'))->down();
+                (require database_path('migrations/2026_10_13_120000_allow_editorial_v3_metadata.php'))->down();
                 (require database_path('migrations/2026_10_12_110000_add_editorial_extraction_metadata.php'))->down();
                 (require database_path('migrations/2026_10_12_100000_add_official_source_foundation.php'))->down();
                 (require database_path('migrations/2026_10_12_090000_add_provider_taxonomy_to_subjects.php'))->down();
