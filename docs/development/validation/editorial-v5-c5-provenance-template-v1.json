@@ -1,0 +1,544 @@
+{
+  "schema_version": 1,
+  "status": "TEMPLATE_ONLY_NO_AUTHORIZATION_NO_ACQUISITION",
+  "protocol_reference": "../EDITORIAL-V5-PREBENCHMARK-PROTOCOL-V1.md",
+  "protocol_approval": {
+    "status": "PENDING",
+    "operator_reference": null,
+    "operator_role": null,
+    "approval_reference": null,
+    "approved_at": null,
+    "approved_protocol_file_sha256": null,
+    "accepted_criteria": null
+  },
+  "source_c5_manifest": "editorial-v5-holdout-preflight-v1.json",
+  "source_c5_manifest_sha256": "3ec4675f3e6627f4136b824af6649783f7b18518995081a0a45a5885e5771adc",
+  "records": [
+    {
+      "candidate_id": "mat",
+      "order": 1,
+      "journal_title": "Medicine Anthropology Theory",
+      "exact_url": "https://www.medanthrotheory.org/mat/about/submissions",
+      "domain": "www.medanthrotheory.org",
+      "official_journal_homepage": "https://www.medanthrotheory.org/mat",
+      "officiality_review": {
+        "reviewer_reference": null,
+        "reviewed_at": null,
+        "evidence_reference": null
+      },
+      "authorization": {
+        "status": "PENDING_HUMAN_APPROVAL",
+        "operator_reference": null,
+        "operator_role": null,
+        "authorization_reference": null,
+        "authorized_at": null,
+        "justification": null,
+        "robots_access_retention_review_reference": null
+      },
+      "acquisition": {
+        "status": "NOT_ATTEMPTED",
+        "attempted_at": null,
+        "acquired_at": null,
+        "mechanism": null,
+        "planned_mechanism": "Existing unchanged Phase 3E-A OfficialSources",
+        "baseline_commit": "4734623",
+        "source_id": null,
+        "snapshot_id": null,
+        "final_url": null,
+        "redirect_chain": null,
+        "http_status": null,
+        "mime": null,
+        "bytes": null,
+        "guard_outcomes": null,
+        "failure_code": null
+      },
+      "snapshot": {
+        "content_sha256": null,
+        "revision_fingerprint": null,
+        "retrieved_at": null,
+        "private_storage_reference": null,
+        "retention_review_reference": null
+      },
+      "independence": {
+        "reviewer_reference": null,
+        "reviewer_role": null,
+        "attested_at": null,
+        "unused_for_v1_v5_development_calibration_attested": false,
+        "journal_page_snapshot_exclusion_checks": null,
+        "publisher_platform_dependence_note": null
+      },
+      "usability": {
+        "reviewer_reference": null,
+        "reviewed_at": null,
+        "usable_static_editorial_content": null,
+        "journal_applicability": null,
+        "eligible_for_scoring": null,
+        "exclusion_reason_code": null,
+        "exclusion_reason": null,
+        "limitations": null
+      }
+    },
+    {
+      "candidate_id": "sigma",
+      "order": 2,
+      "journal_title": "SIGMA (Symmetry, Integrability and Geometry: Methods and Applications)",
+      "exact_url": "https://sigma-journal.com/about.html",
+      "domain": "sigma-journal.com",
+      "official_journal_homepage": "https://sigma-journal.com/",
+      "officiality_review": {
+        "reviewer_reference": null,
+        "reviewed_at": null,
+        "evidence_reference": null
+      },
+      "authorization": {
+        "status": "PENDING_HUMAN_APPROVAL",
+        "operator_reference": null,
+        "operator_role": null,
+        "authorization_reference": null,
+        "authorized_at": null,
+        "justification": null,
+        "robots_access_retention_review_reference": null
+      },
+      "acquisition": {
+        "status": "NOT_ATTEMPTED",
+        "attempted_at": null,
+        "acquired_at": null,
+        "mechanism": null,
+        "planned_mechanism": "Existing unchanged Phase 3E-A OfficialSources",
+        "baseline_commit": "4734623",
+        "source_id": null,
+        "snapshot_id": null,
+        "final_url": null,
+        "redirect_chain": null,
+        "http_status": null,
+        "mime": null,
+        "bytes": null,
+        "guard_outcomes": null,
+        "failure_code": null
+      },
+      "snapshot": {
+        "content_sha256": null,
+        "revision_fingerprint": null,
+        "retrieved_at": null,
+        "private_storage_reference": null,
+        "retention_review_reference": null
+      },
+      "independence": {
+        "reviewer_reference": null,
+        "reviewer_role": null,
+        "attested_at": null,
+        "unused_for_v1_v5_development_calibration_attested": false,
+        "journal_page_snapshot_exclusion_checks": null,
+        "publisher_platform_dependence_note": null
+      },
+      "usability": {
+        "reviewer_reference": null,
+        "reviewed_at": null,
+        "usable_static_editorial_content": null,
+        "journal_applicability": null,
+        "eligible_for_scoring": null,
+        "exclusion_reason_code": null,
+        "exclusion_reason": null,
+        "limitations": null
+      }
+    },
+    {
+      "candidate_id": "bjoc",
+      "order": 3,
+      "journal_title": "Beilstein Journal of Organic Chemistry",
+      "exact_url": "https://www.beilstein-journals.org/bjoc/authorInstructions",
+      "domain": "www.beilstein-journals.org",
+      "official_journal_homepage": "https://www.beilstein-journals.org/bjoc/",
+      "officiality_review": {
+        "reviewer_reference": null,
+        "reviewed_at": null,
+        "evidence_reference": null
+      },
+      "authorization": {
+        "status": "PENDING_HUMAN_APPROVAL",
+        "operator_reference": null,
+        "operator_role": null,
+        "authorization_reference": null,
+        "authorized_at": null,
+        "justification": null,
+        "robots_access_retention_review_reference": null
+      },
+      "acquisition": {
+        "status": "NOT_ATTEMPTED",
+        "attempted_at": null,
+        "acquired_at": null,
+        "mechanism": null,
+        "planned_mechanism": "Existing unchanged Phase 3E-A OfficialSources",
+        "baseline_commit": "4734623",
+        "source_id": null,
+        "snapshot_id": null,
+        "final_url": null,
+        "redirect_chain": null,
+        "http_status": null,
+        "mime": null,
+        "bytes": null,
+        "guard_outcomes": null,
+        "failure_code": null
+      },
+      "snapshot": {
+        "content_sha256": null,
+        "revision_fingerprint": null,
+        "retrieved_at": null,
+        "private_storage_reference": null,
+        "retention_review_reference": null
+      },
+      "independence": {
+        "reviewer_reference": null,
+        "reviewer_role": null,
+        "attested_at": null,
+        "unused_for_v1_v5_development_calibration_attested": false,
+        "journal_page_snapshot_exclusion_checks": null,
+        "publisher_platform_dependence_note": null
+      },
+      "usability": {
+        "reviewer_reference": null,
+        "reviewed_at": null,
+        "usable_static_editorial_content": null,
+        "journal_applicability": null,
+        "eligible_for_scoring": null,
+        "exclusion_reason_code": null,
+        "exclusion_reason": null,
+        "limitations": null
+      }
+    },
+    {
+      "candidate_id": "volcanica",
+      "order": 4,
+      "journal_title": "Volcanica",
+      "exact_url": "https://www.jvolcanica.org/ojs/index.php/volcanica/about/submissions",
+      "domain": "www.jvolcanica.org",
+      "official_journal_homepage": "https://www.jvolcanica.org/ojs/index.php/volcanica",
+      "officiality_review": {
+        "reviewer_reference": null,
+        "reviewed_at": null,
+        "evidence_reference": null
+      },
+      "authorization": {
+        "status": "PENDING_HUMAN_APPROVAL",
+        "operator_reference": null,
+        "operator_role": null,
+        "authorization_reference": null,
+        "authorized_at": null,
+        "justification": null,
+        "robots_access_retention_review_reference": null
+      },
+      "acquisition": {
+        "status": "NOT_ATTEMPTED",
+        "attempted_at": null,
+        "acquired_at": null,
+        "mechanism": null,
+        "planned_mechanism": "Existing unchanged Phase 3E-A OfficialSources",
+        "baseline_commit": "4734623",
+        "source_id": null,
+        "snapshot_id": null,
+        "final_url": null,
+        "redirect_chain": null,
+        "http_status": null,
+        "mime": null,
+        "bytes": null,
+        "guard_outcomes": null,
+        "failure_code": null
+      },
+      "snapshot": {
+        "content_sha256": null,
+        "revision_fingerprint": null,
+        "retrieved_at": null,
+        "private_storage_reference": null,
+        "retention_review_reference": null
+      },
+      "independence": {
+        "reviewer_reference": null,
+        "reviewer_role": null,
+        "attested_at": null,
+        "unused_for_v1_v5_development_calibration_attested": false,
+        "journal_page_snapshot_exclusion_checks": null,
+        "publisher_platform_dependence_note": null
+      },
+      "usability": {
+        "reviewer_reference": null,
+        "reviewed_at": null,
+        "usable_static_editorial_content": null,
+        "journal_applicability": null,
+        "eligible_for_scoring": null,
+        "exclusion_reason_code": null,
+        "exclusion_reason": null,
+        "limitations": null
+      }
+    },
+    {
+      "candidate_id": "quantum",
+      "order": 5,
+      "journal_title": "Quantum",
+      "exact_url": "https://quantum-journal.org/instructions/authors/",
+      "domain": "quantum-journal.org",
+      "official_journal_homepage": "https://quantum-journal.org/",
+      "officiality_review": {
+        "reviewer_reference": null,
+        "reviewed_at": null,
+        "evidence_reference": null
+      },
+      "authorization": {
+        "status": "PENDING_HUMAN_APPROVAL",
+        "operator_reference": null,
+        "operator_role": null,
+        "authorization_reference": null,
+        "authorized_at": null,
+        "justification": null,
+        "robots_access_retention_review_reference": null
+      },
+      "acquisition": {
+        "status": "NOT_ATTEMPTED",
+        "attempted_at": null,
+        "acquired_at": null,
+        "mechanism": null,
+        "planned_mechanism": "Existing unchanged Phase 3E-A OfficialSources",
+        "baseline_commit": "4734623",
+        "source_id": null,
+        "snapshot_id": null,
+        "final_url": null,
+        "redirect_chain": null,
+        "http_status": null,
+        "mime": null,
+        "bytes": null,
+        "guard_outcomes": null,
+        "failure_code": null
+      },
+      "snapshot": {
+        "content_sha256": null,
+        "revision_fingerprint": null,
+        "retrieved_at": null,
+        "private_storage_reference": null,
+        "retention_review_reference": null
+      },
+      "independence": {
+        "reviewer_reference": null,
+        "reviewer_role": null,
+        "attested_at": null,
+        "unused_for_v1_v5_development_calibration_attested": false,
+        "journal_page_snapshot_exclusion_checks": null,
+        "publisher_platform_dependence_note": null
+      },
+      "usability": {
+        "reviewer_reference": null,
+        "reviewed_at": null,
+        "usable_static_editorial_content": null,
+        "journal_applicability": null,
+        "eligible_for_scoring": null,
+        "exclusion_reason_code": null,
+        "exclusion_reason": null,
+        "limitations": null
+      }
+    },
+    {
+      "candidate_id": "alco",
+      "order": 6,
+      "journal_title": "Algebraic Combinatorics",
+      "exact_url": "https://alco.centre-mersenne.org/page/instructions-for-authors/",
+      "domain": "alco.centre-mersenne.org",
+      "official_journal_homepage": "https://alco.centre-mersenne.org/",
+      "officiality_review": {
+        "reviewer_reference": null,
+        "reviewed_at": null,
+        "evidence_reference": null
+      },
+      "authorization": {
+        "status": "PENDING_HUMAN_APPROVAL",
+        "operator_reference": null,
+        "operator_role": null,
+        "authorization_reference": null,
+        "authorized_at": null,
+        "justification": null,
+        "robots_access_retention_review_reference": null
+      },
+      "acquisition": {
+        "status": "NOT_ATTEMPTED",
+        "attempted_at": null,
+        "acquired_at": null,
+        "mechanism": null,
+        "planned_mechanism": "Existing unchanged Phase 3E-A OfficialSources",
+        "baseline_commit": "4734623",
+        "source_id": null,
+        "snapshot_id": null,
+        "final_url": null,
+        "redirect_chain": null,
+        "http_status": null,
+        "mime": null,
+        "bytes": null,
+        "guard_outcomes": null,
+        "failure_code": null
+      },
+      "snapshot": {
+        "content_sha256": null,
+        "revision_fingerprint": null,
+        "retrieved_at": null,
+        "private_storage_reference": null,
+        "retention_review_reference": null
+      },
+      "independence": {
+        "reviewer_reference": null,
+        "reviewer_role": null,
+        "attested_at": null,
+        "unused_for_v1_v5_development_calibration_attested": false,
+        "journal_page_snapshot_exclusion_checks": null,
+        "publisher_platform_dependence_note": null
+      },
+      "usability": {
+        "reviewer_reference": null,
+        "reviewed_at": null,
+        "usable_static_editorial_content": null,
+        "journal_applicability": null,
+        "eligible_for_scoring": null,
+        "exclusion_reason_code": null,
+        "exclusion_reason": null,
+        "limitations": null
+      }
+    },
+    {
+      "candidate_id": "jair",
+      "order": 7,
+      "journal_title": "Journal of Artificial Intelligence Research",
+      "exact_url": "https://www.jair.org/index.php/jair/about/submissions",
+      "domain": "www.jair.org",
+      "official_journal_homepage": "https://www.jair.org/index.php/jair",
+      "officiality_review": {
+        "reviewer_reference": null,
+        "reviewed_at": null,
+        "evidence_reference": null
+      },
+      "authorization": {
+        "status": "PENDING_HUMAN_APPROVAL",
+        "operator_reference": null,
+        "operator_role": null,
+        "authorization_reference": null,
+        "authorized_at": null,
+        "justification": null,
+        "robots_access_retention_review_reference": null
+      },
+      "acquisition": {
+        "status": "NOT_ATTEMPTED",
+        "attempted_at": null,
+        "acquired_at": null,
+        "mechanism": null,
+        "planned_mechanism": "Existing unchanged Phase 3E-A OfficialSources",
+        "baseline_commit": "4734623",
+        "source_id": null,
+        "snapshot_id": null,
+        "final_url": null,
+        "redirect_chain": null,
+        "http_status": null,
+        "mime": null,
+        "bytes": null,
+        "guard_outcomes": null,
+        "failure_code": null
+      },
+      "snapshot": {
+        "content_sha256": null,
+        "revision_fingerprint": null,
+        "retrieved_at": null,
+        "private_storage_reference": null,
+        "retention_review_reference": null
+      },
+      "independence": {
+        "reviewer_reference": null,
+        "reviewer_role": null,
+        "attested_at": null,
+        "unused_for_v1_v5_development_calibration_attested": false,
+        "journal_page_snapshot_exclusion_checks": null,
+        "publisher_platform_dependence_note": null
+      },
+      "usability": {
+        "reviewer_reference": null,
+        "reviewed_at": null,
+        "usable_static_editorial_content": null,
+        "journal_applicability": null,
+        "eligible_for_scoring": null,
+        "exclusion_reason_code": null,
+        "exclusion_reason": null,
+        "limitations": null
+      }
+    },
+    {
+      "candidate_id": "jpe",
+      "order": 8,
+      "journal_title": "Journal of Pollination Ecology",
+      "exact_url": "https://www.pollinationecology.org/index.php/jpe/about/submissions",
+      "domain": "www.pollinationecology.org",
+      "official_journal_homepage": "https://www.pollinationecology.org/index.php/jpe",
+      "officiality_review": {
+        "reviewer_reference": null,
+        "reviewed_at": null,
+        "evidence_reference": null
+      },
+      "authorization": {
+        "status": "PENDING_HUMAN_APPROVAL",
+        "operator_reference": null,
+        "operator_role": null,
+        "authorization_reference": null,
+        "authorized_at": null,
+        "justification": null,
+        "robots_access_retention_review_reference": null
+      },
+      "acquisition": {
+        "status": "NOT_ATTEMPTED",
+        "attempted_at": null,
+        "acquired_at": null,
+        "mechanism": null,
+        "planned_mechanism": "Existing unchanged Phase 3E-A OfficialSources",
+        "baseline_commit": "4734623",
+        "source_id": null,
+        "snapshot_id": null,
+        "final_url": null,
+        "redirect_chain": null,
+        "http_status": null,
+        "mime": null,
+        "bytes": null,
+        "guard_outcomes": null,
+        "failure_code": null
+      },
+      "snapshot": {
+        "content_sha256": null,
+        "revision_fingerprint": null,
+        "retrieved_at": null,
+        "private_storage_reference": null,
+        "retention_review_reference": null
+      },
+      "independence": {
+        "reviewer_reference": null,
+        "reviewer_role": null,
+        "attested_at": null,
+        "unused_for_v1_v5_development_calibration_attested": false,
+        "journal_page_snapshot_exclusion_checks": null,
+        "publisher_platform_dependence_note": null
+      },
+      "usability": {
+        "reviewer_reference": null,
+        "reviewed_at": null,
+        "usable_static_editorial_content": null,
+        "journal_applicability": null,
+        "eligible_for_scoring": null,
+        "exclusion_reason_code": null,
+        "exclusion_reason": null,
+        "limitations": null
+      }
+    }
+  ],
+  "gold_freeze": {
+    "annotator_reference": null,
+    "reviewer_reference": null,
+    "reviewer_role": "independent-human-gold-reviewer",
+    "freeze_reference": null,
+    "frozen_at": null,
+    "gold_file_path": null,
+    "gold_file_sha256": null,
+    "comparator_gold_sha256": null,
+    "frozen_provenance_file_sha256": null,
+    "coverage_attested": false,
+    "labels_frozen_before_v5": false
+  },
+  "benchmark_execution_authorized": false
+}
